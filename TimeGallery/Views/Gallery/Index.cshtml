@@ -1,4 +1,6 @@
-﻿@{
+﻿@using System.Web.UI.HtmlControls
+@using TimeGallery.Helper
+@{
     Layout = null;
 }
 
@@ -9,11 +11,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>裴裴时光轴</title>
+    <title>@ConfigHelper.WebTitle</title>
 </head>
 <body>
 <div>
     裴裴时光轴
+    @Html.ActionLink("上传", "Upload")
 </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

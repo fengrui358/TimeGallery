@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ConfigModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <QiniuAccountModels>
+    <QiniuAccountModel>
+      <Name>1</Name>
+      <AccessKey>2</AccessKey>
+      <SecretKey>3</SecretKey>
+      <Bucket>4</Bucket>
+      <Domain>5</Domain>
+    </QiniuAccountModel>
+  </QiniuAccountModels>
+</ConfigModel>
