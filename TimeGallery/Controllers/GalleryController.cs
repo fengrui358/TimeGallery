@@ -20,9 +20,14 @@ namespace TimeGallery.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = WebConfigurationManager.AppSettings["WebTitle"];
-            var models = StorageHelper.Search(DateTime.Now);
+            var contents = StorageHelper.Search(DateTime.Now);
 
-            return View(models);
+            var result = from content in contents
+                group content by content.CreateTime
+                into g
+                select new ContentWrapperModel(g.Key, g);
+
+            return View(result);
         }
 
         public ActionResult Upload()

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeGallery.DataBase.Entity.ContentDbEntity>
+﻿@model IEnumerable<TimeGallery.Models.ContentWrapperModel>
 
 @using System.Web.UI.HtmlControls
 @using TimeGallery.Enum
@@ -14,20 +14,33 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
     <title>@ConfigHelper.WebTitle</title>
 </head>
 <body>
 <div>
     <h1>裴裴时光轴</h1>
     <ul>
-        @foreach (var content in Model)
-        {
-            <li>
-                @if (content.Type == ContentTypeDefine.Image.GetString())
-                {
-                    <img src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime" />
-                }
-            </li>
+        @{
+            foreach (var contentWrapper in Model)
+            {
+                <li>
+                    <span class="timetitle" data-datetime="@contentWrapper.DateTime">@contentWrapper.DateTime</span>
+                    <ul>
+                        @{
+                            foreach (var content in contentWrapper.Contents)
+                            {
+                                if (content.Type == ContentTypeDefine.Image.GetString())
+                                {
+                                    <li>
+                                        <img src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime" />
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                </li>
+            }
         }
     </ul>
 
