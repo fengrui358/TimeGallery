@@ -8,8 +8,20 @@ namespace TimeGallery.Enum
 {
     public enum ContentTypeDefine
     {
-        Photo,
+        Image
+    }
 
-        Video
+    public static class ContentTypeDefineExtension
+    {
+        public static string GetString(this ContentTypeDefine contentType)
+        {
+            switch (contentType)
+            {
+                case ContentTypeDefine.Image:
+                    return "image/jpeg";
+            }
+
+            return string.Empty;
+        }
     }
 }

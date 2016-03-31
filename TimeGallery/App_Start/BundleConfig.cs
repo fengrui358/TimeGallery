@@ -27,7 +27,10 @@ namespace TimeGallery
                 "~/Content/bootstrap.css",
                 "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/plupload").Include("~/Scripts/plupload/plupload*"));
+            bundles.Add(new ScriptBundle("~/bundles/plupload").Include("~/Scripts/plupload/plupload*",
+                "~/Scripts/plupload/i18n/zh_CN.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/qiniu").Include("~/Scripts/Qiniu/dist/qiniu*"));
         }
     }
 }

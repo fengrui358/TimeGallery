@@ -1,4 +1,7 @@
-﻿@using System.Web.UI.HtmlControls
+﻿@model IEnumerable<TimeGallery.DataBase.Entity.ContentDbEntity>
+
+@using System.Web.UI.HtmlControls
+@using TimeGallery.Enum
 @using TimeGallery.Helper
 @{
     Layout = null;
@@ -15,8 +18,22 @@
 </head>
 <body>
 <div>
-    裴裴时光轴
-    @Html.ActionLink("上传", "Upload")
+    <h1>裴裴时光轴</h1>
+    <ul>
+        @foreach (var content in Model)
+        {
+            <li>
+                @if (content.Type == ContentTypeDefine.Image.GetString())
+                {
+                    <img src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime" />
+                }
+            </li>
+        }
+    </ul>
+
+    <div>
+        @Html.ActionLink("上传", "Upload")
+    </div>
 </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

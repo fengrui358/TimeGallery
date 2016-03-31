@@ -11,5 +11,6 @@
 /// <reference path="plupload/plupload.dev.js" />
 /// <reference path="plupload/plupload.full.min.js" />
 /// <reference path="plupload/plupload.min.js" />
+/// <reference path="qiniu/dist/qiniu.js" />
 /// <reference path="respond.matchmedia.addlistener.min.js" />
 /// <reference path="respond.min.js" />

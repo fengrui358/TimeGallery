@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TimeGallery</RootNamespace>
     <AssemblyName>TimeGallery</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -187,7 +188,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="DataBase\DbContext.cs" />
     <Compile Include="DataBase\Entity\ContentDbEntity.cs" />
     <Compile Include="Enum\ContentTypeDefine.cs" />
     <Compile Include="Global.asax.cs">
@@ -195,8 +195,11 @@
     </Compile>
     <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\QiniuHelper.cs" />
+    <Compile Include="Helper\StorageHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddContentModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
+    <Compile Include="Models\ContentWarpperModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,6 +217,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\loading.gif" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -294,6 +298,8 @@
     <Content Include="Scripts\plupload\plupload.dev.js" />
     <Content Include="Scripts\plupload\plupload.full.min.js" />
     <Content Include="Scripts\plupload\plupload.min.js" />
+    <Content Include="Scripts\Qiniu\dist\qiniu.js" />
+    <Content Include="Scripts\Qiniu\dist\qiniu.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -341,6 +347,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Gallery\Upload.cshtml" />
+    <Content Include="Scripts\Qiniu\dist\qiniu.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

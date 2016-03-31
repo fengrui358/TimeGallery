@@ -20,8 +20,9 @@ namespace TimeGallery.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = WebConfigurationManager.AppSettings["WebTitle"];
+            var models = StorageHelper.Search(DateTime.Now);
 
-            return View();
+            return View(models);
         }
 
         public ActionResult Upload()
@@ -36,7 +37,19 @@ namespace TimeGallery.Controllers
         {
             var upToken = QiniuHelper.GetToken();
 
-            return Json(upToken, JsonRequestBehavior.AllowGet);
+            return Json(new {uptoken = upToken}, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 添加类容
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AddContent(AddContentModel addContentModel)
+        {
+            var result = StorageHelper.InsertContent(addContentModel);
+
+            return Json(new {success = result});
         }
     }
 }
