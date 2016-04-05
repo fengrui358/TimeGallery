@@ -8,7 +8,11 @@ namespace TimeGallery.Enum
 {
     public enum ContentTypeDefine
     {
-        Image
+        None,
+
+        Image,
+
+        Video
     }
 
     public static class ContentTypeDefineExtension
@@ -19,9 +23,28 @@ namespace TimeGallery.Enum
             {
                 case ContentTypeDefine.Image:
                     return "image/jpeg";
+                case ContentTypeDefine.Video:
+                    return "video/quicktime";
             }
 
             return string.Empty;
+        }
+
+        public static ContentTypeDefine ContentTypeConvert(string type)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                if (type.StartsWith("image"))
+                {
+                    return ContentTypeDefine.Image;
+                }
+                else if(type.StartsWith("video"))
+                {
+                    return ContentTypeDefine.Video;
+                }
+            }
+
+            return ContentTypeDefine.None;
         }
     }
 }

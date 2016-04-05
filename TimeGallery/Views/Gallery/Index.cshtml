@@ -13,37 +13,45 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     @Styles.Render("~/Content/css")
     <title>@ConfigHelper.WebTitle</title>
 </head>
 <body>
 <div>
     <h1>裴裴时光轴</h1>
-    <ul>
-        @{
-            foreach (var contentWrapper in Model)
-            {
-                <li>
-                    <span class="timetitle" data-datetime="@contentWrapper.DateTime">@contentWrapper.DateTime</span>
-                    <ul>
-                        @{
-                            foreach (var content in contentWrapper.Contents)
-                            {
-                                if (content.Type == ContentTypeDefine.Image.GetString())
+    <div class="container">
+        <ul class="list-unstyled">
+            @{
+                foreach (var contentWrapper in Model)
+                {
+                    <li>
+                        <h2 class="timetitle" data-datetime="@contentWrapper.DateTime">@contentWrapper.DateTime</h2>
+                        <ul class="list-unstyled">
+                            @{
+                                foreach (var content in contentWrapper.Contents)
                                 {
-                                    <li>
-                                        <img src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime" />
-                                    </li>
+                                    if (ContentTypeDefineExtension.ContentTypeConvert(content.Type) == ContentTypeDefine.Image)
+                                    {
+                                        <li class="content-item">
+                                            <img class="img-responsive center-block" src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime" />
+                                        </li>
+                                    }
+                                    else if (ContentTypeDefineExtension.ContentTypeConvert(content.Type) == ContentTypeDefine.Video)
+                                    {
+                                        <li class="content-item">
+                                            <video class="center-block" controls="controls" src="@content.Url" alt="@content.Description" data-datetime="@content.CreateTime">
+                                            </video>
+                                        </li>
+                                    }
                                 }
                             }
-                        }
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                                }
             }
-        }
-    </ul>
-
+        </ul>
+    </div>
     <div>
         @Html.ActionLink("上传", "Upload")
     </div>

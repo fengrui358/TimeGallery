@@ -23,6 +23,16 @@ textarea {
     max-width: 280px;
 }
 
-img {
+/*img {
     max-width: 80%;
+}*/
+
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+li.content-item {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
