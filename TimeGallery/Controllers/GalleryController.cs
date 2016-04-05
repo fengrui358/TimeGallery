@@ -23,7 +23,8 @@ namespace TimeGallery.Controllers
             var contents = StorageHelper.Search(DateTime.Now);
 
             var result = from content in contents
-                group content by content.CreateTime
+                let t = content.CreateTime
+                group content by new DateTime(t.Year, t.Month, t.Day)
                 into g
                 select new ContentWrapperModel(g.Key, g);
 

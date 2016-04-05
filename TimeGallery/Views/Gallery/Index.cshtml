@@ -26,7 +26,7 @@
                 foreach (var contentWrapper in Model)
                 {
                     <li>
-                        <h2 class="timetitle" data-datetime="@contentWrapper.DateTime">@contentWrapper.DateTime</h2>
+                        <h2 class="text-center" data-datetime="@contentWrapper.DateTime">@contentWrapper.DateTime.ToString("yyyy-MM-dd")</h2>
                         <ul class="list-unstyled">
                             @{
                                 foreach (var content in contentWrapper.Contents)
