@@ -67,15 +67,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.3.1\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Qiniu.4.0, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Qiniu.6.2.1.1\lib\Net40\Qiniu.4.0.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Senparc.Weixin, Version=4.5.16.25603, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Senparc.Weixin.4.5.16\lib\net45\Senparc.Weixin.dll</HintPath>
+    <Reference Include="Senparc.Weixin, Version=4.5.17.32869, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.4.5.17\lib\net45\Senparc.Weixin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Senparc.Weixin.MP, Version=13.6.10.25605, Culture=neutral, processorArchitecture=MSIL">
@@ -240,9 +240,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\TimeGallery.pubxml" />
-    <None Include="Scripts\jquery-2.2.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-2.2.2.js" />
-    <Content Include="Scripts\jquery-2.2.2.min.js" />
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -360,7 +361,6 @@
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Gallery\Upload.cshtml" />
     <Content Include="Scripts\Qiniu\dist\qiniu.min.map" />
-    <Content Include="Scripts\jquery-2.2.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

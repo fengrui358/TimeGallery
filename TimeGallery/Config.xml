@@ -2,11 +2,11 @@
 <ConfigModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <QiniuAccountModels>
     <QiniuAccountModel>
-      <Name>1</Name>
-      <AccessKey>2</AccessKey>
-      <SecretKey>3</SecretKey>
-      <Bucket>4</Bucket>
-      <Domain>5</Domain>
+      <Name>zhongyuanyuan</Name>
+      <AccessKey>XM7-0pJ78EYgb519OriRoOGi26HNRT42TznsYNzM</AccessKey>
+      <SecretKey>ic_6OlUeoV5LynbWre6ifsE6YNGHoT6NY79OYYXJ</SecretKey>
+      <Bucket>fengpeipei</Bucket>
+      <Domain>7xrp60.com1.z0.glb.clouddn.com</Domain>
     </QiniuAccountModel>
   </QiniuAccountModels>
 </ConfigModel>
