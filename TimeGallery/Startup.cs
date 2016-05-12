@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using System;
+using Microsoft.Owin;
+using NLog;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(TimeGallery.Startup))]

@@ -5,11 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using NLog;
 
 namespace TimeGallery
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public MvcApplication()
+        {
+            LogManager.GetCurrentClassLogger().Info("服务启动");
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
