@@ -25,33 +25,60 @@ namespace TimeGallery.Weixin
         public static void Init()
         {
             AccessTokenContainer.Register(AppId, WeixinAppSecret);
-            //初始化用户的默认菜单
+
             InitMenus();
         }
 
+        /// <summary>
+        /// 初始化用户的默认菜单
+        /// </summary>
         private static void InitMenus()
         {
             var buttonGroup = new ButtonGroup();
-            //第一个菜单
+
+            #region  第一个菜单
+
             var timeGalleryBtn = new SubButton("时光轴");
 
             var pepeWebBtn = new SingleViewButton
             {
                 name = "裴裴时光轴",
-                url = "http://fengpepe.com"
+                url = "http://fengrui358.vicp.cc/TimeGallery"
             };
-
-            var aboutBtn = new SingleClickButton
-            {
-                name = "关于",
-                key = "about"
-            };
-
             timeGalleryBtn.sub_button.Add(pepeWebBtn);
+
             buttonGroup.button.Add(timeGalleryBtn);
+            
+            #endregion
+
+            #region 第二个菜单
+
+            var aboutBtn = new SubButton("关于");
+
+            var uploadBtn = new SingleViewButton
+            {
+                name = "上传",
+                url = "http://fengrui358.vicp.cc/TimeGallery/Gallery/OAuth2ForBaseUpload"
+            };
+            var uploadUserBtn = new SingleViewButton
+            {
+                name = "用户信息上传",
+                url = "http://fengrui358.vicp.cc/TimeGallery/Gallery/OAuth2ForUserInfoUpload"
+            };
+
+            aboutBtn.sub_button.Add(uploadBtn);
+            aboutBtn.sub_button.Add(uploadUserBtn);
+
             buttonGroup.button.Add(aboutBtn);
 
+            #endregion
+
             var result = CommonApi.CreateMenu(AppId, buttonGroup);
+
+            if (result == null || result.errcode != 0)
+            {
+                throw new Exception("初始化微信默认菜单出错!");
+            }
         }
     }
 }
