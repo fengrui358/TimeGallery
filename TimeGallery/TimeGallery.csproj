@@ -225,6 +225,7 @@
     <Compile Include="Weixin\Download\ConfigHelper.cs" />
     <Compile Include="Weixin\LocationService.cs" />
     <Compile Include="Weixin\Server.cs" />
+    <Compile Include="Weixin\WeixinManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config.xml">
@@ -400,6 +401,8 @@
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/TimeGallery</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost/TimeGallery</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

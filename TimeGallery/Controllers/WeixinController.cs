@@ -14,9 +14,7 @@ namespace TimeGallery.Controllers
 {
     public class WeixinController : Controller
     {
-        public static readonly string Token = WebConfigurationManager.AppSettings["WeixinToken"];//与微信公众账号后台的Token设置保持一致，区分大小写。
-        public static readonly string EncodingAESKey = WebConfigurationManager.AppSettings["WeixinEncodingAESKey"];//与微信公众账号后台的EncodingAESKey设置保持一致，区分大小写。
-        public static readonly string AppId = WebConfigurationManager.AppSettings["WeixinAppId"];//与微信公众账号后台的AppId设置保持一致，区分大小写。
+
 
         readonly Func<string> _getRandomFileName = () => DateTime.Now.ToString("yyyyMMdd-HHmmss") + Guid.NewGuid().ToString("n").Substring(0, 6);
 
@@ -24,7 +22,7 @@ namespace TimeGallery.Controllers
         [ActionName("Index")]
         public ActionResult Index(PostModel postModel, string echostr)
         {
-            if (CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, Token))
+            if (CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, WeixinManager.Token))
             {
                 return Content(echostr); //返回随机字符串则表示验证通过
             }
@@ -32,7 +30,7 @@ namespace TimeGallery.Controllers
             {
                 return
                     Content(
-                        $"failed: {postModel.Signature}, {CheckSignature.GetSignature(postModel.Timestamp, postModel.Nonce, Token)} 如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
+                        $"failed: {postModel.Signature}, {CheckSignature.GetSignature(postModel.Timestamp, postModel.Nonce, WeixinManager.Token)} 如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
             }
         }
 
@@ -45,14 +43,14 @@ namespace TimeGallery.Controllers
         [ActionName("Index")]
         public ActionResult Post(PostModel postModel)
         {
-            if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, Token))
+            if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, WeixinManager.Token))
             {
                 return Content("参数错误！");
             }
 
-            postModel.Token = Token;//根据自己后台的设置保持一致
-            postModel.EncodingAESKey = EncodingAESKey;//根据自己后台的设置保持一致
-            postModel.AppId = AppId;//根据自己后台的设置保持一致
+            postModel.Token = WeixinManager.Token;//根据自己后台的设置保持一致
+            postModel.EncodingAESKey = WeixinManager.EncodingAESKey;//根据自己后台的设置保持一致
+            postModel.AppId = WeixinManager.AppId;//根据自己后台的设置保持一致
 
             //v4.2.2之后的版本，可以设置每个人上下文消息储存的最大数量，防止内存占用过多，如果该参数小于等于0，则不限制
             var maxRecordCount = 10;
