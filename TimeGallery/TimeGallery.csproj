@@ -200,12 +200,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\WeixinController.cs" />
     <Compile Include="DataBase\Entity\ContentDbEntity.cs" />
     <Compile Include="Enum\ContentTypeDefine.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Weixin\CustomMessageContext.cs" />
+    <Compile Include="Weixin\CustomMessageHandler.cs" />
+    <Compile Include="Weixin\CustomMessageHandler_Events.cs" />
     <Compile Include="Helper\QiniuHelper.cs" />
     <Compile Include="Helper\StorageHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -216,6 +220,11 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Weixin\Download\CodeRecord.cs" />
+    <Compile Include="Weixin\Download\Config.cs" />
+    <Compile Include="Weixin\Download\ConfigHelper.cs" />
+    <Compile Include="Weixin\LocationService.cs" />
+    <Compile Include="Weixin\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config.xml">
@@ -364,6 +373,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Weixin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
