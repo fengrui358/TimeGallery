@@ -8,7 +8,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using NLog;
-using TimeGallery.Factories;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
 using TimeGallery.Managers;
@@ -29,9 +28,7 @@ namespace TimeGallery
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            WeixinManager.Init();
-
-            //ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory());
+            WeixinManager.Init();            
         }
     }
 }
