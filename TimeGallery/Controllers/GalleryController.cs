@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Xml.Serialization;
+using Autofac;
 using NLog;
 using Qiniu.Conf;
 using Qiniu.IO;
@@ -17,6 +18,7 @@ using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using TimeGallery.Helper;
+using TimeGallery.Interfaces;
 using TimeGallery.Models;
 using TimeGallery.Weixin;
 
@@ -24,10 +26,17 @@ namespace TimeGallery.Controllers
 {
     public class GalleryController : Controller
     {
+        private IConfigurationManager _configurationManager;
+
+        public GalleryController(IConfigurationManager configurationManager)
+        {
+            _configurationManager = configurationManager;
+        }
+
         // GET: Gallery
         public ActionResult Index()
         {
-            ViewBag.Title = WebConfigurationManager.AppSettings["WebTitle"];
+            ViewBag.Title = _configurationManager.GetAppSetting("WebTitle");
             var contents = StorageHelper.Search(DateTime.Now);
 
             var result = from content in contents
@@ -45,6 +54,7 @@ namespace TimeGallery.Controllers
             {
                 if (string.IsNullOrEmpty(code))
                 {
+                    //todo：请关注微信公众号获取授权
                     return Content("您拒绝了授权！");
                 }
 
@@ -52,6 +62,7 @@ namespace TimeGallery.Controllers
                 {
                     //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
                     //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
+                    //todo：请关注微信公众号获取授权
                     return Content("验证失败！请从正规途径进入！");
                 }
 

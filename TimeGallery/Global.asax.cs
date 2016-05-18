@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
 using NLog;
+using TimeGallery.Factories;
+using TimeGallery.Helper;
+using TimeGallery.Interfaces;
+using TimeGallery.Managers;
 using TimeGallery.Weixin;
 
 namespace TimeGallery
@@ -16,12 +22,16 @@ namespace TimeGallery
         {
             LogManager.GetCurrentClassLogger().Info("服务启动");
 
+            IocHelper.Init();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             WeixinManager.Init();
+
+            //ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory());
         }
     }
 }
