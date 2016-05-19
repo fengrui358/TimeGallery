@@ -17,6 +17,7 @@ using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using TimeGallery.DataBase;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
 using TimeGallery.Models;

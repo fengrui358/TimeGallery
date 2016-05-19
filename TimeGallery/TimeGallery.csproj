@@ -225,7 +225,6 @@
     <Compile Include="Weixin\CustomMessageHandler.cs" />
     <Compile Include="Weixin\CustomMessageHandler_Events.cs" />
     <Compile Include="Helper\QiniuHelper.cs" />
-    <Compile Include="Helper\StorageHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddContentModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />

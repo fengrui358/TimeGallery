@@ -13,6 +13,8 @@ namespace TimeGallery.Helper
 {
     public class IocHelper
     {
+        public static IContainer Container { get; internal set; }
+
         /// <summary>
         /// 向Ioc容器注册管理器或服务
         /// </summary>
@@ -28,7 +30,9 @@ namespace TimeGallery.Helper
             builder.RegisterType<WebConfigConfigurationManager>().As<IConfigurationManager>();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+            Container = builder.Build();
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
         }
     }
 }
