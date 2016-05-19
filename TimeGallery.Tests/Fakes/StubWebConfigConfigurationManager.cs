@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeGallery.Interfaces;
+using TimeGallery.Tests.Helper;
 
 namespace TimeGallery.Tests.Fakes
 {
@@ -20,7 +21,7 @@ namespace TimeGallery.Tests.Fakes
             if (key == "MySqlConnString")
             {
                 return new ConnectionStringSettings("MySqlConnString",
-                    "Server =localhost; Database =timegallery; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;",
+                    $"Server =localhost; Database ={DbTestHelper.FakeDataBaseName}; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;",
                     "MySql.Data.MySqlClient");
             }
 
