@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Senparc.Weixin.Annotations;
+using TimeGallery.DataBase.Attributes;
 
 namespace TimeGallery.DataBase.Entity
 {
-    public class ContentDbEntity
+    public class ContentDbEntity : DataEntityBase<ContentDbEntity>
     {
+        [AutoIncrementkey]
         public virtual long Id { get; set; }
 
         public virtual string Type { get; set;}
 
         public virtual string Url { get; set; }
 
+        [AutoValue]
         public virtual DateTime CreateTime { get; set; }
 
         public virtual string Size { get; set; }

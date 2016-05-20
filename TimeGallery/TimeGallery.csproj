@@ -209,8 +209,14 @@
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\WeixinController.cs" />
+    <Compile Include="DataBase\Attributes\AutoIncrementkeyAttribute.cs" />
+    <Compile Include="DataBase\Attributes\AutoValueKeyAttribute.cs" />
+    <Compile Include="DataBase\Attributes\SpecialKeyAttribute.cs" />
+    <Compile Include="DataBase\DataEntityBase.cs" />
     <Compile Include="DataBase\Entity\ContentDbEntity.cs" />
     <Compile Include="DataBase\Entity\UserDbEntity.cs" />
+    <Compile Include="DataBase\Attributes\PrimaryKeyAttribute.cs" />
+    <Compile Include="DataBase\Extensions\SpecialKeyExtension.cs" />
     <Compile Include="DataBase\StorageHelper.cs" />
     <Compile Include="Enum\ContentTypeDefine.cs" />
     <Compile Include="Global.asax.cs">
@@ -220,6 +226,8 @@
     <Compile Include="Helper\IocHelper.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IDependency.cs" />
+    <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
     <Compile Include="Weixin\CustomMessageContext.cs" />
     <Compile Include="Weixin\CustomMessageHandler.cs" />

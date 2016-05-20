@@ -24,7 +24,8 @@ namespace TimeGallery.Tests.Helper
             {
                 //创建数据库
                 con.Execute($"CREATE DATABASE IF NOT EXISTS `{FakeDataBaseName}`;");
-                con.Execute($"USE `{FakeDataBaseName}`;");
+                con.ChangeDatabase(FakeDataBaseName);
+                //con.Execute($"USE `{FakeDataBaseName}`;");
 
                 //创建表
             }
