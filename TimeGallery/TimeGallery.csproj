@@ -213,6 +213,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Consts\ConstInfos.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="DataBase\Extensions\SpecialKeyExtension.cs" />
     <Compile Include="DataBase\StorageHelper.cs" />
     <Compile Include="Enum\ContentTypeDefine.cs" />
+    <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -234,7 +236,9 @@
     <Compile Include="Helper\IocHelper.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IDependency.cs" />
+    <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
     <Compile Include="Weixin\CustomMessageContext.cs" />

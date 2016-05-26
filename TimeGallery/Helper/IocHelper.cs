@@ -30,6 +30,9 @@ namespace TimeGallery.Helper
             builder.RegisterType<WebConfigConfigurationManager>().As<IConfigurationManager>();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
+            builder.RegisterType<UserManager>().As<IUserManager>();
+            builder.RegisterType<SessionManager>().As<ISessionManager>();
+
             Container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
