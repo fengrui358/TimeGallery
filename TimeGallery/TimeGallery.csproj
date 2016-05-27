@@ -86,12 +86,12 @@
       <HintPath>..\packages\Qiniu.6.2.1.1\lib\Net40\Qiniu.4.0.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Senparc.Weixin, Version=4.5.19.36607, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Senparc.Weixin.4.5.19\lib\net45\Senparc.Weixin.dll</HintPath>
+    <Reference Include="Senparc.Weixin, Version=4.5.20.25374, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.4.5.20\lib\net45\Senparc.Weixin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Senparc.Weixin.MP, Version=13.8.2.25376, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Senparc.Weixin.MP.13.8.2\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+      <HintPath>..\packages\Senparc.Weixin.MP.13.8.3\lib\net45\Senparc.Weixin.MP.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=4.0.1.32125, Culture=neutral, processorArchitecture=MSIL">
@@ -429,6 +429,8 @@
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://192.168.50.164/TimeGallery</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://192.168.50.164/TimeGallery</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

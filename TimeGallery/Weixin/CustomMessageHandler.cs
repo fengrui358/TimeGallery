@@ -134,8 +134,6 @@ namespace TimeGallery.Weixin
             //方法四（v0.6+），仅适合在HandlerMessage内部使用，本质上是对方法三的封装
             //注意：下面泛型ResponseMessageText即返回给客户端的类型，可以根据自己的需要填写ResponseMessageNews等不同类型。
 
-            var t = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
 
             if (requestMessage.Content == null)
