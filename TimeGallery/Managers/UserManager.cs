@@ -54,6 +54,7 @@ namespace TimeGallery.Managers
             else
             {
                 //todo:判断用户信息是否需要更新
+
             }
         }
     }
