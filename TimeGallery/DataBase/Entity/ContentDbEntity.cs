@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Senparc.Weixin.Annotations;
-using TimeGallery.DataBase.Attributes;
 
 namespace TimeGallery.DataBase.Entity
 {
-    public class ContentDbEntity : DataEntityBase<ContentDbEntity>
+    [Table("content")]
+    public class ContentDbEntity
     {
-        [AutoIncrementkey]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual long Id { get; set; }
 
         public virtual string Type { get; set;}
 
         public virtual string Url { get; set; }
 
-        [AutoValue]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public virtual DateTime CreateTime { get; set; }
 
         public virtual string Size { get; set; }

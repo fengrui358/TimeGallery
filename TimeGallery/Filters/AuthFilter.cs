@@ -16,6 +16,7 @@ namespace TimeGallery.Filters
     {
         public override async void OnActionExecuting(ActionExecutingContext filterContext)
         {
+#if Release
             var controller = filterContext.Controller as Controller;
             if (controller != null)
             {
@@ -34,6 +35,7 @@ namespace TimeGallery.Filters
                     }
                 }
             }
+#endif
 
             base.OnActionExecuting(filterContext);
         }

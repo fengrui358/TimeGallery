@@ -28,7 +28,14 @@ namespace TimeGallery
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            WeixinManager.Init();            
+            InitManagers();
+        }
+
+        private void InitManagers()
+        {
+            WeixinManager.Init();
+
+            IocHelper.Container.Resolve<IUserManager>().Init();
         }
     }
 }

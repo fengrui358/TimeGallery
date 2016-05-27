@@ -7,6 +7,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using Autofac;
 using Dapper;
+using Dapper.FastCrud;
 using MySql.Data.MySqlClient;
 using NLog;
 using TimeGallery.DataBase.Entity;
@@ -68,7 +69,12 @@ namespace TimeGallery.DataBase
             return result;
         }
 
-        private static IDbConnection GetConnection()
+        static StorageHelper()
+        {
+            OrmConfiguration.DefaultDialect = SqlDialect.MySql;
+        }
+        
+        public static IDbConnection GetConnection()
         {
             try
             {

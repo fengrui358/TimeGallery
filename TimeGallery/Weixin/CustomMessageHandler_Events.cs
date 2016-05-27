@@ -2,12 +2,19 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
+using Autofac;
+using NLog;
+using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
+using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.Agent;
 using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.Entities;
 using TimeGallery.Helper;
+using TimeGallery.Interfaces;
+using TimeGallery.Models;
 using TimeGallery.Weixin.Download;
 using ConfigHelper = TimeGallery.Weixin.Download.ConfigHelper;
 
@@ -222,12 +229,19 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP
             return responseMessage;
         }
 
+        /// <summary>
+        /// 位置信息上报处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
         public override IResponseMessageBase OnEvent_LocationRequest(RequestMessageEvent_Location requestMessage)
         {
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = "这里写什么都无所谓，比如：上帝爱你！";
             return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
+
+            return null;
         }
 
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
@@ -281,29 +295,43 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-            responseMessage.Content = GetWelcomeInfo();
-            if (!string.IsNullOrEmpty(requestMessage.EventKey))
+            //responseMessage.Content = GetWelcomeInfo();
+            //if (!string.IsNullOrEmpty(requestMessage.EventKey))
+            //{
+            //    responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey;
+            //}
+
+            ////推送消息
+            ////下载文档
+            //if (requestMessage.EventKey.StartsWith("qrscene_"))
+            //{
+            //    var sceneId = long.Parse(requestMessage.EventKey.Replace("qrscene_", ""));
+            //    //var configHelper = new ConfigHelper(new HttpContextWrapper(HttpContext.Current));
+            //    var codeRecord =
+            //        ConfigHelper.CodeCollection.Values.FirstOrDefault(z => z.QrCodeTicket != null && z.QrCodeId == sceneId);
+
+            //    if (codeRecord != null)
+            //    {
+            //        //确认可以下载
+            //        codeRecord.AllowDownload = true;
+            //        CustomApi.SendText(null, WeixinOpenId, GetDownloadInfo(codeRecord));
+            //    }
+            //}
+
+            //获取用户信息            
+            var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, WeixinOpenId);
+
+            if (weixinUserInfo != null)
             {
-                responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey;
+                IocHelper.Container.Resolve<IUserManager>().AddUser((UserModel) weixinUserInfo);
+            }
+            else
+            {
+                LogManager.GetCurrentClassLogger().Error($"Id{requestMessage.FromUserName}获取到微信用户信息为空");
             }
 
-            //推送消息
-            //下载文档
-            if (requestMessage.EventKey.StartsWith("qrscene_"))
-            {
-                var sceneId = long.Parse(requestMessage.EventKey.Replace("qrscene_", ""));
-                //var configHelper = new ConfigHelper(new HttpContextWrapper(HttpContext.Current));
-                var codeRecord =
-                    ConfigHelper.CodeCollection.Values.FirstOrDefault(z => z.QrCodeTicket != null && z.QrCodeId == sceneId);
-
-                if (codeRecord != null)
-                {
-                    //确认可以下载
-                    codeRecord.AllowDownload = true;
-                    CustomApi.SendText(null, WeixinOpenId, GetDownloadInfo(codeRecord));
-                }
-            }
-
+            responseMessage.Content =
+                $"欢迎关注{IocHelper.Container.Resolve<IConfigurationManager>().GetAppSetting("WebTitle")}";
 
             return responseMessage;
         }
