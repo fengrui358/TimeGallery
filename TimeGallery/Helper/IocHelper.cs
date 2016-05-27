@@ -27,11 +27,11 @@ namespace TimeGallery.Helper
             //    AppDomain.CurrentDomain.GetAssemblies()
             //        .SelectMany(s => s.GetTypes().Where(t => t.IsAssignableFrom(typeof(IDependency)) && !t.IsAbstract));
 
-            builder.RegisterType<WebConfigConfigurationManager>().As<IConfigurationManager>();
+            builder.RegisterType<WebConfigConfigurationManager>().As<IConfigurationManager>().SingleInstance();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<UserManager>().As<IUserManager>();
-            builder.RegisterType<SessionManager>().As<ISessionManager>();
+            builder.RegisterType<UserManager>().As<IUserManager>().SingleInstance();
+            builder.RegisterType<SessionManager>().As<ISessionManager>().SingleInstance();
 
             Container = builder.Build();
 
