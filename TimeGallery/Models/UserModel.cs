@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Senparc.Weixin.MP.Entities;
@@ -12,6 +13,7 @@ namespace TimeGallery.Models
         /// <summary>
         /// 上一次更新用户信息的时间
         /// </summary>
+        [NotMapped]
         public DateTime LastUpDateTime { get; set; }
 
         public string GetGalleryDbConnectingString()

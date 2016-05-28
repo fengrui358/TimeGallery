@@ -55,8 +55,6 @@ namespace TimeGallery.Managers
                 //添加新用户信息到缓存字典
                 _weixinFollowerUsers.Add(userModel.OpenId, userModel);
 
-
-
                 await Task.Run(async () =>
                 {
                     using (var con = StorageHelper.GetConnection())
@@ -81,7 +79,15 @@ namespace TimeGallery.Managers
             if (userModel == null)
             {
                 throw new ArgumentNullException(nameof(userModel));
-            }            
+            }
+
+            if (!_weixinFollowerUsers.ContainsKey(userModel.OpenId))
+            {
+                AddUser(userModel);
+                return;
+            }
+
+            //判断最后一次更新时间大于阈值才更新
         }
     }
 }

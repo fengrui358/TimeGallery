@@ -8,5 +8,6 @@ namespace TimeGallery.Managers
 {
     public class GalleryManager : IGalleryManager
     {
+
     }
 }
