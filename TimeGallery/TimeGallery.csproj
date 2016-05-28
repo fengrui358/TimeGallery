@@ -221,7 +221,8 @@
     <Compile Include="DataBase\Entity\ContentDbEntity.cs" />
     <Compile Include="DataBase\Entity\UserDbEntity.cs" />
     <Compile Include="DataBase\StorageHelper.cs" />
-    <Compile Include="Enum\ContentTypeDefine.cs" />
+    <Compile Include="Enums\ContentTypeDefine.cs" />
+    <Compile Include="Enums\UserSexTypeDefine.cs" />
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -230,8 +231,10 @@
     <Compile Include="Helper\IocHelper.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IDependency.cs" />
+    <Compile Include="Interfaces\IGalleryManager.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\GalleryManager.cs" />
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
@@ -428,9 +431,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.3.108/TimeGallery</IISUrl>
+          <IISUrl>http://192.168.1.80/TimeGallery</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://192.168.3.108/TimeGallery</IISAppRootUrl>
+          <IISAppRootUrl>http://192.168.1.80/TimeGallery</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

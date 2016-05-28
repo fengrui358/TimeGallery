@@ -14,8 +14,14 @@ namespace TimeGallery.Managers
 {
     public class UserManager : IUserManager
     {
+        private IConfigurationManager _configurationManager;
         private Dictionary<string, UserModel> _weixinFollowerUsers;
-        
+
+        public UserManager(IConfigurationManager configurationManager)
+        {
+            _configurationManager = configurationManager;
+        }
+
         public void Init()
         {
             LogManager.GetCurrentClassLogger().Info("初始化用户管理器");
@@ -32,18 +38,26 @@ namespace TimeGallery.Managers
                 users = con.Find<UserModel>();
             }
 
-            _weixinFollowerUsers = users.ToDictionary(s => s.Uuid);
+            _weixinFollowerUsers = users.ToDictionary(s => s.OpenId);
 
             LogManager.GetCurrentClassLogger().Info($"用户管理器初始化完毕，当前用户共{_weixinFollowerUsers.Count}位");
         }
 
-        public void AddUser(UserModel userModel)
+        public async void AddUser(UserModel userModel)
         {
-            if (!_weixinFollowerUsers.ContainsKey(userModel.Uuid))
+            if (userModel == null)
             {
-                _weixinFollowerUsers.Add(userModel.Uuid, userModel);
+                throw new ArgumentNullException(nameof(userModel));
+            }
 
-                Task.Run(async () =>
+            if (!_weixinFollowerUsers.ContainsKey(userModel.OpenId))
+            {
+                //添加新用户信息到缓存字典
+                _weixinFollowerUsers.Add(userModel.OpenId, userModel);
+
+
+
+                await Task.Run(async () =>
                 {
                     using (var con = StorageHelper.GetConnection())
                     {
@@ -56,6 +70,18 @@ namespace TimeGallery.Managers
                 //todo:判断用户信息是否需要更新
 
             }
+        }
+
+        /// <summary>
+        /// 尝试更新用户信息
+        /// </summary>
+        /// <param name="userModel"></param>
+        public async void TryUpdateUserInfo(UserModel userModel)
+        {
+            if (userModel == null)
+            {
+                throw new ArgumentNullException(nameof(userModel));
+            }            
         }
     }
 }

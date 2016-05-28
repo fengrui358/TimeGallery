@@ -75,6 +75,9 @@ namespace TimeGallery.Weixin
             {
                 CurrentMessageContext.StorageData = 0;
             }
+
+            //todo:这里执行更新用户信息的处理
+
             base.OnExecuting();
         }
 

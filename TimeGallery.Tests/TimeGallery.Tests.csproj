@@ -106,6 +106,7 @@
     <Compile Include="DataBase\StorageHelperTests.cs" />
     <Compile Include="Fakes\StubWebConfigConfigurationManager.cs" />
     <Compile Include="Helper\DbTestHelper.cs" />
+    <Compile Include="Managers\UserManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

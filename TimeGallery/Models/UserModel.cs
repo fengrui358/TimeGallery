@@ -9,6 +9,11 @@ namespace TimeGallery.Models
 {
     public class UserModel : UserDbEntity
     {
+        /// <summary>
+        /// 上一次更新用户信息的时间
+        /// </summary>
+        public DateTime LastUpDateTime { get; set; }
+
         public string GetGalleryDbConnectingString()
         {
             if (IsManager)
@@ -29,8 +34,8 @@ namespace TimeGallery.Models
 
             var userModel = new UserModel
             {
-                Uuid = string.IsNullOrEmpty(weixinUserInfo.unionid) ? weixinUserInfo.openid : weixinUserInfo.unionid,
                 OpenId = weixinUserInfo.openid,
+                Uuid = weixinUserInfo.unionid,
                 IsFollower = weixinUserInfo.subscribe != 0,
                 Name = weixinUserInfo.nickname
             };

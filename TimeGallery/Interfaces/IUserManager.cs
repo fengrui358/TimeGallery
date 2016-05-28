@@ -20,5 +20,11 @@ namespace TimeGallery.Interfaces
         /// </summary>
         /// <param name="userModel"></param>
         void AddUser(UserModel userModel);
+
+        /// <summary>
+        /// 尝试更新用户信息
+        /// </summary>
+        /// <param name="userModel"></param>
+        void TryUpdateUserInfo(UserModel userModel);
     }
 }
