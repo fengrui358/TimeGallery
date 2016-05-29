@@ -21,5 +21,21 @@ namespace TimeGallery.Managers
                 ? WebConfigurationManager.ConnectionStrings["MySqlConnString"]
                 : WebConfigurationManager.ConnectionStrings[key];
         }
+
+#if DEBUG
+        public string HostName => "http://fengrui358.vicp.cc";
+#else
+        public string HostName => GetAppSetting("HostName");
+#endif
+
+#if DEBUG
+        public string WebName => "http://fengrui358.vicp.cc/TimeGallery";
+#else
+        public string WebName => GetAppSetting("WebName");
+#endif
+
+        public string WebTitle => GetAppSetting("WebTitle");
+
+        public ConnectionStringSettings DefaultConnectionString => GetConnectionString("MySqlConnString");
     }
 }

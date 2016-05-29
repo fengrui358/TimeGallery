@@ -27,5 +27,13 @@ namespace TimeGallery.Tests.Fakes
 
             return null;
         }
+
+        public string HostName => "http://fengrui358.vicp.cc";
+
+        public string WebName => "http://fengrui358.vicp.cc/TimeGallery";
+
+        public string WebTitle => GetAppSetting("测试时光相册");
+
+        public ConnectionStringSettings DefaultConnectionString => GetConnectionString("MySqlConnString");
     }
 }

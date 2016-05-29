@@ -332,7 +332,7 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP
             }
 
             responseMessage.Content =
-                $"欢迎关注{IocHelper.Container.Resolve<IConfigurationManager>().GetAppSetting("WebTitle")}";
+                $"欢迎关注{IocHelper.Container.Resolve<IConfigurationManager>().WebTitle}";
 
             return responseMessage;
         }

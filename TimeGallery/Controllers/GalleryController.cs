@@ -41,7 +41,7 @@ namespace TimeGallery.Controllers
         // GET: Gallery
         public ActionResult Index()
         {
-            ViewBag.Title = _configurationManager.GetAppSetting("WebTitle");
+            ViewBag.Title = _configurationManager.WebTitle;
             var contents = StorageHelper.Search(DateTime.Now);
 
             var result = from content in contents

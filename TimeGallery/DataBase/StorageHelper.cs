@@ -79,7 +79,7 @@ namespace TimeGallery.DataBase
             try
             {
                 //从数据库提取数据到内存做缓存
-                var connectStr = IocHelper.Container.Resolve<IConfigurationManager>().GetConnectionString("MySqlConnString");
+                var connectStr = IocHelper.Container.Resolve<IConfigurationManager>().DefaultConnectionString;
                 return new MySqlConnection(connectStr.ConnectionString);
             }
             catch (Exception ex)
