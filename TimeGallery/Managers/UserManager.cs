@@ -8,9 +8,11 @@ using Dapper.FastCrud;
 using Nelibur.ObjectMapper;
 using Newtonsoft.Json;
 using NLog;
+using Senparc.Weixin.MP.CommonAPIs;
 using TimeGallery.DataBase;
 using TimeGallery.Interfaces;
 using TimeGallery.Models;
+using TimeGallery.Weixin;
 
 namespace TimeGallery.Managers
 {
@@ -118,6 +120,56 @@ namespace TimeGallery.Managers
                     }
                 }
             });
+        }
+
+        /// <summary>
+        /// 尝试更新用户信息
+        /// </summary>
+        /// <param name="openId"></param>
+        public async void TryUpdateUserInfo(string openId)
+        {
+            if (string.IsNullOrEmpty(openId))
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+
+            if (_usersDictionary.ContainsKey(openId))
+            {
+                //判断最后一次更新时间大于阈值才更新
+                var user = _usersDictionary[openId];
+                double tryUpdateUserInfoInterval;
+
+                if (!double.TryParse(_configurationManager.GetAppSetting("TryUpdateUserInfoInterval"),
+                    out tryUpdateUserInfoInterval))
+                {
+                    //默认阈值
+                    tryUpdateUserInfoInterval = 1800;
+                    LogManager.GetCurrentClassLogger().Error("配置项TryUpdateUserInfoInterval出现异常，无法转换为double型");
+                }
+
+                if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
+                {
+                    user.LastUpDateTime = DateTime.Now;
+
+                    //向微信服务器获取用户信息
+                    //获取用户信息            
+                    var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
+
+                    LogManager.GetCurrentClassLogger()
+                        .Info(
+                            $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject((UserModel) weixinUserInfo)}");
+
+                    if (weixinUserInfo != null)
+                    {
+                        TinyMapper.Map((UserModel)weixinUserInfo, user);
+
+                        using (var con = StorageHelper.GetConnection())
+                        {
+                            await con.UpdateAsync(user);
+                        }
+                    }
+                }
+            }
         }
     }
 }

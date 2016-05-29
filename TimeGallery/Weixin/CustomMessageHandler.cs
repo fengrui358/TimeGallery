@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Configuration;
+using Autofac;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.Agent;
@@ -14,6 +15,8 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.Request;
 using Senparc.Weixin.MP.Helpers;
 using Senparc.Weixin.MP.MessageHandlers;
+using TimeGallery.Helper;
+using TimeGallery.Interfaces;
 
 namespace TimeGallery.Weixin
 {
@@ -29,6 +32,7 @@ namespace TimeGallery.Weixin
          * 其中所有原OnXX的抽象方法已经都改为虚方法，可以不必每个都重写。若不重写，默认返回DefaultResponseMessage方法中的结果。
          */
 
+            private Lazy<IUserManager> _userManagerLazy = new Lazy<IUserManager>(() => IocHelper.Container.Resolve<IUserManager>());
 
 #if DEBUG
         string agentUrl = "http://localhost:12222/App/Weixin/4";
@@ -76,7 +80,7 @@ namespace TimeGallery.Weixin
                 CurrentMessageContext.StorageData = 0;
             }
 
-            //todo:这里执行更新用户信息的处理
+            _userManagerLazy.Value.TryUpdateUserInfo(RequestMessage.FromUserName);
 
             base.OnExecuting();
         }

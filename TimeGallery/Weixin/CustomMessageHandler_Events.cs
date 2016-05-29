@@ -324,7 +324,7 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP
 
             if (weixinUserInfo != null)
             {
-                IocHelper.Container.Resolve<IUserManager>().AddUser((UserModel) weixinUserInfo);
+                _userManagerLazy.Value.AddUser((UserModel) weixinUserInfo);
             }
             else
             {
