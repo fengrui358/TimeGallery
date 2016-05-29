@@ -8,13 +8,8 @@ using TimeGallery.Models;
 namespace TimeGallery.Interfaces
 {
 
-    public interface IUserManager
+    public interface IUserManager : IManagerDependency
     {
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        void Init();
-
         /// <summary>
         /// 添加用户
         /// </summary>

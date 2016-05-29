@@ -44,5 +44,10 @@ namespace TimeGallery.Managers
 
             return false;
         }
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

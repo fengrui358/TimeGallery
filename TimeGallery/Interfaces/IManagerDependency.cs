@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TimeGallery.Interfaces
 {
-    public interface IGalleryManager : IManagerDependency
+    public interface IManagerDependency : IDependency
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        void Init();
     }
 }

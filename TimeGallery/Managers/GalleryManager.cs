@@ -8,6 +8,9 @@ namespace TimeGallery.Managers
 {
     public class GalleryManager : IGalleryManager
     {
-
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

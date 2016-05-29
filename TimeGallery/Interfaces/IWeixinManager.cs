@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TimeGallery.Interfaces
 {
-    public interface IGalleryManager : IManagerDependency
+    public interface IWeixinManager : IManagerDependency
     {
+
     }
 }

@@ -9,7 +9,7 @@ using TimeGallery.Models;
 
 namespace TimeGallery.Interfaces
 {
-    public interface ISessionManager
+    public interface ISessionManager : IManagerDependency
     {
         Task<bool> VerifySession(Controller controller);
     }

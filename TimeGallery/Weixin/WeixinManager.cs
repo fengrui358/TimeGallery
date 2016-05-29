@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Configuration;
 using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.Entities.Menu;
+using TimeGallery.Interfaces;
 
 namespace TimeGallery.Weixin
 {
-    public class WeixinManager
+    public class WeixinManager : IWeixinManager
     {
 #if DEBUG
         public static readonly string Token = "0B323312CC614037932DBF88B4739105";//与微信公众账号后台的Token设置保持一致，区分大小写。
@@ -22,17 +23,17 @@ namespace TimeGallery.Weixin
         public static readonly string WeixinAppSecret = WebConfigurationManager.AppSettings["WeixinAppSecret"];//与微信公众账号后台的AppId设置保持一致，区分大小写。
 #endif
 
-        public static void Init()
+        public void Init()
         {
             AccessTokenContainer.Register(AppId, WeixinAppSecret);
 
-            InitMenus();
+            InitDefaultMenus();
         }
 
         /// <summary>
         /// 初始化用户的默认菜单
         /// </summary>
-        private static void InitMenus()
+        private static void InitDefaultMenus()
         {
             var buttonGroup = new ButtonGroup();
 
@@ -79,6 +80,6 @@ namespace TimeGallery.Weixin
             {
                 throw new Exception("初始化微信默认菜单出错!");
             }
-        }
+        }        
     }
 }

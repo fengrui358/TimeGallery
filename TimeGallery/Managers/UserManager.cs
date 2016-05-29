@@ -101,7 +101,7 @@ namespace TimeGallery.Managers
                     out tryUpdateUserInfoInterval))
                 {
                     //默认阈值
-                    tryUpdateUserInfoInterval = 1800;
+                    tryUpdateUserInfoInterval = 18000;
                     LogManager.GetCurrentClassLogger().Error("配置项TryUpdateUserInfoInterval出现异常，无法转换为double型");
                 }
 
