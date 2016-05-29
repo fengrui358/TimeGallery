@@ -11,20 +11,25 @@ using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using Senparc.Weixin.MP.CommonAPIs;
+using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.Request;
 using Senparc.Weixin.MP.MvcExtension;
 using TimeGallery.Interfaces;
+using TimeGallery.Models;
 using TimeGallery.Weixin;
 
 namespace TimeGallery.Controllers
 {
     public class WeixinController : Controller
     {
+        private readonly IConfigurationManager _configurationManager;
         private readonly IUserManager _userManager;
         readonly Func<string> _getRandomFileName = () => DateTime.Now.ToString("yyyyMMdd-HHmmss") + Guid.NewGuid().ToString("n").Substring(0, 6);
 
-        public WeixinController(IUserManager userManager)
+        public WeixinController(IConfigurationManager configurationManager, IUserManager userManager)
         {
+            _configurationManager = configurationManager;
             _userManager = userManager;
         }
 
@@ -168,7 +173,12 @@ namespace TimeGallery.Controllers
             return Redirect(url);
         }
 
-
+        /// <summary>
+        /// 网页授权回调页面
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="state">内部实际上传的是回调Url</param>
+        /// <returns></returns>
         public ActionResult GetWeixinUserInfo(string code, string state)
         {
             if (string.IsNullOrEmpty(code))
@@ -177,7 +187,7 @@ namespace TimeGallery.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != "upload")
+            if (!state.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
                 //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
                 //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
@@ -199,12 +209,17 @@ namespace TimeGallery.Controllers
             //Session["OAuthAccessToken"] = result;
 
             //因为这里还不确定用户是否关注本微信，所以只能试探性地获取一下
-            OAuthUserInfo userInfo = null;
-            
+            //OAuthUserInfo userInfo = null;
+
+            WeixinUserInfoResult weixinUserInfo;
+
             try
             {
                 //已关注，可以得到详细信息
-                userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
+                //userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
+
+                weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, result.openid);
+                _userManager.TryUpdateUserInfo((UserModel) weixinUserInfo);
                 
                 return Redirect(state);
             }
