@@ -245,6 +245,7 @@
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
+    <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Weixin\CustomMessageContext.cs" />
     <Compile Include="Weixin\CustomMessageHandler.cs" />

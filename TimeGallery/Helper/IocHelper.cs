@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using TimeGallery.Interfaces;
 using TimeGallery.Managers;
+using TimeGallery.Weixin;
 
 namespace TimeGallery.Helper
 {
@@ -32,6 +33,7 @@ namespace TimeGallery.Helper
 
             builder.RegisterType<UserManager>().As<IUserManager>().SingleInstance();
             builder.RegisterType<SessionManager>().As<ISessionManager>().SingleInstance();
+            builder.RegisterType<WeixinManager>().As<IWeixinManager>().SingleInstance();
 
             Container = builder.Build();
 

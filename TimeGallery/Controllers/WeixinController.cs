@@ -170,6 +170,7 @@ namespace TimeGallery.Controllers
         {
             var url = OAuthApi.GetAuthorizeUrl(WeixinManager.AppId,
                 "http://fengrui358.vicp.cc/TimeGallery/Weixin/GetWeixinUserInfo", redirectUrl, OAuthScope.snsapi_userinfo);
+
             return Redirect(url);
         }
 

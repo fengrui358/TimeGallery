@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Autofac;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
@@ -15,24 +11,38 @@ namespace TimeGallery.Filters
 {
     public class AuthFilter : ActionFilterAttribute
     {
-        public override async void OnActionExecuting(ActionExecutingContext filterContext)
+        /// <summary>
+        /// 是否需要校验
+        /// </summary>
+        private readonly bool _isAuth;
+
+        public AuthFilter(bool isAuth = true)
         {
-            var controller = filterContext.Controller as Controller;
-            if (controller != null)
+            _isAuth = isAuth;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+
+            if (_isAuth)
             {
-                var isVaildSession = await IocHelper.Container.Resolve<ISessionManager>().VerifySession(controller);
-                if (!isVaildSession)
+                var controller = filterContext.Controller as Controller;
+                if (controller != null)
                 {
-                    if (controller.Request.Url != null)
+                    var isVaildSession = IocHelper.Container.Resolve<ISessionManager>().VerifySession(controller.HttpContext);
+                    if (!isVaildSession)
                     {
-                        var redirectUrl = controller.Request.Url.ToString();
+                        if (controller.Request.Url != null)
+                        {
+                            var redirectUrl = controller.Request.Url.ToString();
 
-                        var url = OAuthApi.GetAuthorizeUrl(WeixinManager.AppId,
-                            SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.OAuth2ForBase)),
-                            redirectUrl,
-                            OAuthScope.snsapi_base);
+                            var url = OAuthApi.GetAuthorizeUrl(WeixinManager.AppId,
+                                SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.OAuth2ForBase)),
+                                redirectUrl,
+                                OAuthScope.snsapi_base);
 
-                        controller.Response.Redirect(url);
+                            filterContext.Result = new RedirectResult(url);
+                        }
                     }
                 }
             }

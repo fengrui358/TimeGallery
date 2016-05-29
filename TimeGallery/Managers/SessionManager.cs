@@ -10,6 +10,7 @@ using System.Web.UI;
 using TimeGallery.Consts;
 using TimeGallery.DataBase.Entity;
 using TimeGallery.Interfaces;
+using TimeGallery.Models;
 
 namespace TimeGallery.Managers
 {
@@ -19,8 +20,7 @@ namespace TimeGallery.Managers
     /// </summary>
     public class SessionManager : ISessionManager
     {
-        private ConcurrentDictionary<Guid, UserDbEntity> _sessionDictionary =
-            new ConcurrentDictionary<Guid, UserDbEntity>();
+        private readonly ConcurrentDictionary<Guid, SessionModel> _sessionDictionary = new ConcurrentDictionary<Guid, SessionModel>();
         private IUserManager _userManager;
 
         public SessionManager(IUserManager userManager)
@@ -31,23 +31,22 @@ namespace TimeGallery.Managers
         /// <summary>
         /// 校验Session是否有效
         /// </summary>
-        /// <param name="controller"></param>
+        /// <param name="httpContext"></param>
         /// <returns></returns>
-        public async Task<bool> VerifySession(Controller controller)
-        {
-            if (controller.Session[ConstInfos.SessionKey] != null)
+        public bool VerifySession(HttpContextBase httpContext)
+        {            
+            if (httpContext.Session[ConstInfos.SessionKey] != null)
             {
-
-            }
-
-            controller.Session[ConstInfos.SessionKey] = Guid.NewGuid();
+                var sessionGuid = (Guid) httpContext.Session[ConstInfos.SessionKey];
+                if (_sessionDictionary.ContainsKey(sessionGuid))
+                {
+                    _sessionDictionary[sessionGuid].LastRefreshTime = DateTime.Now;
+                    return true;
+                }
+            }            
 
             return false;
         }
 
-        public void Init()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

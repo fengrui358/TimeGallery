@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using TimeGallery.Models;
 
 namespace TimeGallery.Interfaces
 {
-    public interface ISessionManager : IManagerDependency
+    public interface ISessionManager : IDependency
     {
-        Task<bool> VerifySession(Controller controller);
+        bool VerifySession(HttpContextBase httpContext);
     }
 }
