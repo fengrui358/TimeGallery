@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using Dapper;
 using Dapper.FastCrud;
+using Nelibur.ObjectMapper;
+using Newtonsoft.Json;
 using NLog;
 using TimeGallery.DataBase;
 using TimeGallery.Interfaces;
@@ -14,8 +16,8 @@ namespace TimeGallery.Managers
 {
     public class UserManager : IUserManager
     {
-        private IConfigurationManager _configurationManager;
-        private Dictionary<string, UserModel> _weixinFollowerUsers;
+        private readonly IConfigurationManager _configurationManager;
+        private Dictionary<string, UserModel> _usersDictionary;
 
         public UserManager(IConfigurationManager configurationManager)
         {
@@ -38,9 +40,9 @@ namespace TimeGallery.Managers
                 users = con.Find<UserModel>();
             }
 
-            _weixinFollowerUsers = users.ToDictionary(s => s.OpenId);
+            _usersDictionary = users.ToDictionary(s => s.OpenId);
 
-            LogManager.GetCurrentClassLogger().Info($"用户管理器初始化完毕，当前用户共{_weixinFollowerUsers.Count}位");
+            LogManager.GetCurrentClassLogger().Info($"用户管理器初始化完毕，当前用户共{_usersDictionary.Count}位");
         }
 
         public async void AddUser(UserModel userModel)
@@ -50,10 +52,11 @@ namespace TimeGallery.Managers
                 throw new ArgumentNullException(nameof(userModel));
             }
 
-            if (!_weixinFollowerUsers.ContainsKey(userModel.OpenId))
+            if (!_usersDictionary.ContainsKey(userModel.OpenId))
             {
                 //添加新用户信息到缓存字典
-                _weixinFollowerUsers.Add(userModel.OpenId, userModel);
+                _usersDictionary.Add(userModel.OpenId, userModel);
+                LogManager.GetCurrentClassLogger().Info($"新增用户：{JsonConvert.SerializeObject(userModel)}");
 
                 await Task.Run(async () =>
                 {
@@ -65,8 +68,7 @@ namespace TimeGallery.Managers
             }
             else
             {
-                //todo:判断用户信息是否需要更新
-
+                TryUpdateUserInfo(userModel);
             }
         }
 
@@ -81,13 +83,41 @@ namespace TimeGallery.Managers
                 throw new ArgumentNullException(nameof(userModel));
             }
 
-            if (!_weixinFollowerUsers.ContainsKey(userModel.OpenId))
+            if (!_usersDictionary.ContainsKey(userModel.OpenId))
             {
                 AddUser(userModel);
                 return;
             }
 
-            //判断最后一次更新时间大于阈值才更新
+            await Task.Run(async () =>
+            {
+                //判断最后一次更新时间大于阈值才更新
+                var user = _usersDictionary[userModel.OpenId];
+                double tryUpdateUserInfoInterval;
+
+                if (!double.TryParse(_configurationManager.GetAppSetting("TryUpdateUserInfoInterval"),
+                    out tryUpdateUserInfoInterval))
+                {
+                    //默认阈值
+                    tryUpdateUserInfoInterval = 1800;
+                    LogManager.GetCurrentClassLogger().Error("配置项TryUpdateUserInfoInterval出现异常，无法转换为double型");
+                }
+
+                if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Info(
+                            $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject(userModel)}");
+
+                    user.LastUpDateTime = DateTime.Now;
+                    TinyMapper.Map(userModel, user);
+
+                    using (var con = StorageHelper.GetConnection())
+                    {
+                        await con.UpdateAsync(user);
+                    }
+                }
+            });
         }
     }
 }
