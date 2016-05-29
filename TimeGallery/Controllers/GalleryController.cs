@@ -77,6 +77,26 @@ namespace TimeGallery.Controllers
             var result = StorageHelper.InsertContent(addContentModel);
 
             return Json(new {success = result});
-        }        
+        }
+
+        public ActionResult About()
+        {
+            return Content("关于页面");
+        }
+
+        public ActionResult Register()
+        {
+            return Content("注册相册");
+        }
+
+        public ActionResult Follow()
+        {
+            return Content("关注相册");
+        }
+
+        public ActionResult Invite()
+        {
+            return Content("邀请关注");
+        }
     }
 }

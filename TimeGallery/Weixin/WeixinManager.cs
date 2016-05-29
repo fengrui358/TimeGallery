@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Mvc;
 using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.Entities.Menu;
+using TimeGallery.Controllers;
+using TimeGallery.Helper;
 using TimeGallery.Interfaces;
 
 namespace TimeGallery.Weixin
@@ -63,25 +66,25 @@ namespace TimeGallery.Weixin
             var aboutSubBtn = new SingleViewButton
             {
                 name = "关于",
-                url = string.Join("/", _configurationManager.WebName, "Gallery", "About")
+                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.About))
             };
 
             var registerBtn = new SingleViewButton
             {
                 name = "注册相册",
-                url = string.Join("/", _configurationManager.WebName, "Gallery", "Register")
+                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.Register))
             };
 
             var followBtn = new SingleViewButton
             {
                 name = "关注相册",
-                url = string.Join("/", _configurationManager.WebName, "Gallery", "Follow")
+                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.Follow))
             };
 
             var inviteBtn = new SingleViewButton
             {
                 name = "邀请关注",
-                url = string.Join("/", _configurationManager.WebName, "Gallery", "Invite")
+                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.Invite))
             };
 
             aboutBtn.sub_button.Add(aboutSubBtn);
