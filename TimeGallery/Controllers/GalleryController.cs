@@ -81,7 +81,7 @@ namespace TimeGallery.Controllers
 
         public ActionResult About()
         {
-            return Content("关于页面");
+            return View();
         }
 
         public ActionResult Register()

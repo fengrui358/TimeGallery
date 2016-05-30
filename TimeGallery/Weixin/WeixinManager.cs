@@ -45,6 +45,9 @@ namespace TimeGallery.Weixin
         /// </summary>
         private void InitDefaultMenus()
         {
+            //todo:判断已有默认菜单是否一致，一致则不做修改
+            //todo:将菜单修改为配置
+
             var buttonGroup = new ButtonGroup();
 
             #region  第一个菜单
@@ -87,10 +90,10 @@ namespace TimeGallery.Weixin
                 url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.Invite))
             };
 
-            aboutBtn.sub_button.Add(aboutSubBtn);
             aboutBtn.sub_button.Add(registerBtn);
-            aboutBtn.sub_button.Add(followBtn);
             aboutBtn.sub_button.Add(inviteBtn);
+            aboutBtn.sub_button.Add(followBtn);
+            aboutBtn.sub_button.Add(aboutSubBtn);            
 
             buttonGroup.button.Add(aboutBtn);
 
