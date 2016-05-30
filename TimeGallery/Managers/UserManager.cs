@@ -46,6 +46,21 @@ namespace TimeGallery.Managers
             LogManager.GetCurrentClassLogger().Info($"用户管理器初始化完毕，当前用户共{_usersDictionary.Count}位");
         }
 
+        public UserModel GetUser(string openId)
+        {
+            if (string.IsNullOrEmpty(openId))
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+
+            if (_usersDictionary.ContainsKey(openId))
+            {
+                return _usersDictionary[openId];
+            }
+
+            return null;
+        }
+
         public async void AddUser(UserModel userModel)
         {
             if (userModel == null)

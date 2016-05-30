@@ -11,6 +11,13 @@ namespace TimeGallery.Interfaces
     public interface IUserManager : IManagerDependency
     {
         /// <summary>
+        /// 获取用户信息的拷贝
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        UserModel GetUser(string openId);
+
+        /// <summary>
         /// 添加用户
         /// </summary>
         /// <param name="userModel"></param>

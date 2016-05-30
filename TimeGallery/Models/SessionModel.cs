@@ -47,7 +47,7 @@ namespace TimeGallery.Models
         public DateTime LastRefreshTime
         {
             get { return _lastRefreshTime; }
-            set
+            private set
             {
                 _lastRefreshTime = value;
 
@@ -75,6 +75,11 @@ namespace TimeGallery.Models
 
             _expiresTimer = new Timer(ExpiresTimerHandler);
 
+            LastRefreshTime = DateTime.Now;
+        }
+
+        public void Refresh()
+        {
             LastRefreshTime = DateTime.Now;
         }
 

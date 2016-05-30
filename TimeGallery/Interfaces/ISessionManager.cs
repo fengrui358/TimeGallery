@@ -13,5 +13,7 @@ namespace TimeGallery.Interfaces
     public interface ISessionManager : IDependency
     {
         bool VerifySession(HttpContextBase httpContext);
+
+        void AddSession(string openId);
     }
 }

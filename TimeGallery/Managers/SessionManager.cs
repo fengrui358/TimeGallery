@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using System.Web.UI;
+using Newtonsoft.Json;
+using NLog;
 using TimeGallery.Consts;
 using TimeGallery.DataBase.Entity;
 using TimeGallery.Interfaces;
@@ -21,6 +23,8 @@ namespace TimeGallery.Managers
     public class SessionManager : ISessionManager
     {
         private readonly ConcurrentDictionary<Guid, SessionModel> _sessionDictionary = new ConcurrentDictionary<Guid, SessionModel>();
+        private readonly ConcurrentDictionary<string, Guid> _onLineUserDictionary = new ConcurrentDictionary<string, Guid>(); 
+
         private IUserManager _userManager;
 
         public SessionManager(IUserManager userManager)
@@ -40,7 +44,7 @@ namespace TimeGallery.Managers
                 var sessionGuid = (Guid) httpContext.Session[ConstInfos.SessionKey];
                 if (_sessionDictionary.ContainsKey(sessionGuid))
                 {
-                    _sessionDictionary[sessionGuid].LastRefreshTime = DateTime.Now;
+                    _sessionDictionary[sessionGuid].Refresh();
                     return true;
                 }
             }            
@@ -48,5 +52,57 @@ namespace TimeGallery.Managers
             return false;
         }
 
+        public void AddSession(string openId)
+        {
+            if (string.IsNullOrEmpty(openId))
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+
+            if (_onLineUserDictionary.ContainsKey(openId))
+            {
+                _sessionDictionary[_onLineUserDictionary[openId]].Refresh();
+            }
+            else
+            {
+                var user = _userManager.GetUser(openId);
+                if (user != null)
+                {
+                    var newSession = new SessionModel(user);
+                    newSession.ExpiresEvent += SessionOnExpiresEventHandler;
+
+                    if (!_sessionDictionary.TryAdd(newSession.Id, newSession) ||
+                        !_onLineUserDictionary.TryAdd(user.OpenId, newSession.Id))
+                    {
+                        LogManager.GetCurrentClassLogger()
+                        .Error($"用户Session添加失败，用户OpenId：{openId}");
+                    }
+                }
+            }            
+        }
+
+        private void SessionOnExpiresEventHandler(object sender, EventArgs eventArgs)
+        {
+            var session = (SessionModel) sender;
+            if (_sessionDictionary.ContainsKey(session.Id))
+            {
+                SessionModel outSession;
+                if (!_sessionDictionary.TryRemove(session.Id, out outSession))
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Error($"用户Session移除失败，相关信息：{JsonConvert.SerializeObject(session)}");
+                }
+            }
+
+            if (_onLineUserDictionary.ContainsKey(session.UserModel.OpenId))
+            {
+                Guid outGuid;
+                if (!_onLineUserDictionary.TryRemove(session.UserModel.OpenId, out outGuid))
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Error($"用户Session移除失败，相关信息：{JsonConvert.SerializeObject(session)}");
+                }
+            }
+        }
     }
 }

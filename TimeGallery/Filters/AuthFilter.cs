@@ -23,7 +23,6 @@ namespace TimeGallery.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-
             if (_isAuth)
             {
                 var controller = filterContext.Controller as Controller;
@@ -37,7 +36,7 @@ namespace TimeGallery.Filters
                             var redirectUrl = controller.Request.Url.ToString();
 
                             var url = OAuthApi.GetAuthorizeUrl(WeixinManager.AppId,
-                                SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.OAuth2ForBase)),
+                                SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.GetWeixinUserInfo)),
                                 redirectUrl,
                                 OAuthScope.snsapi_base);
 
