@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using Autofac;
+using TimeGallery.Helper;
+using TimeGallery.Interfaces;
 
 namespace TimeGallery.Models
 {
@@ -10,6 +13,29 @@ namespace TimeGallery.Models
     {
         private Timer _expiresTimer;
         private DateTime _lastRefreshTime;
+
+        /// <summary>
+        /// Session的有效保留时间
+        /// </summary>
+        private int SessionAvailableTime
+        {
+            get
+            {
+                var sessionAvailableTime =
+                    IocHelper.Container.Resolve<IConfigurationManager>().GetAppSetting("SessionAvailableTime");
+
+                int outSessionAvailableTime;
+                if (!string.IsNullOrEmpty(sessionAvailableTime) &&
+                    int.TryParse(sessionAvailableTime, out outSessionAvailableTime))
+                {
+                    return outSessionAvailableTime;
+                }
+                else
+                {
+                    return 1800;
+                }
+            }
+        }
 
         public Guid Id { get; private set; }
 
@@ -23,7 +49,12 @@ namespace TimeGallery.Models
             get { return _lastRefreshTime; }
             set
             {
-                
+                _lastRefreshTime = value;
+
+                //比要求时间延后10秒钟校验
+                _expiresTimer.Change(
+                    TimeSpan.FromSeconds(SessionAvailableTime).Add(TimeSpan.FromSeconds(10)),
+                    Timeout.InfiniteTimeSpan);
             }
         }
 
@@ -42,7 +73,7 @@ namespace TimeGallery.Models
             Id = Guid.NewGuid();
             UserModel = userModel;
 
-            _expiresTimer = new Timer(ExpiresTimerHandler, DateTime.Now, );
+            _expiresTimer = new Timer(ExpiresTimerHandler);
 
             LastRefreshTime = DateTime.Now;
         }
@@ -54,7 +85,11 @@ namespace TimeGallery.Models
 
         private void ExpiresTimerHandler(object state)
         {
-            
+            if (LastRefreshTime.AddSeconds(SessionAvailableTime) < DateTime.Now)
+            {
+                //到期清理
+                OnExpiresEvent();
+            }
         }
     }
 }

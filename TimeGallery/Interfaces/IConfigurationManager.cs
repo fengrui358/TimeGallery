@@ -9,7 +9,7 @@ namespace TimeGallery.Interfaces
 {
     public interface IConfigurationManager : IDependency
     {
-        string GetAppSetting(string key);
+        string GetAppSetting(string key);        
 
         ConnectionStringSettings GetConnectionString(string key = "");
 
