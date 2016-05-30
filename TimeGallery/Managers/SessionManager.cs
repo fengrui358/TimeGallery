@@ -38,16 +38,13 @@ namespace TimeGallery.Managers
         /// <param name="httpContext"></param>
         /// <returns></returns>
         public bool VerifySession(HttpContextBase httpContext)
-        {            
-            if (httpContext.Session[ConstInfos.SessionKey] != null)
+        {
+            var sessionGuid = GetSessionFromCookie(httpContext);
+            if (_sessionDictionary.ContainsKey(sessionGuid))
             {
-                var sessionGuid = (Guid) httpContext.Session[ConstInfos.SessionKey];
-                if (_sessionDictionary.ContainsKey(sessionGuid))
-                {
-                    _sessionDictionary[sessionGuid].Refresh();
-                    return true;
-                }
-            }            
+                _sessionDictionary[sessionGuid].Refresh();
+                return true;
+            }
 
             return false;
         }
@@ -73,6 +70,17 @@ namespace TimeGallery.Managers
                     var newSession = new SessionModel(user);
                     newSession.ExpiresEvent += SessionOnExpiresEventHandler;
 
+                    //判断是该用户是否有服务端还没过期的Session记录，有则清除
+                    if (_onLineUserDictionary.ContainsKey(user.OpenId))
+                    {                        
+                        Guid existSessionId;
+                        if (_onLineUserDictionary.TryRemove(user.OpenId, out existSessionId))
+                        {
+                            SessionModel outSession;
+                            _sessionDictionary.TryRemove(existSessionId, out outSession);
+                        }
+                    }
+
                     if (!_sessionDictionary.TryAdd(newSession.Id, newSession) ||
                         !_onLineUserDictionary.TryAdd(user.OpenId, newSession.Id))
                     {
@@ -81,6 +89,40 @@ namespace TimeGallery.Managers
                     }
 
                     return newSession.Id;
+                }
+            }
+
+            return Guid.Empty;
+        }
+
+        public UserModel GetOnlineUser(Guid sessionId)
+        {
+            if (sessionId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(sessionId));
+            }
+
+            if (_sessionDictionary.ContainsKey(sessionId))
+            {
+                return _sessionDictionary[sessionId].UserModel;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 从Cookie当中获取Session值
+        /// </summary>
+        /// <param name="httpContextBase"></param>
+        /// <returns>如果不存在则返回Guid.Empty</returns>
+        public Guid GetSessionFromCookie(HttpContextBase httpContextBase)
+        {
+            if (httpContextBase.Session[ConstInfos.SessionKey] != null)
+            {
+                Guid outGuid;
+                if (Guid.TryParse(httpContextBase.Session[ConstInfos.SessionKey].ToString(), out outGuid))
+                {
+                    return outGuid;
                 }
             }
 

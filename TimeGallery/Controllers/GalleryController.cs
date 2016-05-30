@@ -27,21 +27,17 @@ using TimeGallery.Weixin;
 namespace TimeGallery.Controllers
 {
     [AuthFilter]
-    public class GalleryController : Controller
+    public class GalleryController : ControllerBase
     {
-        private IConfigurationManager _configurationManager;
-        private ISessionManager _sessionManager;
-
-        public GalleryController(IConfigurationManager configurationManager, ISessionManager sessionManager)
+        public GalleryController(IConfigurationManager configurationManager, IUserManager userManager,
+            ISessionManager sessionManager, IGalleryManager galleryManager) : base(configurationManager, userManager, sessionManager, galleryManager)
         {
-            _configurationManager = configurationManager;
-            _sessionManager = sessionManager;
         }
 
         // GET: Gallery
         public ActionResult Index()
         {
-            ViewBag.Title = _configurationManager.WebTitle;
+            ViewBag.Title = ConfigurationManager.WebTitle;
             var contents = StorageHelper.Search(DateTime.Now);
 
             var result = from content in contents
@@ -86,6 +82,9 @@ namespace TimeGallery.Controllers
 
         public ActionResult Register()
         {
+            var userModel = GetUser();
+
+
             return Content("注册相册");
         }
 
