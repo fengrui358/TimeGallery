@@ -52,7 +52,7 @@ namespace TimeGallery.Managers
             return false;
         }
 
-        public void AddSession(string openId)
+        public Guid AddSession(string openId)
         {
             if (string.IsNullOrEmpty(openId))
             {
@@ -62,6 +62,8 @@ namespace TimeGallery.Managers
             if (_onLineUserDictionary.ContainsKey(openId))
             {
                 _sessionDictionary[_onLineUserDictionary[openId]].Refresh();
+
+                return _onLineUserDictionary[openId];
             }
             else
             {
@@ -77,8 +79,12 @@ namespace TimeGallery.Managers
                         LogManager.GetCurrentClassLogger()
                         .Error($"用户Session添加失败，用户OpenId：{openId}");
                     }
+
+                    return newSession.Id;
                 }
-            }            
+            }
+
+            return Guid.Empty;
         }
 
         private void SessionOnExpiresEventHandler(object sender, EventArgs eventArgs)

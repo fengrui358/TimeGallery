@@ -14,6 +14,6 @@ namespace TimeGallery.Interfaces
     {
         bool VerifySession(HttpContextBase httpContext);
 
-        void AddSession(string openId);
+        Guid AddSession(string openId);
     }
 }

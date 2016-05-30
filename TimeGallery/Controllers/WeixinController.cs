@@ -16,13 +16,14 @@ using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.Request;
 using Senparc.Weixin.MP.MvcExtension;
+using TimeGallery.Consts;
 using TimeGallery.Interfaces;
 using TimeGallery.Models;
 using TimeGallery.Weixin;
 
 namespace TimeGallery.Controllers
 {
-    public class WeixinController : AsyncController
+    public class WeixinController : Controller
     {
         private readonly IConfigurationManager _configurationManager;
         private readonly ISessionManager _sessionManager;
@@ -39,21 +40,18 @@ namespace TimeGallery.Controllers
 
         [HttpGet]
         [ActionName("Index")]
-        public Task<ActionResult> Index(PostModel postModel, string echostr)
+        public ActionResult Index(PostModel postModel, string echostr)
         {
-            return Task.Run(() =>
+            if (CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, WeixinManager.Token))
             {
-                if (CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, WeixinManager.Token))
-                {
-                    return Content(echostr); //返回随机字符串则表示验证通过
-                }
-                else
-                {
-                    return
-                        Content(
-                            $"failed: {postModel.Signature}, {CheckSignature.GetSignature(postModel.Timestamp, postModel.Nonce, WeixinManager.Token)} 如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
-                }
-            }).ContinueWith<ActionResult>(task => task.Result);
+                return Content(echostr); //返回随机字符串则表示验证通过
+            }
+            else
+            {
+                return
+                    Content(
+                        $"failed: {postModel.Signature}, {CheckSignature.GetSignature(postModel.Timestamp, postModel.Nonce, WeixinManager.Token)} 如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
+            }
         }
 
         /// <summary>
@@ -193,7 +191,7 @@ namespace TimeGallery.Controllers
         //        "http://fengrui358.vicp.cc/TimeGallery/Weixin/GetWeixinUserInfo", redirectUrl, OAuthScope.snsapi_userinfo);
 
         //    return Redirect(url);
-        //}
+        //}        
 
         /// <summary>
         /// 网页授权回调页面
@@ -203,12 +201,7 @@ namespace TimeGallery.Controllers
         /// <returns></returns>
         public async Task<ActionResult> GetWeixinUserInfo(string code, string state)
         {
-            return Task.Run(() =>
-            {
-                return Content("asdfa");
-            }).ContinueWith<ActionResult>(task => task.Result);
-
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 if (string.IsNullOrEmpty(code))
                 {
@@ -240,19 +233,17 @@ namespace TimeGallery.Controllers
                 //因为这里还不确定用户是否关注本微信，所以只能试探性地获取一下
                 //OAuthUserInfo userInfo = null;
 
-                WeixinUserInfoResult weixinUserInfo;
-
                 try
                 {
                     //已关注，可以得到详细信息
                     //userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);                
-                    weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, result.openid);
-                    _userManager.TryUpdateUserInfo((UserModel) weixinUserInfo);
+                    _userManager.TryUpdateUserInfo(result.openid);
 
                     //新增Session
-                    _sessionManager.AddSession(result.openid);
+                    var sessionId = _sessionManager.AddSession(result.openid);
+                    Session[ConstInfos.SessionKey] = sessionId;
 
-                    return Redirect(state);
+                    return (ActionResult) Redirect(state);
                 }
                 catch (ErrorJsonResultException ex)
                 {
@@ -264,7 +255,7 @@ namespace TimeGallery.Controllers
 
                     return Content("内部错误");
                 }
-            });
+            }).ContinueWith(task => task.Result);
         }
 
         #endregion

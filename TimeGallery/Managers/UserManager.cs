@@ -131,8 +131,8 @@ namespace TimeGallery.Managers
                         .Info(
                             $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject(userModel)}");
 
-                    user.LastUpDateTime = DateTime.Now;
                     TinyMapper.Map(userModel, user);
+                    user.LastUpDateTime = DateTime.Now;
 
                     using (var con = StorageHelper.GetConnection())
                     {
@@ -169,8 +169,6 @@ namespace TimeGallery.Managers
 
                 if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
                 {
-                    user.LastUpDateTime = DateTime.Now;
-
                     //向微信服务器获取用户信息
                     //获取用户信息            
                     var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
@@ -182,6 +180,7 @@ namespace TimeGallery.Managers
                     if (weixinUserInfo != null)
                     {
                         TinyMapper.Map((UserModel)weixinUserInfo, user);
+                        user.LastUpDateTime = DateTime.Now;
 
                         using (var con = StorageHelper.GetConnection())
                         {
