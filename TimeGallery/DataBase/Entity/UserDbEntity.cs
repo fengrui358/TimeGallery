@@ -29,6 +29,12 @@ namespace TimeGallery.DataBase.Entity
         public virtual string Name { get; set; }
 
         /// <summary>
+        /// 用户的加入平台的时间序号
+        /// </summary>
+        [NotMapped]
+        public virtual int OrderNumber { get; set; }
+
+        /// <summary>
         /// 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
         /// </summary>
         public virtual UserSexTypeDefine Sex { get; set; }

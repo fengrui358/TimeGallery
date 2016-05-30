@@ -17,7 +17,7 @@ namespace TimeGallery.Managers
 
         public void Init()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

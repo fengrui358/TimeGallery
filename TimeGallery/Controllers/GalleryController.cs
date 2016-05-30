@@ -83,9 +83,15 @@ namespace TimeGallery.Controllers
         public ActionResult Register()
         {
             var userModel = GetUser();
-
+            
+            //判断是否存在已注册的相册
 
             return Content("注册相册");
+        }
+
+        public ActionResult Manager()
+        {
+            return Content("管理相册");
         }
 
         public ActionResult Follow()

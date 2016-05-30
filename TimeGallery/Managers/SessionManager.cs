@@ -23,6 +23,10 @@ namespace TimeGallery.Managers
     public class SessionManager : ISessionManager
     {
         private readonly ConcurrentDictionary<Guid, SessionModel> _sessionDictionary = new ConcurrentDictionary<Guid, SessionModel>();
+
+        /// <summary>
+        /// 在线用户，此处在线只是网页在线，并不是指在公众号的会话当中
+        /// </summary>
         private readonly ConcurrentDictionary<string, Guid> _onLineUserDictionary = new ConcurrentDictionary<string, Guid>(); 
 
         private IUserManager _userManager;
