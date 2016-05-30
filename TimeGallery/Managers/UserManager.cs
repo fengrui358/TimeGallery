@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using Dapper;
 using Dapper.FastCrud;
 using Nelibur.ObjectMapper;
 using Newtonsoft.Json;
@@ -19,7 +18,7 @@ namespace TimeGallery.Managers
     public class UserManager : IUserManager
     {
         private readonly IConfigurationManager _configurationManager;
-        private Dictionary<string, UserModel> _usersDictionary;
+        private ConcurrentDictionary<string, UserModel> _usersDictionary;
 
         public UserManager(IConfigurationManager configurationManager)
         {
@@ -42,7 +41,7 @@ namespace TimeGallery.Managers
                 users = con.Find<UserModel>();
             }
 
-            _usersDictionary = users.ToDictionary(s => s.OpenId);
+            _usersDictionary = new ConcurrentDictionary<string, UserModel>(users.ToDictionary(s => s.OpenId));
 
             LogManager.GetCurrentClassLogger().Info($"用户管理器初始化完毕，当前用户共{_usersDictionary.Count}位");
         }
@@ -57,16 +56,22 @@ namespace TimeGallery.Managers
             if (!_usersDictionary.ContainsKey(userModel.OpenId))
             {
                 //添加新用户信息到缓存字典
-                _usersDictionary.Add(userModel.OpenId, userModel);
-                LogManager.GetCurrentClassLogger().Info($"新增用户：{JsonConvert.SerializeObject(userModel)}");
-
-                await Task.Run(async () =>
+                if (_usersDictionary.TryAdd(userModel.OpenId, userModel))
                 {
-                    using (var con = StorageHelper.GetConnection())
+                    LogManager.GetCurrentClassLogger().Info($"新增用户：{JsonConvert.SerializeObject(userModel)}");
+
+                    await Task.Run(async () =>
                     {
-                        await con.InsertAsync(userModel);
-                    }
-                });
+                        using (var con = StorageHelper.GetConnection())
+                        {
+                            await con.InsertAsync(userModel);
+                        }
+                    });
+                }
+                else
+                {
+                    LogManager.GetCurrentClassLogger().Error($"新增用户失败：{JsonConvert.SerializeObject(userModel)}");
+                }
             }
             else
             {
