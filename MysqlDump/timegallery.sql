@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `gallery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gallery` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL DEFAULT '0',
   `Cover` varchar(50) DEFAULT '0',
   `CreateTime` datetime NOT NULL,
@@ -102,6 +102,30 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,1,'free',0,NULL,'0','\0','\0','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `user_gallery_rel`
+--
+
+DROP TABLE IF EXISTS `user_gallery_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_gallery_rel` (
+  `OpenId` char(28) NOT NULL COMMENT '用户openId',
+  `GalleryId` bigint(20) NOT NULL COMMENT '相册Id',
+  `RelationType` tinyint(4) NOT NULL COMMENT '关系：1为关注者，2为上传管理员，4为相册管理员',
+  PRIMARY KEY (`OpenId`,`GalleryId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户和相册的关系表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_gallery_rel`
+--
+
+LOCK TABLES `user_gallery_rel` WRITE;
+/*!40000 ALTER TABLE `user_gallery_rel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_gallery_rel` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -112,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-30 23:51:09
+-- Dump completed on 2016-05-31 11:33:25
