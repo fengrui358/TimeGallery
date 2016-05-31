@@ -416,6 +416,7 @@
     <Content Include="Views\Gallery\Upload.cshtml" />
     <Content Include="Scripts\Qiniu\dist\qiniu.min.map" />
     <None Include="Views\Gallery\About.cshtml" />
+    <Content Include="Views\Shared\_GalleryLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

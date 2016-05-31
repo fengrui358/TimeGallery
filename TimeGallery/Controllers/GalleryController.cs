@@ -20,6 +20,7 @@ using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using TimeGallery.DataBase;
 using TimeGallery.DataBase.Entity;
+using TimeGallery.Enums;
 using TimeGallery.Filters;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
@@ -98,10 +99,18 @@ namespace TimeGallery.Controllers
         }
 
         public ActionResult Register()
-        {
-            var userModel = GetUser();
-            
+        {            
             //判断是否存在已注册的相册
+            var gallery = GalleryManager.GetGalleryModel(CurrentUserModel.OpenId, UserGalleryRelTypeDefine.Owner);
+            if (gallery != null)
+            {
+                //相册已存在，导航到管理相册页面
+                return RedirectToAction(nameof(Manager));
+            }
+            else
+            {
+                return View();
+            }
 
             return Content("注册相册");
         }
