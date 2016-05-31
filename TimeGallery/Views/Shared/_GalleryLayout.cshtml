@@ -18,12 +18,14 @@
                }
            }</title>
 </head>
-<body>    
-    <div class="container body-content">
+<body>
+@*<div class="container body-content">*@
+    <div>
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - @ConfigHelper.WebTitle</p>
+            <p class="text-center">&copy; @DateTime.Now.Year - @ConfigHelper.WebTitle</p>
+            <p class="text-center">记录美妙时光</p>
         </footer>
     </div>
 

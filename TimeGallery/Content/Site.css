@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 30px;
     padding-bottom: 20px;
 }
 
@@ -37,10 +37,10 @@ li.content-item {
     margin-bottom: 10px;
 }
 
-/*.page-title {
+.page-title {
     color: #225fba;
     text-align: center;
     font-size: 34px;
     font-weight: 400;
-    margin: 15%;
-}*/
+    margin: 5%;
+}
