@@ -21,7 +21,12 @@ namespace TimeGallery.Managers
         /// <summary>
         /// 用户拥有的相册
         /// </summary>
-        private ConcurrentDictionary<string, IEnumerable<GalleryModel>> _userGalleries; 
+        private ConcurrentDictionary<string, IEnumerable<UserGalleryRelDbEntity>> _userGalleries;
+
+        /// <summary>
+        /// 相册对应的用户
+        /// </summary>
+        private ConcurrentDictionary<long, IEnumerable<UserModel>> _galleryUsers;
 
         public GalleryManager(IUserManager userManager)
         {
@@ -47,6 +52,8 @@ namespace TimeGallery.Managers
                 userGalleryRelDbEntities = con.Find<UserGalleryRelDbEntity>();
             }
 
+            #region 找出用户对应的相册
+
             var userGroup = from userGalleryRel in userGalleryRelDbEntities
                 group userGalleryRel by userGalleryRel.OpenId
                 into g
@@ -54,10 +61,10 @@ namespace TimeGallery.Managers
 
             var userGalleries = userGroup.ToDictionary(s => s.OpenId, s => s.Galleries.SelectMany(g =>
             {
-                var tempGalleries = new List<GalleryModel>();
+                var tempGalleries = new List<UserGalleryRelDbEntity>();
                 if (_galleryModelsDictionary.ContainsKey(g.GalleryId))
                 {
-                    tempGalleries.Add(_galleryModelsDictionary[g.GalleryId]);
+                    tempGalleries.Add(g);
                 }
                 else
                 {
@@ -66,7 +73,36 @@ namespace TimeGallery.Managers
 
                 return tempGalleries;
             }));
-            _userGalleries = new ConcurrentDictionary<string, IEnumerable<GalleryModel>>(userGalleries);
+            _userGalleries = new ConcurrentDictionary<string, IEnumerable<UserGalleryRelDbEntity>>(userGalleries);
+
+            #endregion
+
+            #region 找出相册对应的用户
+
+            var galleryGroup = from userGalleryRel in userGalleryRelDbEntities
+                group userGalleryRel by userGalleryRel.GalleryId
+                into g
+                select new {GalleryId = g.Key, Users = g.OrderByDescending(s => s.UserGalleryRelType)};
+
+            var galleryUsers = galleryGroup.ToDictionary(s => s.GalleryId, s => s.Users.SelectMany(u =>
+            {
+                var tempUsers = new List<UserModel>();
+                var user = _userManager.GetUser(u.OpenId);
+                if (user != null)
+                {
+                    tempUsers.Add(user);
+                }
+                else
+                {
+                    LogManager.GetCurrentClassLogger().Error($"相册Id：{u.GalleryId}中没找到对应的用户：{u.OpenId}");
+                }
+
+                return tempUsers;
+            }));
+
+            _galleryUsers = new ConcurrentDictionary<long, IEnumerable<UserModel>>(galleryUsers);
+
+            #endregion
 
             LogManager.GetCurrentClassLogger().Info($"相册管理器初始化完毕，当前相册共{_galleryModelsDictionary.Count}本");
         }
