@@ -8,6 +8,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using Autofac;
+using Dapper.FastCrud;
 using NLog;
 using Qiniu.Conf;
 using Qiniu.IO;
@@ -18,6 +19,7 @@ using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using TimeGallery.DataBase;
+using TimeGallery.DataBase.Entity;
 using TimeGallery.Filters;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
@@ -35,10 +37,15 @@ namespace TimeGallery.Controllers
         }
 
         // GET: Gallery
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             ViewBag.Title = ConfigurationManager.WebTitle;
-            var contents = StorageHelper.Search(DateTime.Now);
+
+            IEnumerable<ContentDbEntity> contents = new List<ContentDbEntity>();
+            using (var con = StorageHelper.GetConnection())
+            {
+                contents = await con.FindAsync<ContentDbEntity>();
+            }               
 
             var result = from content in contents
                 let t = content.CreateTime
@@ -68,11 +75,21 @@ namespace TimeGallery.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddContent(AddContentModel addContentModel)
+        public async Task<ActionResult> AddContent(AddContentModel addContentModel)
         {
-            var result = StorageHelper.InsertContent(addContentModel);
+            var result = false;
+            using (var con = StorageHelper.GetConnection())
+            {
+                var content = (ContentDbEntity) addContentModel;
+                await con.InsertAsync(content);
 
-            return Json(new {success = result});
+                if (content.Id > 0)
+                {
+                    result = true;
+                }
+            }
+
+            return Json(new {success = result });
         }
 
         public ActionResult About()

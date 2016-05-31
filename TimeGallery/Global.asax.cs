@@ -34,7 +34,7 @@ namespace TimeGallery
         private void InitManagers()
         {
             IocHelper.Container.Resolve<IUserManager>().Init();
-
+            IocHelper.Container.Resolve<IGalleryManager>().Init();
             IocHelper.Container.Resolve<IWeixinManager>().Init();
         }
     }

@@ -22,7 +22,7 @@ namespace TimeGallery.Models
             CreateTime = DateTime.Now;
         }
 
-        public static implicit operator ContentDbEntity(AddContentModel addContentModel)
+        public static explicit operator ContentDbEntity(AddContentModel addContentModel)
         {
             return new ContentDbEntity
             {

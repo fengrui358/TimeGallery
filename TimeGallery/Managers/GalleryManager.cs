@@ -7,6 +7,7 @@ using Dapper.FastCrud;
 using NLog;
 using TimeGallery.DataBase;
 using TimeGallery.DataBase.Entity;
+using TimeGallery.Enums;
 using TimeGallery.Interfaces;
 using TimeGallery.Models;
 using WebGrease.Css.Extensions;
@@ -105,6 +106,79 @@ namespace TimeGallery.Managers
             #endregion
 
             LogManager.GetCurrentClassLogger().Info($"相册管理器初始化完毕，当前相册共{_galleryModelsDictionary.Count}本");
+        }
+
+        public GalleryModel GetGalleryModel(long galleryId)
+        {
+            if (_galleryModelsDictionary.ContainsKey(galleryId))
+            {
+                return _galleryModelsDictionary[galleryId];
+            }
+
+            return null;
+        }
+
+        public IEnumerable<GalleryModel> GetGalleryModel(string openId,
+            UserGalleryRelTypeDefine userGalleryRelType = UserGalleryRelTypeDefine.Follower)
+        {
+            if (string.IsNullOrEmpty(openId))
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+
+            var result = new List<GalleryModel>();
+            if (_userGalleries.ContainsKey(openId))
+            {
+                var userGalleryRels = _userGalleries[openId];
+                if (userGalleryRelType == UserGalleryRelTypeDefine.Owner)
+                {
+                    var galleryIds =
+                        userGalleryRels.Where(s => s.UserGalleryRelType == UserGalleryRelTypeDefine.Owner)
+                            .Select(s => new {s.GalleryId}).ToList();
+
+                    //一个用户不能拥有超过一个相册
+                    if (galleryIds.Count() > 1)
+                    {
+                        throw new Exception($"用户：{openId}拥有来超过一个相册");
+                    }
+
+                    if (galleryIds.Any())
+                    {
+                        result.Add(GetGalleryModel(galleryIds.First().GalleryId));
+                    }                    
+                }
+                else if (userGalleryRelType == UserGalleryRelTypeDefine.Manager)
+                {
+                    var galleryIds =
+                        userGalleryRels.Where(
+                            s =>
+                                s.UserGalleryRelType == UserGalleryRelTypeDefine.Owner ||
+                                s.UserGalleryRelType == UserGalleryRelTypeDefine.Manager)
+                            .Select(s => new {s.GalleryId}).ToList();
+
+                    if (galleryIds.Any())
+                    {
+                        result.AddRange(galleryIds.Select(galleryId => GetGalleryModel(galleryId.GalleryId)));
+                    }
+                }
+                else if (userGalleryRelType == UserGalleryRelTypeDefine.Owner)
+                {
+                    var galleryIds =
+                        userGalleryRels.Where(
+                            s =>
+                                s.UserGalleryRelType == UserGalleryRelTypeDefine.Owner ||
+                                s.UserGalleryRelType == UserGalleryRelTypeDefine.Manager ||
+                                s.UserGalleryRelType == UserGalleryRelTypeDefine.Follower)
+                            .Select(s => new {s.GalleryId}).ToList();
+
+                    if (galleryIds.Any())
+                    {
+                        result.AddRange(galleryIds.Select(galleryId => GetGalleryModel(galleryId.GalleryId)));
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

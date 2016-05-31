@@ -113,7 +113,7 @@ DROP TABLE IF EXISTS `user_gallery_rel`;
 CREATE TABLE `user_gallery_rel` (
   `OpenId` char(28) NOT NULL COMMENT '用户openId',
   `GalleryId` bigint(20) NOT NULL COMMENT '相册Id',
-  `RelationType` tinyint(4) NOT NULL COMMENT '关系：1为关注者，2为上传管理员，4为相册管理员',
+  `UserGalleryRelType` tinyint(4) NOT NULL COMMENT '关系：1为关注者，2为上传管理员，4为相册管理员',
   PRIMARY KEY (`OpenId`,`GalleryId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户和相册的关系表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-31 11:33:25
+-- Dump completed on 2016-05-31 14:07:03
