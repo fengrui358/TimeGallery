@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper.FastCrud;
 using Senparc.Weixin.Annotations;
 
 namespace TimeGallery.DataBase.Entity
@@ -20,22 +21,12 @@ namespace TimeGallery.DataBase.Entity
 
         public virtual string Url { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGeneratedDefaultValue]
         public virtual DateTime CreateTime { get; set; }
 
         public virtual string Size { get; set; }
 
         public virtual string Description { get; set; }
-
-        public static string SearchAllSql()
-        {
-            return "SELECT * FROM `timegallery`.`content` LIMIT 1000;";
-        }
-
-        public static string InsertSql()
-        {
-            return
-                "INSERT INTO `timegallery`.`content` (`Type`, `Url`, `CreateTime`, `Size`, `Description`) VALUES (@Type, @Url, @CreateTime, @Size, @Description);";
-        }
     }
 }

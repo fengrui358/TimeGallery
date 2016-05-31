@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.EnterpriseServices.Internal;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,6 @@ namespace TimeGallery.Interfaces
         /// 尝试更新用户信息
         /// </summary>
         /// <param name="openId"></param>
-        void TryUpdateUserInfo(string openId);
+        void TryUpdateUserInfo(string openId);        
     }
 }
