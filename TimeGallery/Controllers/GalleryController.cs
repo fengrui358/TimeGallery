@@ -102,7 +102,7 @@ namespace TimeGallery.Controllers
         {            
             //判断是否存在已注册的相册
             var gallery = GalleryManager.GetGalleryModel(CurrentUserModel.OpenId, UserGalleryRelTypeDefine.Owner);
-            if (gallery != null)
+            if (gallery.Any())
             {
                 //相册已存在，导航到管理相册页面
                 return RedirectToAction(nameof(Manager));
@@ -111,8 +111,6 @@ namespace TimeGallery.Controllers
             {
                 return View();
             }
-
-            return Content("注册相册");
         }
 
         public ActionResult Manager()

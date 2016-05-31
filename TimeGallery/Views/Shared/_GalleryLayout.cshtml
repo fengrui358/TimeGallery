@@ -6,8 +6,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     @Styles.Render("~/Content/css")
-    <link ref="stylesheet" href="//res.wx.qq.com/open/libs/weui/0.4.2/weui.min.css">
-    <title>@ConfigHelper.WebTitle</title>
+    @*<link ref="stylesheet" href="//res.wx.qq.com/open/libs/weui/0.4.2/weui.min.css">*@
+    <title>@{
+               if (!ViewData.ContainsKey("Title"))
+               {
+                   @ConfigHelper.WebTitle
+               }
+               else
+               {
+                   @ViewBag.Title
+               }
+           }</title>
 </head>
 <body>    
     <div class="container body-content">

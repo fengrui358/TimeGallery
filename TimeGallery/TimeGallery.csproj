@@ -279,6 +279,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\weui\dist\style\weui.css" />
+    <Content Include="Content\weui\dist\style\weui.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -286,6 +288,7 @@
     <Content Include="images\loading.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Gallery\Register.js" />
     <Content Include="Scripts\Gallery\Upload.js" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -417,6 +420,7 @@
     <Content Include="Scripts\Qiniu\dist\qiniu.min.map" />
     <None Include="Views\Gallery\About.cshtml" />
     <Content Include="Views\Shared\_GalleryLayout.cshtml" />
+    <None Include="Views\Gallery\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -446,9 +450,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.50.164/TimeGallery</IISUrl>
+          <IISUrl>http://192.168.1.80/TimeGallery</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://192.168.50.164/TimeGallery</IISAppRootUrl>
+          <IISAppRootUrl>http://192.168.1.80/TimeGallery</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

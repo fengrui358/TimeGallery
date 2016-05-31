@@ -25,6 +25,7 @@ namespace TimeGallery
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
+                "~/Content/weui/dist/style/weui.css",
                 "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/plupload").Include("~/Scripts/plupload/plupload*",
