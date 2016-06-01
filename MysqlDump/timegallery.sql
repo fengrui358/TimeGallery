@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE `gallery` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL DEFAULT '0',
+  `Description` varchar(400) DEFAULT '0',
   `Cover` varchar(50) DEFAULT '0',
   `CreateTime` datetime NOT NULL,
   PRIMARY KEY (`Id`)
@@ -136,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-31 14:41:05
+-- Dump completed on 2016-06-01 16:56:28

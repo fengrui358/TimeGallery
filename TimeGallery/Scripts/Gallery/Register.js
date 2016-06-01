@@ -23,4 +23,8 @@
             }
         }, "json");
     });
+
+    //$('.weui_msg .weui_btn_default').on('click', function() {
+    //    window.close();
+    //});
 });
