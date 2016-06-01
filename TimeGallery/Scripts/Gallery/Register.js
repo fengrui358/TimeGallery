@@ -24,7 +24,8 @@
         }, "json");
     });
 
+    //todo:移除关闭方法
     //$('.weui_msg .weui_btn_default').on('click', function() {
-    //    window.close();
+    //    $.closePage();
     //});
 });
