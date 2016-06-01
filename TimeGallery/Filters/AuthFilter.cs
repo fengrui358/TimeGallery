@@ -38,7 +38,7 @@ namespace TimeGallery.Filters
                             var url = OAuthApi.GetAuthorizeUrl(WeixinManager.AppId,
                                 SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.GetWeixinUserInfo)),
                                 redirectUrl,
-                                OAuthScope.snsapi_base);
+                                OAuthScope.snsapi_userinfo);
 
                             filterContext.Result = new RedirectResult(url);
                         }

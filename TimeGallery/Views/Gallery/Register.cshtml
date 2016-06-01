@@ -13,7 +13,7 @@
                 <label class="weui_label">相册名</label>
             </div>
             <div class="weui_cell_bd weui_cell_primary">
-                <input class="weui_input" type="text" placeholder="请输入相册名">
+                <input id="galleryName" class="weui_input" type="text" placeholder="请输入相册名">
             </div>
         </div>
         <div class="weui_cell">
@@ -21,7 +21,7 @@
                 <label class="weui_label">相册描述</label>
             </div>
             <div class="weui_cell_bd weui_cell_primary">
-                <textarea class="weui_textarea" placeholder="请输入相册描述" rows="3"></textarea>
+                <textarea id="galleryDes" class="weui_textarea" placeholder="请输入相册描述" rows="3"></textarea>
                 <div class="weui_textarea_counter"><span>0</span>/200
                 </div>
             </div>
@@ -32,3 +32,7 @@
         <a class="weui_btn weui_btn_primary">确定</a>
     </div>
 </div>
+@section scripts
+{
+    @Scripts.Render("~/Scripts/Gallery/Register.js")
+}

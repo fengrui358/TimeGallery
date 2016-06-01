@@ -56,6 +56,12 @@ namespace TimeGallery.Controllers
 
             return View(result);
         }
+        
+        //[AuthFilter(false)]
+        //public ActionResult Index(long galleryId)
+        //{
+        //    return null;
+        //}
 
         public ActionResult Upload()
         {
