@@ -140,7 +140,7 @@ namespace TimeGallery.Controllers
             {
                 //todo:执行新建相册的相关操作
 
-                var result = new RequestResult(RequestResultTypeDefine.Success, "操作成功，你创建的是平台的第10000个相册");
+                var result = new RequestResult(RequestResultTypeDefine.Success, "点击确定可立即开始上传文件");
 
                 return Content(JsonConvert.SerializeObject(result));
             }
