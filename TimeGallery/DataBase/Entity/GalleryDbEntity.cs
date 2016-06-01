@@ -17,6 +17,8 @@ namespace TimeGallery.DataBase.Entity
 
         public virtual string Name { get; set; }
 
+        public virtual string Description { get; set; }
+
         /// <summary>
         /// 封面Url
         /// </summary>

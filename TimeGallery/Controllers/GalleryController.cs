@@ -9,12 +9,14 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using Autofac;
 using Dapper.FastCrud;
+using Newtonsoft.Json;
 using NLog;
 using Qiniu.Conf;
 using Qiniu.IO;
 using Qiniu.RS;
 using Senparc.Weixin;
 using Senparc.Weixin.Exceptions;
+using Senparc.Weixin.HttpUtility;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
@@ -25,6 +27,7 @@ using TimeGallery.Filters;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
 using TimeGallery.Models;
+using TimeGallery.Models.Javascript;
 using TimeGallery.Weixin;
 
 namespace TimeGallery.Controllers
@@ -116,6 +119,30 @@ namespace TimeGallery.Controllers
             else
             {
                 return View();
+            }
+        }
+        
+        [HttpPost]        
+        public ActionResult RegisterSubmit(GalleryModel galleryModel)
+        {
+            if (galleryModel == null)
+            {
+                throw new ArgumentNullException(nameof(galleryModel));
+            }
+
+            if (string.IsNullOrEmpty(galleryModel.Name))
+            {
+                var result = new RequestResult(RequestResultTypeDefine.Error, "相册名不能为空");               
+
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            else
+            {
+                //todo:执行新建相册的相关操作
+
+                var result = new RequestResult(RequestResultTypeDefine.Success, "操作成功，你创建的是平台的第10000个相册");
+
+                return Content(JsonConvert.SerializeObject(result));
             }
         }
 
