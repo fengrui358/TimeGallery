@@ -2,6 +2,7 @@
 using Autofac;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
+using TimeGallery.Consts;
 using TimeGallery.Controllers;
 using TimeGallery.Helper;
 using TimeGallery.Interfaces;
@@ -23,6 +24,13 @@ namespace TimeGallery.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+#if DEBUG
+            //todo:测试代码，替换账号
+            //使用fengrui的微信号作为测试账号，openId="oIKlFw0yLVagA1nNfEegqP_2o6Bs"
+            var sessionId = IocHelper.Container.Resolve<ISessionManager>().AddSession("oIKlFw0yLVagA1nNfEegqP_2o6Bs");
+            ((Controller) filterContext.Controller).Session[ConstInfos.SessionKey] = sessionId;
+#endif
+
             if (_isAuth)
             {
                 var controller = filterContext.Controller as Controller;
