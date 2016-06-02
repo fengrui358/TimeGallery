@@ -1,5 +1,8 @@
 ﻿$(function() {
-    $('#registerSubmit').on('click', function() {
+    $('#registerSubmit').on('click', function () {
+        var ss = $('.weui_uploader_input');
+
+
         var galleryName = $('#galleryName').val();
         if (galleryName == null || galleryName === '') {
             $.showWarning("相册名不能为空");
