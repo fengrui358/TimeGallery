@@ -73,13 +73,12 @@ namespace TimeGallery.Managers
                 //添加新用户信息到缓存字典
                 if (_usersDictionary.TryAdd(userModel.OpenId, userModel))
                 {
-                    LogManager.GetCurrentClassLogger().Info($"新增用户：{JsonConvert.SerializeObject(userModel)}");
-
                     await Task.Run(async () =>
                     {
                         using (var con = StorageHelper.GetConnection())
                         {
                             await con.InsertAsync(userModel);
+                            LogManager.GetCurrentClassLogger().Info($"新增用户：{JsonConvert.SerializeObject(userModel)}");
                         }
                     });
                 }
@@ -87,10 +86,6 @@ namespace TimeGallery.Managers
                 {
                     LogManager.GetCurrentClassLogger().Error($"新增用户失败：{JsonConvert.SerializeObject(userModel)}");
                 }
-            }
-            else
-            {
-                TryUpdateUserInfo(userModel);
             }
         }
 

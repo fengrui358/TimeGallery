@@ -452,9 +452,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.50.164/TimeGallery</IISUrl>
+          <IISUrl>http://192.168.1.80/TimeGallery</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://192.168.50.164/TimeGallery</IISAppRootUrl>
+          <IISAppRootUrl>http://192.168.1.80/TimeGallery</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -236,7 +236,7 @@ namespace TimeGallery.Controllers
                 try
                 {
                     //已关注，可以得到详细信息
-                    //userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);                
+                    //userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);                    
                     _userManager.TryUpdateUserInfo(result.openid);
 
                     //新增Session

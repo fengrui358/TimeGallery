@@ -80,6 +80,7 @@ namespace TimeGallery.Weixin
                 CurrentMessageContext.StorageData = 0;
             }
 
+            //todo:此处尝试更新的频率较高，待优化
             _userManagerLazy.Value.TryUpdateUserInfo(RequestMessage.FromUserName);
 
             base.OnExecuting();

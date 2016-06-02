@@ -16,6 +16,7 @@
             $('.js_tooltips').hide();
         }, defaultDelay);
     },
+
     closePage: function() {
         if (navigator.userAgent.indexOf("MSIE") > 0) {
             if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
