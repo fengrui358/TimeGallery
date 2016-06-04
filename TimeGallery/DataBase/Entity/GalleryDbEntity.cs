@@ -22,7 +22,7 @@ namespace TimeGallery.DataBase.Entity
         /// <summary>
         /// 封面Url
         /// </summary>
-        public virtual string Cover { get; set; }
+        public virtual string CoverUrl { get; set; }
 
         [DatabaseGeneratedDefaultValue]
         public DateTime CreateTime { get; set; }

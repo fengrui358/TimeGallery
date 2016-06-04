@@ -22,7 +22,7 @@ namespace TimeGallery.Interfaces
         /// 添加用户
         /// </summary>
         /// <param name="userModel"></param>
-        void AddUser(UserModel userModel);        
+        void AddUser(UserModel userModel);
 
         /// <summary>
         /// 尝试更新用户信息

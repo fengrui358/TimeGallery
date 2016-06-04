@@ -59,6 +59,8 @@
                             }
 
                             reader.readAsDataURL(file);
+
+                            uploader.is_selected_cover = true;
                         }
                     } catch (e) {
                         console.debug(e);
@@ -67,15 +69,14 @@
             },
             'BeforeUpload': function(up, file) {
                 // 每个文件上传前,处理相关的事情
-                var f = file;
+                
             },
             'UploadProgress': function(up, file) {
                 // 每个文件上传时,处理相关的事情
-                var f = file;
+                
             },
             'FileUploaded': function(up, file, info) {
                 // 每个文件上传成功后,处理相关的事情
-                var f = file;
                 // 其中 info 是文件上传成功后，服务端返回的json，形式如
                 // {
                 //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
@@ -86,9 +87,35 @@
                 // var domain = up.getOption('domain');
                 // var res = parseJSON(info);
                 // var sourceLink = domain + res.key; 获取上传成功后的文件的Url
+
+                var domain = up.getOption('domain');
+                var res = $.parseJSON(info);
+                var sourceLink = domain + res.key;
+
+                $.post("RegisterSubmit",
+                    { name: $('#galleryName').val(), description: $('#galleryDescription').val(), coverUrl: sourceLink },
+                    function(data) {
+                        $('#loadingToast').hide();
+
+                        if (data.state !== 0) {
+                            $.showWarning(data.message);
+                            return;
+                        }
+
+                        if (data.state === 0) {
+                            $('.weui_msg .weui_msg_desc').html(data.message);
+
+                            $('#registerContainer').hide();
+                            $('.weui_msg').show();
+                        }
+                    },
+                    "json").error(function() {
+                    alert('服务端异常');
+                });
             },
             'Error': function(up, err, errTip) {
                 //上传出错时,处理相关的事情
+                //todo:完善错误提示
             },
             'UploadComplete': function() {
                 //队列文件处理完毕后,处理相关的事情
@@ -116,26 +143,29 @@
                 }
 
                 $('#loadingToast').show();
-                uploader.start();
 
-                $.post("RegisterSubmit",
-                    { name: galleryName, description: $('#galleryDescription').val() },
-                    function(data) {
-                        $('#loadingToast').hide();
+                if (uploader.is_selected_cover) {
+                    uploader.start();
+                } else {
+                    $.post("RegisterSubmit",
+                        { name: galleryName, description: $('#galleryDescription').val() },
+                        function (data) {
+                            $('#loadingToast').hide();
 
-                        if (data.state !== 0) {
-                            $.showWarning(data.message);
-                            return;
-                        }
+                            if (data.state !== 0) {
+                                $.showWarning(data.message);
+                                return;
+                            }
 
-                        if (data.state === 0) {
-                            $('.weui_msg .weui_msg_desc').html(data.message);
+                            if (data.state === 0) {
+                                $('.weui_msg .weui_msg_desc').html(data.message);
 
-                            $('#registerContainer').hide();
-                            $('.weui_msg').show();
-                        }
-                    },
-                    "json");
+                                $('#registerContainer').hide();
+                                $('.weui_msg').show();
+                            }
+                        },
+                        "json");
+                }
             });
 
     //$('#pickfiles')

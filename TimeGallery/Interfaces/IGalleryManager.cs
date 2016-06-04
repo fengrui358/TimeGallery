@@ -23,7 +23,16 @@ namespace TimeGallery.Interfaces
         /// <param name="openId">用户openId</param>
         /// <param name="userGalleryRelType">用户与相册的关系</param>
         /// <returns></returns>
-        IEnumerable<GalleryModel> GetGalleryModel(string openId,
+        IEnumerable<GalleryModel> GetGalleryModels(string openId,
             UserGalleryRelTypeDefine userGalleryRelType = UserGalleryRelTypeDefine.Follower);
+
+        /// <summary>
+        /// 注册一个相册
+        /// </summary>
+        /// <param name="user">相册的拥有者</param>
+        /// <param name="galleryModel">待注册的相册信息</param>
+        /// <param name="errorMsg">如果失败的错误提示</param>
+        /// <returns></returns>
+        bool RegisterGalleryModel(UserModel user, ref GalleryModel galleryModel, out string errorMsg);
     }
 }

@@ -110,7 +110,7 @@ namespace TimeGallery.Controllers
         public ActionResult Register()
         {            
             //判断是否存在已注册的相册
-            var gallery = GalleryManager.GetGalleryModel(CurrentUserModel.OpenId, UserGalleryRelTypeDefine.Owner);
+            var gallery = GalleryManager.GetGalleryModels(CurrentUserModel.OpenId, UserGalleryRelTypeDefine.Owner);
             if (gallery.Any())
             {
                 //相册已存在，导航到管理相册页面
@@ -130,19 +130,27 @@ namespace TimeGallery.Controllers
                 throw new ArgumentNullException(nameof(galleryModel));
             }
 
+            //校验相册基本信息
             if (string.IsNullOrEmpty(galleryModel.Name))
             {
+                LogManager.GetCurrentClassLogger().Error("校验相册基本信息不通过");
                 var result = new RequestResult(RequestResultTypeDefine.Error, "相册名不能为空");               
 
                 return Content(JsonConvert.SerializeObject(result));
             }
             else
             {
-                //todo:执行新建相册的相关操作
-
-                var result = new RequestResult(RequestResultTypeDefine.Success, "点击确定可立即开始上传文件");
-
-                return Content(JsonConvert.SerializeObject(result));
+                string errorMsg;
+                if (GalleryManager.RegisterGalleryModel(CurrentUserModel, ref galleryModel, out errorMsg))
+                {
+                    var result = new RequestResult(RequestResultTypeDefine.Success, "点击确定可立即开始上传文件");
+                    return Content(JsonConvert.SerializeObject(result));
+                }
+                else
+                {                    
+                    var result = new RequestResult(RequestResultTypeDefine.Error, errorMsg);
+                    return Content(JsonConvert.SerializeObject(result));
+                }
             }
         }
 
