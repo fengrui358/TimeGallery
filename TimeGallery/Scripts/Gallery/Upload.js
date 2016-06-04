@@ -428,17 +428,17 @@ $(function() {
         browse_button: 'pickfiles',
         container: 'container',
         drop_element: 'container',
-        max_file_size: '1000mb',
+        max_file_size: globalOptions.qiniu.max_file_size,
         flash_swf_url: '../plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
         //uptoken: 'XM7-0pJ78EYgb519OriRoOGi26HNRT42TznsYNzM:3MEbBcS-Fial1DLmod1P7w_vGlg=:eyJzY29wZSI6ImZlbmdwZWlwZWkiLCJkZWFkbGluZSI6MTQ1OTA4OTg5OSwiaW5zZXJ0T25seSI6MCwiZGV0ZWN0TWltZSI6MCwiZnNpemVMaW1pdCI6MCwiZnNpemVNaW4iOjAsImNhbGxiYWNrRmV0Y2hLZXkiOjB9',
-        uptoken_url: '../../Gallery/GetQiniuToken',
+        uptoken_url: globalOptions.qiniu.uptoken_url,
 
         //uptoken_func: function(file) { // 在需要获取 uptoken 时，该方法会被调用
         //},
 
-        domain: 'http://7xrp60.com1.z0.glb.clouddn.com/',
+        domain: globalOptions.qiniu.domain,
         get_new_uptoken: false,
         // downtoken_url: '/downtoken',
         unique_names: true,
@@ -454,7 +454,9 @@ $(function() {
         auto_start: true,
         log_level: 5,
         init: {
-            'FilesAdded': function(up, files) {
+            'FilesAdded': function (up, files) {
+                alert("todo: 调试");
+
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
@@ -478,8 +480,7 @@ $(function() {
             'UploadComplete': function() {
                 $('#success').show();
             },
-            'FileUploaded': function (up, file, info) {
-                debugger;
+            'FileUploaded': function (up, file, info) {                
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 progress.setComplete(up, info);
 

@@ -16,15 +16,19 @@
                 <input id="galleryName" class="weui_input" type="text" placeholder="请输入相册名">
             </div>
         </div>
-        <div class="weui_cell">
+        <div id="cover_upload_container" class="weui_cell">
             <div class="weui_cell_hd">
                 <label class="weui_label">相册封面</label>
             </div>
             <div class="weui_cell_bd weui_cell_primary">
-                <img id="galleryCoverImg" class="weui_uploader_file" src="http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/"/>                
-                <div class="weui_uploader_input_wrp">
-                    <input class="weui_uploader_input" type="file" accept="image/jpg,image/jpeg,image/png,image/gif"/>
-                </div>
+                <img id="galleryCoverImg" class="weui_uploader_file" src="http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/"/>
+                @*<div class="weui_uploader_input_wrp">
+                    <input id="pickfiles" class="weui_uploader_input" type="file" accept="image/jpg,image/jpeg,image/png,image/gif"/>
+                </div>*@
+                <a class="btn btn-default btn-lg" id="pickfiles" href="#">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>选择文件</span>
+                </a>
             </div>
         </div>
         <div class="weui_cell">
@@ -63,7 +67,10 @@
     </div>*@
 </div>
 
-@section scripts
+@section footerScripts
 {
+    @Scripts.Render("~/Scripts/plupload/moxie.min.js")
+    @Scripts.Render("~/bundles/plupload")
+    @Scripts.Render("~/bundles/qiniu")
     @Scripts.Render("~/Scripts/Gallery/Register.js")
 }
