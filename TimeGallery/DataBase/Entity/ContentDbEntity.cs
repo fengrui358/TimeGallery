@@ -17,6 +17,8 @@ namespace TimeGallery.DataBase.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual long Id { get; set; }
 
+        public virtual long GalleryId { get; set; }
+
         public virtual string Type { get; set;}
 
         public virtual string Url { get; set; }

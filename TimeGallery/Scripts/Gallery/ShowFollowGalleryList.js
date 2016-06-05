@@ -26,7 +26,7 @@
                 if (content) {
                     //todo:分页
 
-                    $.post('GetGalleryList',
+                    $.post('SearchGalleryList',
                         { searchKey: content },
                         function(data) {                            
                             if (data.state !== 0) {

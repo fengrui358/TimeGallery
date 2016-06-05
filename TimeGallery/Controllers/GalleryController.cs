@@ -41,23 +41,39 @@ namespace TimeGallery.Controllers
         }
 
         // GET: Gallery
-        public async Task<ActionResult> Index()
+        public ActionResult Index(long id)
         {
-            ViewBag.Title = ConfigurationManager.WebTitle;
+            //ViewBag.Title = ConfigurationManager.WebTitle;
 
-            IEnumerable<ContentDbEntity> contents = new List<ContentDbEntity>();
-            using (var con = StorageHelper.GetConnection())
-            {
-                contents = await con.FindAsync<ContentDbEntity>();
-            }               
+            //IEnumerable<ContentDbEntity> contents = new List<ContentDbEntity>();
+            //using (var con = StorageHelper.GetConnection())
+            //{
+            //    contents = await con.FindAsync<ContentDbEntity>();
+            //}               
 
-            var result = from content in contents
-                let t = content.CreateTime
-                group content by new DateTime(t.Year, t.Month, t.Day)
-                into g
-                select new ContentWrapperModel(g.Key, g);
+            //var result = from content in contents
+            //    let t = content.CreateTime
+            //    group content by new DateTime(t.Year, t.Month, t.Day)
+            //    into g
+            //    select new ContentWrapperModel(g.Key, g);
 
-            return View(result);
+            //return View(result);
+
+            //如果没有传入相册的id值则默认选择优先级最高的相册
+            ViewBag.GalleryId = id;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取相册数据的核心方法
+        /// </summary>
+        /// <param name="id">相册id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetGalleryContents(long id)
+        {
+            
+            return Content("");
         }
         
         //[AuthFilter(false)]
@@ -170,7 +186,7 @@ namespace TimeGallery.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetGalleryList(string searchKey)
+        public ActionResult SearchGalleryList(string searchKey)
         {
             var galleryModels = GalleryManager.SearchAllGalleryModels(searchKey);
             var result = new RequestResult<IEnumerable<GalleryModel>>(RequestResultTypeDefine.Success)

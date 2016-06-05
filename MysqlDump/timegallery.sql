@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `content`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `content` (
   `Id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `GalleryId` bigint(11) NOT NULL DEFAULT '0',
   `Type` varchar(20) NOT NULL,
   `Url` varchar(128) NOT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -40,7 +41,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES (5,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg','2016-04-05 23:39:48','73060',NULL),(4,'video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov','2016-04-05 22:15:30','5273396',NULL),(3,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg','2016-03-31 22:19:15','1191451',NULL);
+INSERT INTO `content` VALUES (5,0,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg','2016-04-05 23:39:48','73060',NULL),(4,0,'video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov','2016-04-05 22:15:30','5273396',NULL),(3,0,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg','2016-03-31 22:19:15','1191451',NULL);
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,10 +56,10 @@ CREATE TABLE `gallery` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL DEFAULT '0',
   `Description` varchar(400) DEFAULT '0',
-  `Cover` varchar(50) DEFAULT '0',
-  `CreateTime` datetime NOT NULL,
+  `CoverUrl` varchar(50) DEFAULT '0',
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='相册';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='相册';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +68,7 @@ CREATE TABLE `gallery` (
 
 LOCK TABLES `gallery` WRITE;
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
+INSERT INTO `gallery` VALUES (1,'好嘛','啊京华时报','http://7xrp60.com1.z0.glb.clouddn.com/o_1ake46aim7','2016-06-05 00:33:39');
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,6 +127,7 @@ CREATE TABLE `user_gallery_rel` (
 
 LOCK TABLES `user_gallery_rel` WRITE;
 /*!40000 ALTER TABLE `user_gallery_rel` DISABLE KEYS */;
+INSERT INTO `user_gallery_rel` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',1,4);
 /*!40000 ALTER TABLE `user_gallery_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -137,4 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-01 16:56:28
+-- Dump completed on 2016-06-05 22:34:45

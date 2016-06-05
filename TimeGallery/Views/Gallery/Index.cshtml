@@ -1,26 +1,16 @@
-﻿@model IEnumerable<TimeGallery.Models.ContentWrapperModel>
-
-@using System.Web.UI.HtmlControls
-@using TimeGallery.Enums
-@using TimeGallery.Helper
-@{
-    Layout = null;
+﻿@{
+    Layout = "../Shared/_GalleryLayout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    @Styles.Render("~/Content/css")
-    <link ref="stylesheet" href="//res.wx.qq.com/open/libs/weui/0.4.2/weui.min.css">
-    <title>@ConfigHelper.WebTitle</title>
-</head>
-<body>
+@section headerScripts
+{
+    <script>
+        globalOptions.galleryId = 
+    </script>
+}
 <div>
-    <h1>裴裴时光轴</h1>
+    @*完全用js获取数据*@
+    @*<h1>裴裴时光轴</h1>
     <div class="container">
         <ul class="list-unstyled">
             @{
@@ -55,9 +45,6 @@
     </div>
     <div>
         @Html.ActionLink("上传", "Upload")
-    </div>
+    </div>*@
+
 </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-</body>
-</html>
