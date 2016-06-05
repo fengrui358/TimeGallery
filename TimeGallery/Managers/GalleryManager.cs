@@ -202,6 +202,12 @@ namespace TimeGallery.Managers
             return result;
         }
 
+        public IEnumerable<GalleryModel> SearchAllGalleryModels(string searchKey)
+        {
+            //todo:待处理
+            return _galleryModelsDictionary.Values;
+        }
+
         public bool RegisterGalleryModel(UserModel user, ref GalleryModel galleryModel, out string errorMsg)
         {
             errorMsg = string.Empty;

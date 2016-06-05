@@ -21,9 +21,34 @@
     $('#search_input')
         .on('input',
             function() {
-                var $searchShow = $("#search_show");
-                if ($(this).val()) {
-                    $searchShow.show();
+                var $searchShow = $('#search_show');
+                var content = $(this).val();
+                if (content) {
+                    //todo:分页
+
+                    $.post('GetGalleryList',
+                        { searchKey: content },
+                        function(data) {                            
+                            if (data.state !== 0) {
+                                $.showWarning(data.message);
+                                return;
+                            }
+
+                            if (data.state === 0) {
+                                $searchShow.empty();
+
+                                var resultHtml = '';
+                                for (var i = 0; i < data.result.length; i++) {
+                                    //todo:换成可点击的节点
+                                    var d = data.result[i];
+                                    resultHtml = resultHtml +
+                                        '<div class="weui_cell"><div class="weui_cell_bd weui_cell_primary"><p>' + d.Name + '</p></div></div>';
+                                }
+
+                                $searchShow.append(resultHtml);
+                                $searchShow.show();
+                            }
+                        }, "json");
                 } else {
                     $searchShow.hide();
                 }
@@ -32,7 +57,7 @@
     $('#search_cancel')
         .on('touchend',
             function() {
-                $("#search_show").hide();
+                $('#search_show').hide();
                 $('#search_input').val('');
             });
 

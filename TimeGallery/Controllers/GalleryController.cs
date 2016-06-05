@@ -169,6 +169,17 @@ namespace TimeGallery.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult GetGalleryList(string searchKey)
+        {
+            var galleryModels = GalleryManager.SearchAllGalleryModels(searchKey);
+            var result = new RequestResult<IEnumerable<GalleryModel>>(RequestResultTypeDefine.Success)
+            {
+                Result = galleryModels
+            };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
         public ActionResult Invite()
         {
             return Content("邀请关注");

@@ -26,6 +26,14 @@ namespace TimeGallery.Interfaces
         IEnumerable<GalleryModel> GetGalleryModels(string openId,
             UserGalleryRelTypeDefine userGalleryRelType = UserGalleryRelTypeDefine.Follower);
 
+
+        /// <summary>
+        /// 根据关键字查找相册
+        /// </summary>
+        /// <param name="searchKey">关键字</param>
+        /// <returns></returns>
+        IEnumerable<GalleryModel> SearchAllGalleryModels(string searchKey);
+
         /// <summary>
         /// 注册一个相册
         /// </summary>
