@@ -104,6 +104,7 @@ namespace TimeGallery.Controllers
 
         public ActionResult About()
         {
+            throw new Exception("yichang");
             return View();
         }
 

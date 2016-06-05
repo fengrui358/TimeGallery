@@ -20,7 +20,7 @@ namespace TimeGallery
         protected void Application_Start()
         {
             LogManager.GetCurrentClassLogger().Info("服务启动");
-            Error += OnError;
+            Error += OnError;            
 
             IocHelper.Init();
 

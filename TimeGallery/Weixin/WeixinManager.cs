@@ -93,7 +93,7 @@ namespace TimeGallery.Weixin
             aboutBtn.sub_button.Add(registerBtn);
             aboutBtn.sub_button.Add(inviteBtn);
             aboutBtn.sub_button.Add(followBtn);
-            aboutBtn.sub_button.Add(aboutSubBtn);            
+            aboutBtn.sub_button.Add(aboutSubBtn);
 
             buttonGroup.button.Add(aboutBtn);
 

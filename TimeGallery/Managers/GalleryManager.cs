@@ -308,7 +308,20 @@ namespace TimeGallery.Managers
                 #endregion
             }
 
+            //关系修改完毕，自定义用户菜单
+            CustomUserMenuAsync(user);
+
             return true;
+        }
+
+        /// <summary>
+        /// 自定义用户菜单
+        /// </summary>
+        /// <param name="user"></param>
+        private void CustomUserMenuAsync(UserModel user)
+        {
+            //todo:自定义用户菜单
+
         }
     }
 }

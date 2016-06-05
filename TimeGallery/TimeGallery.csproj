@@ -90,8 +90,8 @@
       <HintPath>..\packages\Senparc.Weixin.4.5.20\lib\net45\Senparc.Weixin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Senparc.Weixin.MP, Version=13.8.2.25376, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Senparc.Weixin.MP.13.8.3\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+    <Reference Include="Senparc.Weixin.MP, Version=13.8.4.26917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.MP.13.8.4\lib\net45\Senparc.Weixin.MP.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=4.0.1.32125, Culture=neutral, processorArchitecture=MSIL">
@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\WeixinController.cs" />
     <Compile Include="DataBase\Entity\ContentDbEntity.cs" />
+    <Compile Include="DataBase\Entity\ContentGroupDbEntity.cs" />
     <Compile Include="DataBase\Entity\GalleryDbEntity.cs" />
     <Compile Include="DataBase\Entity\UserDbEntity.cs" />
     <Compile Include="DataBase\Entity\UserGalleryRelDbEntity.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\IocHelper.cs" />
     <Compile Include="Helper\SimpleUrlHelper.cs" />
+    <Compile Include="HttpModules\ErrorCatchModule.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IDependency.cs" />
     <Compile Include="Interfaces\IGalleryManager.cs" />
@@ -385,7 +387,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
