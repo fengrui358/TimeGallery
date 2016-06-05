@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 30px;
-    padding-bottom: 20px;
+    /*padding-top: 30px;
+    padding-bottom: 20px;*/
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -43,4 +43,9 @@ li.content-item {
     font-size: 34px;
     font-weight: 400;
     margin: 5%;
+}
+
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
 }

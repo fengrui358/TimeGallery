@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using NLog;
+using TimeGallery.Models.Javascript;
 
 namespace TimeGallery.HttpModules
 {
@@ -31,9 +32,11 @@ namespace TimeGallery.HttpModules
             Exception iex = ex.InnerException;
 
             //todo：重定向错误            
-            response.Write("来自ErrorModule的错误处理<br />");
-            response.Write(iex.Message);
+            //response.Write("来自ErrorModule的错误处理<br />");
+            //response.Write(iex.Message);
+
             LogManager.GetCurrentClassLogger().Error(ex);
+            response.Write(new RequestResult(RequestResultTypeDefine.Error, "系统内部错误"));
 
             ctx.Server.ClearError();
         }

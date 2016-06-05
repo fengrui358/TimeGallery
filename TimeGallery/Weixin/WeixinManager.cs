@@ -81,7 +81,7 @@ namespace TimeGallery.Weixin
             var followBtn = new SingleViewButton
             {
                 name = "关注相册",
-                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.Follow))
+                url = SimpleUrlHelper.GenerateUrl(nameof(GalleryController), nameof(GalleryController.ShowFollowGalleryList))
             };
 
             var inviteBtn = new SingleViewButton

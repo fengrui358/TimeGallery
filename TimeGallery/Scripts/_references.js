@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="gallery/register.js" />
+/// <reference path="gallery/showfollowgallerylist.js" />
 /// <reference path="gallery/upload.js" />
 /// <reference path="jquery.validate.min.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />

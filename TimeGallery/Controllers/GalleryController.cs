@@ -160,9 +160,13 @@ namespace TimeGallery.Controllers
             return Content("管理相册");
         }
 
-        public ActionResult Follow()
+        /// <summary>
+        /// 展示可关注的相册列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ShowFollowGalleryList()
         {
-            return Content("关注相册");
+            return View();
         }
 
         public ActionResult Invite()

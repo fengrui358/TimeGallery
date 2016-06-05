@@ -300,6 +300,7 @@
     </None>
     <None Include="Properties\PublishProfiles\TimeGallery.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\Gallery\ShowFollowGalleryList.js" />
     <Content Include="Scripts\Gallery\Upload.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
@@ -427,6 +428,7 @@
     <None Include="Views\Gallery\About.cshtml" />
     <Content Include="Views\Shared\_GalleryLayout.cshtml" />
     <None Include="Views\Gallery\Register.cshtml" />
+    <None Include="Views\Gallery\ShowFollowGalleryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
