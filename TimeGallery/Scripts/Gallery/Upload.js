@@ -455,8 +455,6 @@ $(function() {
         log_level: 5,
         init: {
             'FilesAdded': function (up, files) {
-                alert("todo: 调试");
-
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
@@ -488,15 +486,14 @@ $(function() {
                 var res = $.parseJSON(info);
                 var sourceLink = domain + res.key;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '../../Gallery/AddContent',
-                    data: {
+                $.Post('../../Gallery/AddContent',
+                    {
                         sourceLink: sourceLink,
                         type: file.type,
                         size: file.size
-                    }
-                });
+                    },
+                    function(data) {},
+                    'json');
             },
             'Error': function(up, err, errTip) {
                 $('table').show();

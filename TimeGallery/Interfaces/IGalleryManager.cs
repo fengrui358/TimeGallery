@@ -18,6 +18,13 @@ namespace TimeGallery.Interfaces
         GalleryModel GetGalleryModel(long galleryId);
 
         /// <summary>
+        /// 获取有权限上传的相册
+        /// </summary>
+        /// <param name="openId">用户openId</param>
+        /// <returns>没找到返回null</returns>
+        GalleryModel GetGalleryModelCanUpdate(string openId);
+
+        /// <summary>
         /// 根据用户OpenId返回对应的相册
         /// </summary>
         /// <param name="openId">用户openId</param>

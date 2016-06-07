@@ -17,8 +17,8 @@ namespace TimeGallery.Managers
 {
     public class GalleryManager : IGalleryManager
     {
-        private IConfigurationManager _configurationManager;
-        private IUserManager _userManager;
+        private readonly IConfigurationManager _configurationManager;
+        private readonly IUserManager _userManager;
         private ConcurrentDictionary<long, GalleryModel> _galleryModelsDictionary;
 
         private int FollowerGalleriesMaxCountPerUser
@@ -139,6 +139,18 @@ namespace TimeGallery.Managers
             return null;
         }
 
+        public GalleryModel GetGalleryModelCanUpdate(string openId)
+        {
+            var galleryModels = GetGalleryModels(openId, UserGalleryRelTypeDefine.Manager);
+            if (galleryModels.Count() > 1)
+            {
+                throw new Exception($"用户：{openId}管理的相册超过一个");
+            }
+
+            return galleryModels.FirstOrDefault();
+        }
+
+
         public IEnumerable<GalleryModel> GetGalleryModels(string openId,
             UserGalleryRelTypeDefine userGalleryRelType = UserGalleryRelTypeDefine.Follower)
         {
@@ -204,8 +216,18 @@ namespace TimeGallery.Managers
 
         public IEnumerable<GalleryModel> SearchAllGalleryModels(string searchKey)
         {
-            //todo:待处理
-            return _galleryModelsDictionary.Values;
+            //todo:待处理，查询字段目前只匹配了Name，后期可增强，还可按用户地域排序
+            var result = new List<GalleryModel>();
+            if (string.IsNullOrEmpty(searchKey))
+            {
+                result = _galleryModelsDictionary.Values.ToList();
+            }
+            else
+            {
+                result = _galleryModelsDictionary.Values.Where(s => s.Name.Contains(searchKey)).ToList();
+            }
+
+            return result;
         }
 
         public bool RegisterGalleryModel(UserModel user, ref GalleryModel galleryModel, out string errorMsg)

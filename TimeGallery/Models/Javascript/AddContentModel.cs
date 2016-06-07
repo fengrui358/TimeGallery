@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TimeGallery.DataBase.Entity;
 
-namespace TimeGallery.Models
+namespace TimeGallery.Models.Javascript
 {
     public class AddContentModel
     {

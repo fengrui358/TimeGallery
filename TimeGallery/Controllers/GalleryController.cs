@@ -82,10 +82,23 @@ namespace TimeGallery.Controllers
         //    return null;
         //}
 
-        public ActionResult Upload()
+        public async Task<ActionResult> Upload()
         {
-            ViewBag.UpToken = GetQiniuToken();
-            return View();
+            return await Task.Run(() =>
+            {
+                ViewBag.UpToken = GetQiniuToken();
+
+                var gallery = GalleryManager.GetGalleryModelCanUpdate(CurrentUserModel);
+                if (gallery == null)
+                {
+                    //没有找到可管理的相册，跳转到关注页面
+                    return RedirectToAction(nameof(ShowFollowGalleryList)) as ActionResult;
+                }
+
+                ViewBag.GalleryId = gallery.Id;
+
+                return View();
+            }).ContinueWith(task => task.Result);
         }
 
         //[HttpPost]

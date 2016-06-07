@@ -167,25 +167,4 @@
                         "json");
                 }
             });
-
-    //$('#pickfiles')
-    //    .on('change',
-    //        function() {
-    //            if (this.files.length > 0) {
-    //                try {
-    //                    var file = this.files[0];
-    //                    var reader = new FileReader();
-    //                    if (/image\/\w+/.test(file.type)) {
-    //                        reader.onload = function() {
-    //                            //todo:修改上传图片的显示
-    //                            $('#galleryCoverImg').attr('src', this.result);
-    //                        }
-
-    //                        reader.readAsDataURL(file);
-    //                    }
-    //                } catch (e) {
-    //                    console.debug(e);
-    //                }
-    //            }
-    //        });
 });

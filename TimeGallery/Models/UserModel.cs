@@ -33,5 +33,15 @@ namespace TimeGallery.Models
 
             return userModel;
         }
+
+        public static implicit operator string(UserModel userModel)
+        {
+            if (userModel == null)
+            {
+                throw new ArgumentNullException(nameof(userModel));
+            }
+
+            return userModel.OpenId;
+        }
     }
 }
