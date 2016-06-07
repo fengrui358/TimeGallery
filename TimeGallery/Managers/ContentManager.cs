@@ -8,6 +8,9 @@ namespace TimeGallery.Managers
 {
     public class ContentManager : IContentManager
     {
-
+        public bool AddContent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
