@@ -13,7 +13,7 @@ namespace TimeGallery.Models
 
         public string Type { get; set; }
 
-        public string Size { get; set; }
+        public long Size { get; set; }
 
         public DateTime CreateTime { get; private set; }
 

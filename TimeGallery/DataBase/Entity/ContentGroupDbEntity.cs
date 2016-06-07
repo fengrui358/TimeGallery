@@ -32,6 +32,11 @@ namespace TimeGallery.DataBase.Entity
         public virtual int VideoCount { get; set; }
 
         /// <summary>
+        /// 总大小
+        /// </summary>
+        public virtual long TotalSize { get; set; }
+
+        /// <summary>
         /// 该分组是哪一天
         /// </summary>
         public virtual DateTime Date { get; set; }

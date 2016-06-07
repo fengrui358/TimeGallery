@@ -38,5 +38,30 @@ namespace TimeGallery.DataBase
                 throw;
             }
         }
+
+        public static IDbConnection GetConnection(string dbHostAddress)
+        {
+            try
+            {
+#if DEBUG
+                return new MySqlConnection(
+                    $"Server ={dbHostAddress}; Database =timegallery; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;");
+#endif
+                return new MySqlConnection(
+                                    $"Server ={dbHostAddress}; Database =timegallerycontent; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;");
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Fatal("数据库建立连接失败");
+                LogManager.GetCurrentClassLogger().Fatal(ex);
+                throw;
+            }
+        }
+
+        public static IDbConnection GetConnection(GalleryDbEntity galleryDbEntity)
+        {
+            return GetConnection(galleryDbEntity.ContentDbHost);
+        }
     }
 }

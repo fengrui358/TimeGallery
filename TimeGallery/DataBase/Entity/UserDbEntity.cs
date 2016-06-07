@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Dapper.FastCrud;
 using TimeGallery.Enums;
 
 namespace TimeGallery.DataBase.Entity
@@ -31,7 +32,7 @@ namespace TimeGallery.DataBase.Entity
         /// <summary>
         /// 用户的加入平台的时间序号
         /// </summary>
-        [NotMapped]
+        [DatabaseGeneratedDefaultValue]
         public virtual int OrderNumber { get; set; }
 
         /// <summary>
@@ -43,20 +44,5 @@ namespace TimeGallery.DataBase.Entity
         /// 用户所在城市
         /// </summary>
         public virtual string City { get; set; }
-
-        /// <summary>
-        /// 是否关注微信公众号
-        /// </summary>
-        public virtual bool IsWeixinFollower { get; set; }
-
-        /// <summary>
-        /// 是否是管理员
-        /// </summary>
-        public virtual bool IsManager { get; set; }
-
-        /// <summary>
-        /// 是否是关注者
-        /// </summary>
-        public virtual bool IsFollower { get; set; }
     }    
 }

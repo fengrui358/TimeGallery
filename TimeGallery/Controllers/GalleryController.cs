@@ -107,15 +107,11 @@ namespace TimeGallery.Controllers
             using (var con = StorageHelper.GetConnection())
             {
                 var content = (ContentDbEntity) addContentModel;
+                content.Id = Guid.NewGuid();
                 await con.InsertAsync(content);
-
-                if (content.Id > 0)
-                {
-                    result = true;
-                }
             }
-
-            return Json(new {success = result });
+            //todo:调整
+            return Json(new {success = true });
         }
 
         public ActionResult About()

@@ -17,17 +17,6 @@ namespace TimeGallery.Models
         [NotMapped]
         public DateTime LastUpDateTime { get; set; }
 
-        public string GetGalleryDbConnectingString()
-        {
-            if (IsManager)
-            {
-                //todo:返回分布式的内容数据信息
-                return string.Empty;
-            }
-
-            return string.Empty;
-        }
-
         public static explicit operator UserModel(WeixinUserInfoResult weixinUserInfo)
         {
             if (weixinUserInfo == null)
@@ -38,8 +27,7 @@ namespace TimeGallery.Models
             var userModel = new UserModel
             {
                 OpenId = weixinUserInfo.openid,
-                Uuid = weixinUserInfo.unionid,
-                IsFollower = weixinUserInfo.subscribe != 0,
+                Uuid = weixinUserInfo.unionid,                
                 Name = weixinUserInfo.nickname
             };
 

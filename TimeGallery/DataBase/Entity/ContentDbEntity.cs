@@ -22,7 +22,7 @@ namespace TimeGallery.DataBase.Entity
 
         public virtual string Url { get; set; }
 
-        public virtual string Size { get; set; }
+        public virtual long Size { get; set; }
 
         [DatabaseGeneratedDefaultValue]
         public virtual DateTime CreateTime { get; set; }

@@ -27,7 +27,7 @@ CREATE TABLE `content` (
   `ContentGroupId` char(36) NOT NULL COMMENT '内容分组的外键',
   `Type` varchar(20) NOT NULL COMMENT 'mime类型',
   `Url` varchar(128) NOT NULL COMMENT '内容的网络地址',
-  `Size` varchar(50) NOT NULL COMMENT '尺寸大小',
+  `Size` bigint(20) NOT NULL DEFAULT '0' COMMENT '尺寸大小',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`),
   KEY `CreateTime` (`CreateTime`),
@@ -41,7 +41,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES ('5','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg','73060','2016-04-05 23:39:48'),('4','0','video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov','5273396','2016-04-05 22:15:30'),('3','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg','1191451','2016-03-31 22:19:15');
+INSERT INTO `content` VALUES ('5','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg',73060,'2016-04-05 23:39:48'),('4','0','video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov',5273396,'2016-04-05 22:15:30'),('3','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg',1191451,'2016-03-31 22:19:15');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,6 +57,7 @@ CREATE TABLE `contentgroup` (
   `GalleryId` bigint(20) NOT NULL COMMENT '所属相册外键',
   `ImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的图片数量',
   `VideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的视频数量',
+  `TotalSize` bigint(20) NOT NULL DEFAULT '0' COMMENT '该分组内容总体积大小',
   `Date` datetime NOT NULL COMMENT '该分组是哪一天',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`),
@@ -83,10 +84,14 @@ DROP TABLE IF EXISTS `gallery`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gallery` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '整型自增主键',
-  `Name` varchar(50) NOT NULL DEFAULT '0' COMMENT '相册名称',
-  `Description` varchar(400) DEFAULT '0' COMMENT '相册描述',
-  `CoverUrl` varchar(50) DEFAULT '0' COMMENT '封面地址',
-  `ContentDbHost` varchar(15) NOT NULL DEFAULT '0' COMMENT '内容表所在数据库的主机地址',
+  `Name` varchar(50) NOT NULL COMMENT '相册名称',
+  `Description` varchar(400) DEFAULT NULL COMMENT '相册描述',
+  `CoverUrl` varchar(50) DEFAULT NULL COMMENT '封面地址',
+  `ContentDbHost` varchar(15) NOT NULL COMMENT '内容表所在数据库的主机地址',
+  `TotalImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '相册中的图片数量',
+  `TotalVideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '相册中的视屏数量',
+  `TotalSize` bigint(20) NOT NULL DEFAULT '0' COMMENT '相册总的体积大小',
+  `LastUpdateTime` datetime DEFAULT NULL COMMENT '最后一次更新时间，用以判断相册活跃度',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='相册';
@@ -165,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-07 11:18:42
+-- Dump completed on 2016-06-07 16:09:23
