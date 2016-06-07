@@ -91,6 +91,7 @@ namespace TimeGallery.Controllers
                 var gallery = GalleryManager.GetGalleryModelCanUpdate(CurrentUserModel);
                 if (gallery == null)
                 {
+                    //todo：设计一个友好的提示过度页面，不然不知道为什么就跳转到这个页面来了
                     //没有找到可管理的相册，跳转到关注页面
                     return RedirectToAction(nameof(ShowFollowGalleryList)) as ActionResult;
                 }
