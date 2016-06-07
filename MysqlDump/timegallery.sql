@@ -23,13 +23,12 @@ DROP TABLE IF EXISTS `content`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `content` (
-  `Id` char(36) NOT NULL COMMENT '主键',
+  `Id` char(36) NOT NULL COMMENT 'Guid主键',
   `ContentGroupId` char(36) NOT NULL COMMENT '内容分组的外键',
   `Type` varchar(20) NOT NULL COMMENT 'mime类型',
-  `Url` varchar(128) NOT NULL,
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Size` varchar(50) NOT NULL,
-  `Description` varchar(128) DEFAULT NULL,
+  `Url` varchar(128) NOT NULL COMMENT '内容的网络地址',
+  `Size` varchar(50) NOT NULL COMMENT '尺寸大小',
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`),
   KEY `CreateTime` (`CreateTime`),
   KEY `ContentGroupId` (`ContentGroupId`)
@@ -42,7 +41,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES ('5','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg','2016-04-05 23:39:48','73060',NULL),('4','0','video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov','2016-04-05 22:15:30','5273396',NULL),('3','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg','2016-03-31 22:19:15','1191451',NULL);
+INSERT INTO `content` VALUES ('5','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg','73060','2016-04-05 23:39:48'),('4','0','video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov','5273396','2016-04-05 22:15:30'),('3','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg','1191451','2016-03-31 22:19:15');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,12 +53,12 @@ DROP TABLE IF EXISTS `contentgroup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `contentgroup` (
-  `Id` char(36) NOT NULL COMMENT '主键',
+  `Id` char(36) NOT NULL COMMENT 'Guid主键',
   `GalleryId` bigint(20) NOT NULL COMMENT '所属相册外键',
-  `ImageCount` int(11) NOT NULL DEFAULT '0',
-  `VideoCount` int(11) NOT NULL DEFAULT '0',
-  `Date` datetime NOT NULL,
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的图片数量',
+  `VideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的视频数量',
+  `Date` datetime NOT NULL COMMENT '该分组是哪一天',
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`),
   KEY `GalleryId` (`GalleryId`),
   KEY `Date` (`Date`)
@@ -83,11 +82,12 @@ DROP TABLE IF EXISTS `gallery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gallery` (
-  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL DEFAULT '0',
-  `Description` varchar(400) DEFAULT '0',
-  `Cover` varchar(50) DEFAULT '0',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '整型自增主键',
+  `Name` varchar(50) NOT NULL DEFAULT '0' COMMENT '相册名称',
+  `Description` varchar(400) DEFAULT '0' COMMENT '相册描述',
+  `CoverUrl` varchar(50) DEFAULT '0' COMMENT '封面地址',
+  `ContentDbHost` varchar(15) NOT NULL DEFAULT '0' COMMENT '内容表所在数据库的主机地址',
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='相册';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -116,9 +116,6 @@ CREATE TABLE `user` (
   `Sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '用户的性别，值为1时是男性，值为2时是女性，值为0时是未知',
   `City` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
   `Remark` varchar(50) DEFAULT NULL COMMENT '公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注',
-  `IsWeixinFollower` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否关注微信公众号',
-  `IsManager` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否是管理员',
-  `IsFollower` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否是关注者',
   PRIMARY KEY (`OpenId`),
   UNIQUE KEY `Uuid` (`Uuid`),
   KEY `OrderNumber` (`OrderNumber`)
@@ -131,7 +128,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,1,'free',0,NULL,'0','\0','\0','');
+INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,1,'free',0,NULL,'0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-06 16:58:59
+-- Dump completed on 2016-06-07 11:18:42
