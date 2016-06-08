@@ -490,7 +490,8 @@ $(function () {
 
                 $.Post('../../Gallery/AddContent',
                     {
-                        sourceLink: sourceLink,
+                        galleryId: galleryId,
+                        url: sourceLink,
                         type: file.type,
                         size: file.size
                     },

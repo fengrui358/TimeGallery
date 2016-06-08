@@ -246,12 +246,14 @@
     <Compile Include="Interfaces\IContentManager.cs" />
     <Compile Include="Interfaces\IDependency.cs" />
     <Compile Include="Interfaces\IGalleryManager.cs" />
+    <Compile Include="Interfaces\ILoadBalanceManager.cs" />
     <Compile Include="Interfaces\IManagerDependency.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
     <Compile Include="Interfaces\IWeixinManager.cs" />
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GalleryManager.cs" />
+    <Compile Include="Managers\LoadBalanceManager.cs" />
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />

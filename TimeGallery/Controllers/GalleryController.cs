@@ -97,7 +97,7 @@ namespace TimeGallery.Controllers
                     return RedirectToAction(nameof(ShowFollowGalleryList)) as ActionResult;
                 }
 
-                ViewBag.GalleryId = gallery.Id;
+                ViewBag.Gallery = gallery;
 
                 return View();
             }).ContinueWith(task => task.Result);

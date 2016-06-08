@@ -20,6 +20,8 @@ namespace TimeGallery.Managers
     {
         private readonly IConfigurationManager _configurationManager;
         private readonly IUserManager _userManager;
+        private readonly ILoadBalanceManager _loadBalanceManager;
+
         private ConcurrentDictionary<long, GalleryModel> _galleryModelsDictionary;
 
         private int FollowerGalleriesMaxCountPerUser
@@ -50,10 +52,11 @@ namespace TimeGallery.Managers
         /// </summary>
         private ConcurrentDictionary<long, IEnumerable<UserModel>> _galleryUsers;
 
-        public GalleryManager(IConfigurationManager configurationManager, IUserManager userManager)
+        public GalleryManager(IConfigurationManager configurationManager, IUserManager userManager, ILoadBalanceManager loadBalanceManager)
         {
             _configurationManager = configurationManager;
             _userManager = userManager;
+            _loadBalanceManager = loadBalanceManager;
         }
 
         public void Init()
@@ -260,6 +263,8 @@ namespace TimeGallery.Managers
                 errorMsg = $"该用户已关注相册数量{FollowerGalleriesMaxCountPerUser}，达到系统上限";
                 return false;
             }
+            
+            galleryModel.ContentDbHost = _loadBalanceManager.GetDbHost().ToString();
 
             //添加数据库以及内存
             using (var con = StorageHelper.GetConnection())

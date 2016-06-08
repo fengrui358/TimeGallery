@@ -36,6 +36,7 @@ namespace TimeGallery.Helper
             builder.RegisterType<GalleryManager>().As<IGalleryManager>().SingleInstance();
             builder.RegisterType<ContentManager>().As<IContentManager>().SingleInstance();
             builder.RegisterType<WeixinManager>().As<IWeixinManager>().SingleInstance();
+            builder.RegisterType<LoadBalanceManager>().As<ILoadBalanceManager>().SingleInstance();
 
             Container = builder.Build();
 
