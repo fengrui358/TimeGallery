@@ -16,6 +16,7 @@ namespace TimeGallery.Controllers
         protected IUserManager UserManager;
         protected ISessionManager SessionManager;
         protected IGalleryManager GalleryManager;
+        protected IContentManager ContentManager;
 
         /// <summary>
         /// 获取发起当前请求的用户信息
@@ -23,12 +24,14 @@ namespace TimeGallery.Controllers
         protected UserModel CurrentUserModel
             => SessionManager.GetOnlineUser(SessionManager.GetSessionFromCookie(HttpContext));
 
-        public ControllerBase(IConfigurationManager configurationManager, IUserManager userManager, ISessionManager sessionManager, IGalleryManager galleryManager)
+        public ControllerBase(IConfigurationManager configurationManager, IUserManager userManager,
+            ISessionManager sessionManager, IGalleryManager galleryManager, IContentManager contentManager)
         {
             ConfigurationManager = configurationManager;
             UserManager = userManager;
             SessionManager = sessionManager;
             GalleryManager = galleryManager;
-        }        
+            ContentManager = contentManager;
+        }
     }
 }

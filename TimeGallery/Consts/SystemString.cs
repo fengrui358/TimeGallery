@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TimeGallery.Consts
 {
-    public static class ConstInfos
+    public static class SystemString
     {
         public const string SessionKey = "session";
     }

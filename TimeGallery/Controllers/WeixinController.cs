@@ -241,7 +241,7 @@ namespace TimeGallery.Controllers
 
                     //新增Session
                     var sessionId = _sessionManager.AddSession(result.openid);
-                    Session[ConstInfos.SessionKey] = sessionId;
+                    Session[SystemString.SessionKey] = sessionId;
 
                     return (ActionResult) Redirect(state);
                 }

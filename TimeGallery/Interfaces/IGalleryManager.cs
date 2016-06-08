@@ -44,10 +44,10 @@ namespace TimeGallery.Interfaces
         /// <summary>
         /// 注册一个相册
         /// </summary>
-        /// <param name="user">相册的拥有者</param>
+        /// <param name="openId">相册的拥有者</param>
         /// <param name="galleryModel">待注册的相册信息</param>
-        /// <param name="errorMsg">如果失败的错误提示</param>
+        /// <param name="errorMsg">失败的错误提示</param>
         /// <returns></returns>
-        bool RegisterGalleryModel(UserModel user, ref GalleryModel galleryModel, out string errorMsg);
+        bool RegisterGalleryModel(string openId, ref GalleryModel galleryModel, out string errorMsg);
     }
 }

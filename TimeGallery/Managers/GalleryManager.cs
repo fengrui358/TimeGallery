@@ -6,6 +6,7 @@ using System.Web;
 using Dapper.FastCrud;
 using Newtonsoft.Json;
 using NLog;
+using TimeGallery.Consts;
 using TimeGallery.DataBase;
 using TimeGallery.DataBase.Entity;
 using TimeGallery.Enums;
@@ -230,19 +231,20 @@ namespace TimeGallery.Managers
             return result;
         }
 
-        public bool RegisterGalleryModel(UserModel user, ref GalleryModel galleryModel, out string errorMsg)
+        public bool RegisterGalleryModel(string openId, ref GalleryModel galleryModel, out string errorMsg)
         {
-            errorMsg = string.Empty;
+            errorMsg = ErrorString.SystemInnerError;
 
-            if (user == null || _userManager.GetUser(user.OpenId) == null)
+            var user = _userManager.GetUser(openId);
+
+            if (user == null)
             {
-                errorMsg = "系统错误";
-                throw new ArgumentNullException(nameof(user));
+                errorMsg = ErrorString.NotExistUser;
+                throw new ArgumentNullException(nameof(openId));
             }
 
             if (galleryModel == null || galleryModel.Id > 0)
             {
-                errorMsg = "系统错误";
                 throw new ArgumentNullException(nameof(galleryModel));
             }
 
@@ -297,7 +299,7 @@ namespace TimeGallery.Managers
                     }
                 }
                 else
-                {
+                {                    
                     throw new Exception(
                         $"内存中添加相册对应用户失败，新建相册内存中出现重复主键，相册信息：{JsonConvert.SerializeObject(galleryModel)}；用户信息：{JsonConvert.SerializeObject(user)}");
                 }
@@ -338,6 +340,7 @@ namespace TimeGallery.Managers
 
             //关系修改完毕，自定义用户菜单
             CustomUserMenuAsync(user);
+            errorMsg = String.Empty;
 
             return true;
         }

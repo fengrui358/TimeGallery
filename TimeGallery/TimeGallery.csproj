@@ -218,7 +218,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Consts\ConstInfos.cs" />
+    <Compile Include="Consts\SystemString.cs" />
+    <Compile Include="Consts\ErrorString.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
+    <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\Javascript\RequestResult.cs" />
     <Compile Include="Models\SessionModel.cs" />
@@ -263,7 +265,6 @@
     <Compile Include="Weixin\CustomMessageHandler_Events.cs" />
     <Compile Include="Helper\QiniuHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Javascript\AddContentModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

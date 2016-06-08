@@ -422,7 +422,9 @@ FileProgress.prototype.appear = function () {
 
 
 
-$(function() {
+$(function () {
+    var galleryId = $('#data-container').data('data-galleryId');
+
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'pickfiles',

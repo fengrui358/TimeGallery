@@ -36,7 +36,8 @@ namespace TimeGallery.Controllers
     public class GalleryController : ControllerBase
     {
         public GalleryController(IConfigurationManager configurationManager, IUserManager userManager,
-            ISessionManager sessionManager, IGalleryManager galleryManager) : base(configurationManager, userManager, sessionManager, galleryManager)
+            ISessionManager sessionManager, IGalleryManager galleryManager, IContentManager contentManager)
+            : base(configurationManager, userManager, sessionManager, galleryManager, contentManager)
         {
         }
 
@@ -115,7 +116,7 @@ namespace TimeGallery.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> AddContent(AddContentModel addContentModel)
+        public async Task<ActionResult> AddContent(ContentModel addContentModel)
         {
             var result = false;
             using (var con = StorageHelper.GetConnection())

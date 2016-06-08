@@ -16,7 +16,9 @@ namespace TimeGallery.DataBase.Entity
         [Key]        
         public virtual Guid Id { get; set; }
 
-        public virtual Guid GalleryId { get; set; }
+        public virtual Guid ContentGroupId { get; set; }
+
+        public virtual long GalleryId { get; set; }
 
         public virtual string Type { get; set; }
 

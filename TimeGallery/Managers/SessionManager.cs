@@ -121,10 +121,10 @@ namespace TimeGallery.Managers
         /// <returns>如果不存在则返回Guid.Empty</returns>
         public Guid GetSessionFromCookie(HttpContextBase httpContextBase)
         {
-            if (httpContextBase.Session[ConstInfos.SessionKey] != null)
+            if (httpContextBase.Session[SystemString.SessionKey] != null)
             {
                 Guid outGuid;
-                if (Guid.TryParse(httpContextBase.Session[ConstInfos.SessionKey].ToString(), out outGuid))
+                if (Guid.TryParse(httpContextBase.Session[SystemString.SessionKey].ToString(), out outGuid))
                 {
                     return outGuid;
                 }

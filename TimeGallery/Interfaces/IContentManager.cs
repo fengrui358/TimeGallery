@@ -13,8 +13,9 @@ namespace TimeGallery.Interfaces
         /// 增添内容
         /// </summary>
         /// <param name="openId">上传内容的用户</param>
-        /// <param name="galleryId">相册Id</param>
+        /// <param name="contentModel">待添加的内容</param>
+        /// <param name="errorMsg">失败的错误提示</param>
         /// <returns></returns>
-        bool AddContent(string openId, long galleryId);
+        bool AddContent(string openId, ref ContentModel contentModel, out string errorMsg);
     }
 }
