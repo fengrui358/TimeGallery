@@ -16,66 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `content`
---
-
-DROP TABLE IF EXISTS `content`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `content` (
-  `Id` char(36) NOT NULL COMMENT 'Guid主键',
-  `ContentGroupId` char(36) NOT NULL COMMENT '内容分组的外键',
-  `Type` varchar(20) NOT NULL COMMENT 'mime类型',
-  `Url` varchar(128) NOT NULL COMMENT '内容的网络地址',
-  `Size` bigint(20) NOT NULL DEFAULT '0' COMMENT '尺寸大小',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`Id`),
-  KEY `CreateTime` (`CreateTime`),
-  KEY `ContentGroupId` (`ContentGroupId`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='内容表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `content`
---
-
-LOCK TABLES `content` WRITE;
-/*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES ('5','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjh8qb611089eiano18kiqkn9.jpg',73060,'2016-04-05 23:39:48'),('4','0','video/quicktime','http://7xrp60.com1.z0.glb.clouddn.com/o_1afjce9gkqrv1lhj1tos51dcad9.mov',5273396,'2016-04-05 22:15:30'),('3','0','image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1af6glmpit2u1e0gfah6hv1j2p9.jpg',1191451,'2016-03-31 22:19:15');
-/*!40000 ALTER TABLE `content` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contentgroup`
---
-
-DROP TABLE IF EXISTS `contentgroup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `contentgroup` (
-  `Id` char(36) NOT NULL COMMENT 'Guid主键',
-  `GalleryId` bigint(20) NOT NULL COMMENT '所属相册外键',
-  `ImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的图片数量',
-  `VideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的视频数量',
-  `TotalSize` bigint(20) NOT NULL DEFAULT '0' COMMENT '该分组内容总体积大小',
-  `Date` datetime NOT NULL COMMENT '该分组是哪一天',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`Id`),
-  KEY `GalleryId` (`GalleryId`),
-  KEY `Date` (`Date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='按天分组内容，统计一天内容的基本信息';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contentgroup`
---
-
-LOCK TABLES `contentgroup` WRITE;
-/*!40000 ALTER TABLE `contentgroup` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contentgroup` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `gallery`
 --
 
@@ -94,7 +34,9 @@ CREATE TABLE `gallery` (
   `LastUpdateTime` datetime DEFAULT NULL COMMENT '最后一次更新时间，用以判断相册活跃度',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='相册';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='相册'
+/*!50100 PARTITION BY HASH (`Id`)
+PARTITIONS 20 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,10 +63,11 @@ CREATE TABLE `user` (
   `Sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '用户的性别，值为1时是男性，值为2时是女性，值为0时是未知',
   `City` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
   `Remark` varchar(50) DEFAULT NULL COMMENT '公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注',
-  PRIMARY KEY (`OpenId`),
-  UNIQUE KEY `Uuid` (`Uuid`),
+  PRIMARY KEY (`OpenId`,`OrderNumber`),
   KEY `OrderNumber` (`OrderNumber`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表，存储凡是关注过公众号的微信号相关信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表，存储凡是关注过公众号的微信号相关信息'
+/*!50100 PARTITION BY HASH (`OrderNumber`)
+PARTITIONS 100 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +76,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,1,'free',0,NULL,'0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +91,9 @@ CREATE TABLE `user_gallery_rel` (
   `GalleryId` bigint(20) NOT NULL COMMENT '相册Id',
   `UserGalleryRelType` tinyint(4) NOT NULL COMMENT '关系：1为关注者，2为上传管理员，4为相册管理员',
   PRIMARY KEY (`OpenId`,`GalleryId`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户和相册的关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户和相册的关系表'
+/*!50100 PARTITION BY HASH (`GalleryId`)
+PARTITIONS 100 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-07 16:09:23
+-- Dump completed on 2016-06-09  9:48:07
