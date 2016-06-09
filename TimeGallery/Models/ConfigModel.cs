@@ -42,6 +42,7 @@ namespace TimeGallery.Models
                 Qiniu.Conf.Config.ACCESS_KEY = AccessKey;
                 Qiniu.Conf.Config.SECRET_KEY = SecretKey;
 
+                //todo:让服务端SaveKey
                 var put = new PutPolicy(Bucket, 3600);
 
                 //调用Token()方法生成上传的Token

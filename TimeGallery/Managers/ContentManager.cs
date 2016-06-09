@@ -23,6 +23,8 @@ namespace TimeGallery.Managers
         {
             errorMsg = ErrorString.SystemInnerError;
 
+            #region 校验基本信息
+
             if (string.IsNullOrEmpty(openId))
             {
                 errorMsg = ErrorString.NotExistUser;
@@ -45,6 +47,10 @@ namespace TimeGallery.Managers
             {
                 throw new ArgumentNullException(nameof(contentModel.GalleryId));
             }
+
+            //校验用户有权限针对该相册上传内容
+
+            #endregion
 
 
             errorMsg = string.Empty;

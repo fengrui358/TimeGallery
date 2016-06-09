@@ -24,7 +24,7 @@ namespace TimeGallery.Managers
 
             //todo：现阶段只需要一台主机
             return
-                $"Server ={ipAddress}; Database =timegallery; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;";
+                $"Server ={ipAddress}; Database =timegallerycontent; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;";
         }
     }
 }

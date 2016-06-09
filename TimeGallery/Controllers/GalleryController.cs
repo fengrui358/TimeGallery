@@ -20,6 +20,7 @@ using Senparc.Weixin.HttpUtility;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using TimeGallery.Consts;
 using TimeGallery.DataBase;
 using TimeGallery.DataBase.Entity;
 using TimeGallery.Enums;
@@ -40,6 +41,8 @@ namespace TimeGallery.Controllers
             : base(configurationManager, userManager, sessionManager, galleryManager, contentManager)
         {
         }
+
+        #region 展示相册
 
         // GET: Gallery
         public ActionResult Index(long id)
@@ -76,7 +79,11 @@ namespace TimeGallery.Controllers
             
             return Content("");
         }
-        
+
+        #endregion
+
+        #region 上传内容
+
         //[AuthFilter(false)]
         //public ActionResult Index(long galleryId)
         //{
@@ -103,14 +110,6 @@ namespace TimeGallery.Controllers
             }).ContinueWith(task => task.Result);
         }
 
-        //[HttpPost]
-        public ActionResult GetQiniuToken()
-        {
-            var upToken = QiniuHelper.GetToken();
-
-            return Json(new {uptoken = upToken}, JsonRequestBehavior.AllowGet);
-        }
-
         /// <summary>
         /// 添加类容
         /// </summary>
@@ -118,24 +117,46 @@ namespace TimeGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> AddContent(ContentModel addContentModel)
         {
-            var result = false;
-            using (var con = StorageHelper.GetConnection())
+            if (addContentModel == null)
             {
-                var content = (ContentDbEntity) addContentModel;
-                content.Id = Guid.NewGuid();
-                await con.InsertAsync(content);
+                var result = new RequestResult(RequestResultTypeDefine.Error, ErrorString.SystemInnerError);
+
+                return Content(JsonConvert.SerializeObject(result));
             }
-            //todo:调整
-            return Json(new {success = true });
+
+            return await Task.Run(() =>
+            {
+                string errorMsg;
+                RequestResult result = null;
+
+                if (ContentManager.AddContent(CurrentUserModel, ref addContentModel, out errorMsg))
+                {
+                    result = new RequestResult(RequestResultTypeDefine.Success, "点击确定可立即开始上传文件");
+                }
+                else
+                {
+                    result = new RequestResult(RequestResultTypeDefine.Error, errorMsg);
+                }
+
+                return Content(JsonConvert.SerializeObject(result));
+            }).ContinueWith(task => task.Result);
         }
+
+        #endregion
+
+        #region 关于
 
         public ActionResult About()
         {            
             return View();
         }
 
+        #endregion
+
+        #region 注册相册
+
         public ActionResult Register()
-        {            
+        {
             //判断是否存在已注册的相册
             var gallery = GalleryManager.GetGalleryModels(CurrentUserModel.OpenId, UserGalleryRelTypeDefine.Owner);
             if (gallery.Any())
@@ -148,8 +169,8 @@ namespace TimeGallery.Controllers
                 return View();
             }
         }
-        
-        [HttpPost]        
+
+        [HttpPost]
         public ActionResult RegisterSubmit(GalleryModel galleryModel)
         {
             if (galleryModel == null)
@@ -161,7 +182,7 @@ namespace TimeGallery.Controllers
             if (string.IsNullOrEmpty(galleryModel.Name))
             {
                 LogManager.GetCurrentClassLogger().Error("校验相册基本信息不通过");
-                var result = new RequestResult(RequestResultTypeDefine.Error, "相册名不能为空");               
+                var result = new RequestResult(RequestResultTypeDefine.Error, "相册名不能为空");
 
                 return Content(JsonConvert.SerializeObject(result));
             }
@@ -174,17 +195,27 @@ namespace TimeGallery.Controllers
                     return Content(JsonConvert.SerializeObject(result));
                 }
                 else
-                {                    
+                {
                     var result = new RequestResult(RequestResultTypeDefine.Error, errorMsg);
                     return Content(JsonConvert.SerializeObject(result));
                 }
             }
         }
 
+        #endregion
+
+
+        #region 管理相册
+
         public ActionResult Manager()
         {
             return Content("管理相册");
         }
+
+        #endregion
+
+
+        #region 关注相册
 
         /// <summary>
         /// 展示可关注的相册列表
@@ -206,9 +237,30 @@ namespace TimeGallery.Controllers
             return Content(JsonConvert.SerializeObject(result));
         }
 
+        #endregion
+
+
+        #region 邀请关注
+
         public ActionResult Invite()
         {
             return Content("邀请关注");
         }
+
+        #endregion
+
+
+        #region 云存储
+
+        //[HttpPost]
+        public ActionResult GetQiniuToken()
+        {
+            var upToken = QiniuHelper.GetToken();
+
+            return Json(new {uptoken = upToken}, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using Dapper.FastCrud;
@@ -238,6 +239,8 @@ namespace TimeGallery.Managers
         {
             errorMsg = ErrorString.SystemInnerError;
 
+            #region 校验数据有效性
+
             var user = _userManager.GetUser(openId);
 
             if (user == null)
@@ -263,24 +266,51 @@ namespace TimeGallery.Managers
                 errorMsg = $"该用户已关注相册数量{FollowerGalleriesMaxCountPerUser}，达到系统上限";
                 return false;
             }
-            
+
+            #endregion
+
+            #region 完善数据
+
+            //判断该新增相册将存入的数据库
             galleryModel.ContentDbHost = _loadBalanceManager.GetDbHost().ToString();
+
+            #endregion
 
             //添加数据库以及内存
             using (var con = StorageHelper.GetConnection())
             {
-                #region 向数据库中添加相册及对应关系
+                #region 向数据库中添加相册及对应关系                
 
-                //插入相册信息
-                con.Insert(galleryModel);
+                IDbTransaction transaction = null;
+                UserGalleryRelDbEntity newUserGalleryRelDbEntity;
 
-                var newUserGalleryRelDbEntity = new UserGalleryRelDbEntity
+                try
                 {
-                    GalleryId = galleryModel.Id,
-                    OpenId = user.OpenId,
-                    UserGalleryRelType = UserGalleryRelTypeDefine.Owner
-                };
-                con.Insert(newUserGalleryRelDbEntity);
+                    con.Open();
+                    transaction = con.BeginTransaction();
+
+                    //插入相册信息
+                    con.Insert(galleryModel, statement => statement.AttachToTransaction(transaction));
+
+                    newUserGalleryRelDbEntity = new UserGalleryRelDbEntity
+                    {
+                        GalleryId = galleryModel.Id,
+                        OpenId = user.OpenId,
+                        UserGalleryRelType = UserGalleryRelTypeDefine.Owner
+                    };
+                    con.Insert(newUserGalleryRelDbEntity, statement => statement.AttachToTransaction(transaction));
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction?.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    con.Close();
+                }
 
                 #endregion
 
@@ -343,8 +373,13 @@ namespace TimeGallery.Managers
                 #endregion
             }
 
+            #region 收尾工作
+
             //关系修改完毕，自定义用户菜单
             CustomUserMenuAsync(user);
+
+            #endregion
+
             errorMsg = String.Empty;
 
             return true;

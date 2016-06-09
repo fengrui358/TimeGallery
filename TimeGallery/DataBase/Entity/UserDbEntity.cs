@@ -25,15 +25,16 @@ namespace TimeGallery.DataBase.Entity
         public virtual string Uuid { get; set; }
 
         /// <summary>
+        /// 用户的加入平台的时间序号
+        /// </summary>
+        [Key]
+        [DatabaseGeneratedDefaultValue]
+        public virtual int OrderNumber { get; set; }
+
+        /// <summary>
         /// 微信用户自身的昵称
         /// </summary>
         public virtual string Name { get; set; }
-
-        /// <summary>
-        /// 用户的加入平台的时间序号
-        /// </summary>
-        [DatabaseGeneratedDefaultValue]
-        public virtual int OrderNumber { get; set; }
 
         /// <summary>
         /// 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知

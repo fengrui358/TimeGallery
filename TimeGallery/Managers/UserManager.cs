@@ -184,6 +184,12 @@ namespace TimeGallery.Managers
                     }
                 }
             }
+            else
+            {
+                //获取用户信息，然后添加用户
+                var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
+                AddUser((UserModel) weixinUserInfo);
+            }
         }
     }
 }
