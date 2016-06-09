@@ -122,16 +122,22 @@ namespace TimeGallery.Managers
 
                 if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
                 {
-                    LogManager.GetCurrentClassLogger()
-                        .Info(
-                            $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject(userModel)}");
-
-                    TinyMapper.Map(userModel, user);
                     user.LastUpDateTime = DateTime.Now;
-
-                    using (var con = StorageHelper.GetConnection())
+                    
+                    if (!userModel.Equals(user))
                     {
-                        await con.UpdateAsync(user);
+                        userModel.LastUpDateTime = DateTime.Now;
+                        userModel.OrderNumber = user.OrderNumber;
+                        TinyMapper.Map(userModel, user);
+
+                        LogManager.GetCurrentClassLogger()
+                            .Info(
+                                $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject(userModel)}");
+
+                        using (var con = StorageHelper.GetConnection())
+                        {
+                            await con.UpdateAsync(user);
+                        }
                     }
                 }
             });
@@ -150,39 +156,54 @@ namespace TimeGallery.Managers
 
             if (_usersDictionary.ContainsKey(openId))
             {
-                //判断最后一次更新时间大于阈值才更新
-                var user = _usersDictionary[openId];
-                double tryUpdateUserInfoInterval;
-
-                if (!double.TryParse(_configurationManager.GetAppSetting("TryUpdateUserInfoInterval"),
-                    out tryUpdateUserInfoInterval))
+                await Task.Run(async () =>
                 {
-                    //默认阈值
-                    tryUpdateUserInfoInterval = 1800;
-                    LogManager.GetCurrentClassLogger().Error("配置项TryUpdateUserInfoInterval出现异常，无法转换为double型");
-                }
+                    //判断最后一次更新时间大于阈值才更新
+                    var user = _usersDictionary[openId];
+                    double tryUpdateUserInfoInterval;
 
-                if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
-                {
-                    //向微信服务器获取用户信息
-                    //获取用户信息            
-                    var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
-
-                    LogManager.GetCurrentClassLogger()
-                        .Info(
-                            $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject((UserModel) weixinUserInfo)}");
-
-                    if (weixinUserInfo != null)
+                    if (!double.TryParse(_configurationManager.GetAppSetting("TryUpdateUserInfoInterval"),
+                        out tryUpdateUserInfoInterval))
                     {
-                        TinyMapper.Map((UserModel)weixinUserInfo, user);
+                        //默认阈值
+                        tryUpdateUserInfoInterval = 1800;
+                        LogManager.GetCurrentClassLogger().Error("配置项TryUpdateUserInfoInterval出现异常，无法转换为double型");
+                    }
+
+                    if (DateTime.Now.Subtract(user.LastUpDateTime).TotalSeconds > tryUpdateUserInfoInterval)
+                    {
                         user.LastUpDateTime = DateTime.Now;
 
-                        using (var con = StorageHelper.GetConnection())
+                        //向微信服务器获取用户信息
+                        //获取用户信息            
+                        var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
+
+                        if (weixinUserInfo != null)
                         {
-                            await con.UpdateAsync(user);
+                            var sourceUser = (UserModel)weixinUserInfo;
+                            if (!sourceUser.Equals(user))
+                            {
+                                sourceUser.LastUpDateTime = DateTime.Now;
+                                sourceUser.OrderNumber = user.OrderNumber;
+                                TinyMapper.Map(sourceUser, user);
+
+                                LogManager.GetCurrentClassLogger()
+                                    .Info(
+                                        $"更新用户信息，原数据：{JsonConvert.SerializeObject(user)}，新数据：{JsonConvert.SerializeObject((UserModel) weixinUserInfo)}");
+
+                                using (var con = StorageHelper.GetConnection())
+                                {
+                                    if (!await con.UpdateAsync(user))
+                                    {
+                                        LogManager.GetCurrentClassLogger()
+                                            .Error(
+                                                $"更新用户信息失败，新数据：{JsonConvert.SerializeObject(user)}");
+                                    }
+                                }
+                            }
                         }
                     }
-                }
+                });
             }
             else
             {

@@ -274,6 +274,11 @@ namespace TimeGallery.Managers
             //判断该新增相册将存入的数据库
             galleryModel.ContentDbHost = _loadBalanceManager.GetDbHost().ToString();
 
+            //todo：设置用户曾经拥有过相册，做一些优惠信息使用
+            //todo：设置新注册相册的优惠期
+
+            //todo：判断封面是否已赋值，如果没有则使用拥有者头像，
+
             #endregion
 
             //添加数据库以及内存

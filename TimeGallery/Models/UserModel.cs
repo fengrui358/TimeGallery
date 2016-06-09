@@ -6,10 +6,11 @@ using System.Web;
 using Nelibur.ObjectMapper;
 using Senparc.Weixin.MP.Entities;
 using TimeGallery.DataBase.Entity;
+using TimeGallery.Enums;
 
 namespace TimeGallery.Models
 {
-    public class UserModel : UserDbEntity
+    public class UserModel : UserDbEntity, IEquatable<UserModel>
     {
         /// <summary>
         /// 上一次更新用户信息的时间
@@ -28,7 +29,18 @@ namespace TimeGallery.Models
             {
                 OpenId = weixinUserInfo.openid,
                 Uuid = weixinUserInfo.unionid,                
-                Name = weixinUserInfo.nickname
+                NickName = weixinUserInfo.nickname,
+                HeadImgUrl = weixinUserInfo.headimgurl,
+                Sex = (UserSexTypeDefine)weixinUserInfo.sex,
+                City = weixinUserInfo.city,
+                Province = weixinUserInfo.province,
+                Country = weixinUserInfo.country,
+                Language = weixinUserInfo.language,
+                Subscribe = weixinUserInfo.subscribe != 0,
+                SubscribeTime = weixinUserInfo.subscribe_time,
+                Remark = weixinUserInfo.remark,
+                GroupId = weixinUserInfo.groupid,
+                LastUpDateTime = DateTime.Now
             };
 
             return userModel;
@@ -42,6 +54,23 @@ namespace TimeGallery.Models
             }
 
             return userModel.OpenId;
+        }
+
+        public bool Equals(UserModel other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            bool result =
+                !(OpenId != other.OpenId || Uuid != other.Uuid || NickName != other.NickName ||
+                  HeadImgUrl != other.HeadImgUrl || Sex != other.Sex || City != other.City
+                  || Province != other.Province || Country != other.Country || Language != other.Language ||
+                  Subscribe != other.Subscribe || SubscribeTime != other.SubscribeTime
+                  || Remark != other.Remark || GroupId != other.GroupId);
+
+            return result;
         }
     }
 }

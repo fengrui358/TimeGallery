@@ -109,7 +109,8 @@
                             $('.weui_msg').show();
                         }
                     },
-                    "json").error(function() {
+                    "json").error(function () {
+                        //todo:使用一个统一的错误画面，一个小孩在哭泣……
                     alert('服务端异常');
                 });
             },
