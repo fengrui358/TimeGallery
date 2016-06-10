@@ -45,8 +45,30 @@ namespace TimeGallery.Controllers
         #region 展示相册
 
         // GET: Gallery
-        public ActionResult Index(long id)
+        [AuthFilter(AuthFilterTypeDefine.Try)]
+        public ActionResult Index(long id = 0)
         {
+            var gallery = GalleryManager.GetGalleryModel(id);
+            if (gallery == null)
+            {
+                if (CurrentUserModel == null)
+                {
+                    //todo:跳转提示欢迎关注公众号XXX
+                }
+
+                var gallerys = GalleryManager.GetGalleryModels(CurrentUserModel);
+                var galleryModels = gallerys as GalleryModel[] ?? gallerys.ToArray();
+                if (gallerys != null && galleryModels.Any())
+                {
+                    gallery = galleryModels.First();
+                }
+                else
+                {
+                    //todo:跳转提示欢迎关注相册
+                    return RedirectToAction(nameof(ShowFollowGalleryList));
+                }
+            }
+
             //ViewBag.Title = ConfigurationManager.WebTitle;
 
             //IEnumerable<ContentDbEntity> contents = new List<ContentDbEntity>();
@@ -63,9 +85,8 @@ namespace TimeGallery.Controllers
 
             //return View(result);
 
-            //如果没有传入相册的id值则默认选择优先级最高的相册
-            ViewBag.GalleryId = id;
-            return View();
+            //如果没有传入相册的id值则默认选择优先级最高的相册            
+            return View(gallery);
         }
 
         /// <summary>
@@ -73,6 +94,7 @@ namespace TimeGallery.Controllers
         /// </summary>
         /// <param name="id">相册id</param>
         /// <returns></returns>
+        [AuthFilter(AuthFilterTypeDefine.Try)]
         [HttpPost]
         public ActionResult GetGalleryContents(long id)
         {

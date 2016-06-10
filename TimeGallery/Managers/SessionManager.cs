@@ -29,7 +29,9 @@ namespace TimeGallery.Managers
         /// </summary>
         private readonly ConcurrentDictionary<string, Guid> _onLineUserDictionary = new ConcurrentDictionary<string, Guid>(); 
 
-        private IUserManager _userManager;
+        private readonly IUserManager _userManager;
+
+        public static Guid TempUserSession = Guid.NewGuid();
 
         public SessionManager(IUserManager userManager)
         {
@@ -74,7 +76,7 @@ namespace TimeGallery.Managers
                     var newSession = new SessionModel(user);
                     newSession.ExpiresEvent += SessionOnExpiresEventHandler;
 
-                    //判断是该用户是否有服务端还没过期的Session记录，有则清除
+                    //判断该用户是否有服务端还没过期的Session记录，有则清除
                     if (_onLineUserDictionary.ContainsKey(user.OpenId))
                     {                        
                         Guid existSessionId;
@@ -96,15 +98,15 @@ namespace TimeGallery.Managers
                 }
             }
 
-            return Guid.Empty;
+            return TempUserSession;
         }
 
         public UserModel GetOnlineUser(Guid sessionId)
         {
-            if (sessionId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(sessionId));
-            }
+            //if (sessionId == Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(sessionId));
+            //}
 
             if (_sessionDictionary.ContainsKey(sessionId))
             {

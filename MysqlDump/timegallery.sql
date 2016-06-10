@@ -26,15 +26,15 @@ CREATE TABLE `gallery` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '整型自增主键',
   `Name` varchar(50) NOT NULL COMMENT '相册名称',
   `Description` varchar(400) DEFAULT NULL COMMENT '相册描述',
-  `CoverUrl` varchar(50) DEFAULT NULL COMMENT '封面地址',
+  `CoverUrl` varchar(1024) DEFAULT NULL COMMENT '封面地址',
   `ContentDbHost` varchar(15) NOT NULL COMMENT '内容表所在数据库的主机地址',
   `TotalImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '相册中的图片数量',
   `TotalVideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '相册中的视屏数量',
   `TotalSize` bigint(20) NOT NULL DEFAULT '0' COMMENT '相册总的体积大小',
-  `LastUpdateTime` datetime DEFAULT NULL COMMENT '最后一次更新时间，用以判断相册活跃度',
+  `LastUpdateTime` datetime DEFAULT NULL COMMENT '最后一次上传内容时间，用以判断相册活跃度',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='相册'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='相册'
 /*!50100 PARTITION BY HASH (`Id`)
 PARTITIONS 20 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -45,6 +45,7 @@ PARTITIONS 20 */;
 
 LOCK TABLES `gallery` WRITE;
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
+INSERT INTO `gallery` VALUES (1,'nihao','dfgdgdsgds','http://7xrp60.com1.z0.glb.clouddn.com/o_1akrqmr84a54v043921q9o11i39.jpg','127.0.0.1',1,0,108176,'2016-06-10 11:29:47','2016-06-10 08:17:33');
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,10 +58,10 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `OpenId` char(28) NOT NULL COMMENT '真对该公众号的OpenId',
-  `Uuid` char(28) DEFAULT NULL COMMENT '未来申请下开放平台可替换为真实的微信Uuid',
+  `Uuid` varchar(50) DEFAULT NULL COMMENT '未来申请下开放平台可替换为真实的微信Uuid',
   `OrderNumber` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户的加入平台的时间序号',
   `NickName` varchar(50) NOT NULL COMMENT '微信用户自身的昵称',
-  `HeadImgUrl` varchar(256) DEFAULT NULL COMMENT '用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。',
+  `HeadImgUrl` varchar(1024) DEFAULT NULL COMMENT '用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。',
   `Sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '用户的性别，值为1时是男性，值为2时是女性，值为0时是未知',
   `City` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
   `Province` varchar(50) DEFAULT NULL COMMENT '用户所在省份',
@@ -73,7 +74,7 @@ CREATE TABLE `user` (
   `RegisteredGallery` tinyint(1) DEFAULT '0' COMMENT '是否曾经注册过相册',
   PRIMARY KEY (`OpenId`,`OrderNumber`),
   KEY `OrderNumber` (`OrderNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表，存储凡是关注过公众号的微信号相关信息'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表，存储凡是关注过公众号的微信号相关信息'
 /*!50100 PARTITION BY HASH (`OrderNumber`)
 PARTITIONS 100 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -84,7 +85,7 @@ PARTITIONS 100 */;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,1,'free',NULL,0,NULL,NULL,NULL,'zh-CN',0,NULL,NULL,NULL,0);
+INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,2,'free','http://wx.qlogo.cn/mmopen/DYAIOgq83eqvVnwn6hbicakLlooXww3Y17UFhITfQ5SCnufT8Ssl3alribZ1VMfuSulY3eibCC13WPJKLJ4nGej0SYicsrw28DP4/0',1,'成都','四川','中国','zh_CN',1,1465450280,'',0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,6 +112,7 @@ PARTITIONS 100 */;
 
 LOCK TABLES `user_gallery_rel` WRITE;
 /*!40000 ALTER TABLE `user_gallery_rel` DISABLE KEYS */;
+INSERT INTO `user_gallery_rel` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',1,4);
 /*!40000 ALTER TABLE `user_gallery_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -123,4 +125,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-09 16:57:54
+-- Dump completed on 2016-06-10 18:55:07

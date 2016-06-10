@@ -68,6 +68,12 @@ namespace TimeGallery.Managers
                 throw new ArgumentNullException(nameof(userModel));
             }
 
+            //未关注用户暂时不添加进来
+            if (!userModel.Subscribe)
+            {
+                return;
+            }
+
             if (!_usersDictionary.ContainsKey(userModel.OpenId))
             {
                 //添加新用户信息到缓存字典
@@ -180,7 +186,7 @@ namespace TimeGallery.Managers
 
                         if (weixinUserInfo != null)
                         {
-                            var sourceUser = (UserModel)weixinUserInfo;
+                            var sourceUser = (UserModel) weixinUserInfo;
                             if (!sourceUser.Equals(user))
                             {
                                 sourceUser.LastUpDateTime = DateTime.Now;
@@ -207,8 +213,10 @@ namespace TimeGallery.Managers
             }
             else
             {
+                //todo：未关注用户也有可能进到这里，注意测试
                 //获取用户信息，然后添加用户
                 var weixinUserInfo = CommonApi.GetUserInfo(WeixinManager.AppId, openId);
+
                 AddUser((UserModel) weixinUserInfo);
             }
         }

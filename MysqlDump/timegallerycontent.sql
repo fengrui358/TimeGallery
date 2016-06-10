@@ -27,11 +27,10 @@ CREATE TABLE `content` (
   `ContentGroupId` char(36) NOT NULL COMMENT '内容分组的外键',
   `GalleryId` bigint(20) NOT NULL COMMENT '所属相册外键',
   `Type` varchar(20) NOT NULL COMMENT 'mime类型',
-  `Url` varchar(128) NOT NULL COMMENT '内容的网络地址',
+  `Url` varchar(1024) NOT NULL COMMENT '内容的网络地址',
   `Size` bigint(20) NOT NULL DEFAULT '0' COMMENT '尺寸大小',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`Id`,`ContentGroupId`,`GalleryId`),
-  KEY `CreateTime` (`CreateTime`)
+  `CreateTime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`Id`,`ContentGroupId`,`GalleryId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容表'
 /*!50100 PARTITION BY HASH (`GalleryId`)
 PARTITIONS 800 */;
@@ -43,6 +42,7 @@ PARTITIONS 800 */;
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
+INSERT INTO `content` VALUES ('2c0e0117-09a8-446b-84f9-8229b635086e','2c0e0117-09a8-486b-84f9-8229b635086e',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1aks5ng8pvs8ncm7pb1nnnesb9.jpg',108176,'2016-06-10 11:29:46');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,8 +59,8 @@ CREATE TABLE `contentgroup` (
   `ImageCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的图片数量',
   `VideoCount` int(11) NOT NULL DEFAULT '0' COMMENT '该分组的视频数量',
   `TotalSize` bigint(20) NOT NULL DEFAULT '0' COMMENT '该分组内容总体积大小',
-  `Date` datetime NOT NULL COMMENT '该分组是哪一天',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `Date` date NOT NULL COMMENT '该分组是哪一天',
+  `CreateTime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`Id`,`GalleryId`),
   KEY `Date` (`Date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='按天分组内容，统计一天内容的基本信息'
@@ -74,6 +74,7 @@ PARTITIONS 200 */;
 
 LOCK TABLES `contentgroup` WRITE;
 /*!40000 ALTER TABLE `contentgroup` DISABLE KEYS */;
+INSERT INTO `contentgroup` VALUES ('2c0e0117-09a8-486b-84f9-8229b635086e',1,1,0,108176,'2016-06-10','2016-06-10 11:24:44');
 /*!40000 ALTER TABLE `contentgroup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -86,4 +87,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-09 16:58:02
+-- Dump completed on 2016-06-10 18:55:21
