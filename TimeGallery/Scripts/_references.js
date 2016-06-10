@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.min.js" />
+/// <reference path="gallery/index.js" />
 /// <reference path="gallery/register.js" />
 /// <reference path="gallery/showfollowgallerylist.js" />
 /// <reference path="gallery/upload.js" />

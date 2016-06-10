@@ -152,16 +152,16 @@
                 } else {
                     $.post("RegisterSubmit",
                         { name: galleryName, description: $('#galleryDescription').val() },
-                        function (data) {
+                        function (result) {
                             $('#loadingToast').hide();
 
-                            if (data.state !== 0) {
-                                $.showWarning(data.message);
+                            if (result.state !== 0) {
+                                $.showWarning(result.message);
                                 return;
                             }
 
-                            if (data.state === 0) {
-                                $('.weui_msg .weui_msg_desc').html(data.message);
+                            if (result.state === 0) {
+                                $('.weui_msg .weui_msg_desc').html(result.message);
 
                                 $('#registerContainer').hide();
                                 $('.weui_msg').show();

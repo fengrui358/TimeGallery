@@ -199,7 +199,7 @@ namespace TimeGallery.Managers
                         result.AddRange(galleryIds.Select(galleryId => GetGalleryModel(galleryId.GalleryId)));
                     }
                 }
-                else if (userGalleryRelType == UserGalleryRelTypeDefine.Owner)
+                else if (userGalleryRelType == UserGalleryRelTypeDefine.Follower)
                 {
                     var galleryIds =
                         userGalleryRels.Where(

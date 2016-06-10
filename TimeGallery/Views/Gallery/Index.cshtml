@@ -1,14 +1,11 @@
-﻿@{
+﻿@model TimeGallery.Models.GalleryModel
+
+@{
     Layout = "../Shared/_GalleryLayout.cshtml";
 }
 
-@section headerScripts
-{
-    <script>
-        globalOptions.galleryId = 
-    </script>
-}
-<div>
+<span id="data-container" data-gallery-id="@Model.Id"></span>
+<div id="content-container">
     @*完全用js获取数据*@
     @*<h1>裴裴时光轴</h1>
     <div class="container">
@@ -48,3 +45,7 @@
     </div>*@
 
 </div>
+@section footerScripts
+{
+    @Scripts.Render("~/Scripts/Gallery/Index.js")
+}

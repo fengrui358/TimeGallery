@@ -8,5 +8,6 @@ namespace TimeGallery.Models
 {
     public class ContentGroup : ContentGroupDbEntity
     {
+        public IEnumerable<ContentModel> ContentModels { get; set; }
     }
 }

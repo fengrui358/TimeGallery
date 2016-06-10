@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -16,21 +17,25 @@ namespace TimeGallery.Managers
 {
     public class ContentManager : IContentManager
     {
-        private ConcurrentDictionary<string, ConcurrentQueue<ContentModel>> _contentCache;
-        private Timer _cacheHandlerTimer;
+        private readonly ConcurrentDictionary<string, ConcurrentQueue<ContentModel>> _contentCache;
+        private readonly Timer _cacheHandlerTimer;
 
         /// <summary>
         /// 定时处理上传数据的时间间隔
         /// </summary>
-        private TimeSpan _cacheHandleInterval = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _cacheHandleInterval = TimeSpan.FromSeconds(5);
 
-        private ManualResetEventSlim _cacheHandleSlim = new ManualResetEventSlim();
+        private readonly ManualResetEventSlim _cacheHandleSlim = new ManualResetEventSlim();
 
+        private readonly IConfigurationManager _configurationManager;
         private readonly IUserManager _userManager;
         private readonly IGalleryManager _galleryManager;
 
-        public ContentManager(IUserManager userManager, IGalleryManager galleryManager)
+        private int SmartGetContentGroupsLimit => int.Parse(_configurationManager.GetAppSetting("SmartGetContentGroupsLimit"));
+
+        public ContentManager(IConfigurationManager configurationManager, IUserManager userManager, IGalleryManager galleryManager)
         {
+            _configurationManager = configurationManager;
             _userManager = userManager;
             _galleryManager = galleryManager;
 
@@ -121,6 +126,28 @@ namespace TimeGallery.Managers
             return true;
         }
 
+        public IEnumerable<ContentGroup> SmartGetContentGroups(long galleryId, DateTime afterDateTime)
+        {
+            var gallery = _galleryManager.GetGalleryModel(galleryId);
+
+            if (gallery == null)
+            {
+                throw new ArgumentNullException(nameof(galleryId));
+            }
+
+            if (afterDateTime == DateTime.MinValue)
+            {
+                //加一天是因为参数是after，所以不加一天默认就不会包括当天的数据
+                afterDateTime = DateTime.Now.AddDays(1);
+            }
+
+            var groupsWithOutContents = SmartGetContentGroupsWithLimit(gallery, afterDateTime);
+
+            FillContentGroups(gallery, ref groupsWithOutContents);
+
+            return groupsWithOutContents;
+        }
+
         /// <summary>
         /// 真正处理数据上传的地方
         /// </summary>
@@ -138,7 +165,8 @@ namespace TimeGallery.Managers
 
                 foreach (var keyValuePair in userAndContentsKeyValues)
                 {
-                    AddContentProcessing(keyValuePair.Key, keyValuePair.Value.ToArray());
+                    //todo:队列toarray出来是个什么顺序？？是不是按时间先后顺序排
+                    AddContentProcessing(keyValuePair.Key, keyValuePair.Value.ToArray().OrderBy(s=>s.CreateTime));
                 }
             }
             catch (Exception ex)
@@ -151,6 +179,11 @@ namespace TimeGallery.Managers
             }
         }
 
+        /// <summary>
+        /// 线程真正上传的地方
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="contentModels"></param>
         private void AddContentProcessing(string openId, IEnumerable<ContentModel> contentModels)
         {
             try
@@ -199,12 +232,14 @@ namespace TimeGallery.Managers
                             con.Insert(contentGroup);
                         }
 
-                        //todo：是否需要再次打开
                         con.Open();
-                        var transaction = con.BeginTransaction();
+                        IDbTransaction transaction = null;
 
                         try
                         {
+                            con.Open();
+                            transaction = con.BeginTransaction();
+
                             foreach (var contentModel in contentDateGroup.ContentModels)
                             {
                                 if (contentModel.GeContentType() == ContentTypeDefine.Image)
@@ -240,7 +275,7 @@ namespace TimeGallery.Managers
                         }
                         catch (Exception)
                         {
-                            transaction.Rollback();
+                            transaction?.Rollback();
                             throw;
                         }
                         finally
@@ -254,6 +289,94 @@ namespace TimeGallery.Managers
             {
                 //隔离错误
                 LogManager.GetCurrentClassLogger().Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// 根据指定容量的限制，递归
+        /// </summary>
+        /// <param name="gallery">相册</param>
+        /// <param name="afterDateTime">获取指定时间之后</param>
+        /// <param name="totalCount">当前已获取的文件的数量</param>
+        /// <param name="pageIndex">第几页</param>
+        /// <param name="pageSize">每页限制，这个处于内网获取和计算，这个值可以给大一些，减少数据库访问次数</param>
+        /// <returns></returns>
+        private IEnumerable<ContentGroup> SmartGetContentGroupsWithLimit(GalleryModel gallery, DateTime afterDateTime,
+            int totalCount = 0, int pageIndex = 0, int pageSize = 1000)
+        {
+            //如果pagesize大于SmartGetContentGroupsLimit，则是一种性能浪费，浪费可耻
+            pageSize = pageSize > SmartGetContentGroupsLimit ? SmartGetContentGroupsLimit : pageSize;
+
+            var result = new List<ContentGroup>();
+            var groupResult = new List<ContentGroup>();
+
+            using (var con = StorageHelper.GetConnection(gallery))
+            {
+                groupResult = con.Find<ContentGroup>(
+                    statement =>
+                        statement.Where(
+                            $"{nameof(ContentGroup.GalleryId):C} = @GallerId AND {nameof(ContentGroup.Date):C} < @AfterDateTime")
+                            .OrderBy($"{nameof(ContentGroup.Date):C} DESC")
+                            .Skip(pageIndex*pageSize)
+                            .Top(pageSize)
+                            .WithParameters(new {GallerId = gallery.Id, AfterDateTime = afterDateTime})).ToList();
+            }            
+
+            for (int i = 0; i < groupResult.Count(); i++)
+            {
+                result.Add(groupResult[i]);
+                totalCount += groupResult[i].ImageCount + groupResult[i].VideoCount;
+
+                if (totalCount >= SmartGetContentGroupsLimit)
+                {
+                    return result;
+                }
+            }
+
+            if (groupResult.Count < pageSize)
+            {
+                //证明数据库中已经没有了，也要提前返回
+                return result;
+            }
+            else
+            {
+                //一组循环完毕依然数量没有取够并且数据库中还有，则继续递归
+                pageIndex++;
+
+                result.AddRange(SmartGetContentGroupsWithLimit(gallery, afterDateTime, totalCount, pageIndex, pageSize));
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 填充指定分组的内容
+        /// </summary>
+        /// <param name="gallery"></param>
+        /// <param name="contentGroups"></param>
+        private void FillContentGroups(GalleryModel gallery, ref IEnumerable<ContentGroup> contentGroups)
+        {
+            if (contentGroups.Any())
+            {
+                var contentGroupIds = contentGroups.Select(s => s.Id);
+                var contentModels = new List<ContentModel>();
+
+                using (var con = StorageHelper.GetConnection(gallery))
+                {
+                    contentModels =
+                        con.Find<ContentModel>(
+                            statement =>
+                                statement.Where($"{nameof(ContentModel.ContentGroupId):C} IN @ContentGroupIds")
+                                    .WithParameters(new {ContentGroupIds = contentGroupIds})).ToList();
+                }
+
+                foreach (var contentGroup in contentGroups)
+                {
+                    contentGroup.ContentModels =
+                        contentModels.Where(s => s.ContentGroupId == contentGroup.Id)
+                            .OrderByDescending(s => s.CreateTime).ToList();
+
+                    contentModels.RemoveAll(s => s.ContentGroupId == contentGroup.Id);
+                }
             }
         }
     }

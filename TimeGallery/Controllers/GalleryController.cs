@@ -54,12 +54,14 @@ namespace TimeGallery.Controllers
                 if (CurrentUserModel == null)
                 {
                     //todo:跳转提示欢迎关注公众号XXX
+                    return RedirectToAction(nameof(ShowFollowGalleryList));
                 }
 
                 var gallerys = GalleryManager.GetGalleryModels(CurrentUserModel);
                 var galleryModels = gallerys as GalleryModel[] ?? gallerys.ToArray();
                 if (gallerys != null && galleryModels.Any())
                 {
+                    //如果没有传入相册的id值则默认选择优先级最高的相册
                     gallery = galleryModels.First();
                 }
                 else
@@ -85,32 +87,33 @@ namespace TimeGallery.Controllers
 
             //return View(result);
 
-            //如果没有传入相册的id值则默认选择优先级最高的相册            
             return View(gallery);
         }
 
         /// <summary>
         /// 获取相册数据的核心方法
         /// </summary>
-        /// <param name="id">相册id</param>
+        /// <param name="galleryId">相册id</param>
+        /// <param name="date">获取某个日期以后的相册</param>
         /// <returns></returns>
         [AuthFilter(AuthFilterTypeDefine.Try)]
         [HttpPost]
-        public ActionResult GetGalleryContents(long id)
+        public async Task<ActionResult> GetGalleryContents(long galleryId, DateTime? date)
         {
-            
-            return Content("");
+            return await Task.Run(() =>
+            {
+                var afterDate = date ?? DateTime.MinValue;
+
+                var result = ContentManager.SmartGetContentGroups(galleryId, afterDate);
+                return
+                    Content(
+                        JsonConvert.SerializeObject(new RequestResult(RequestResultTypeDefine.Success) {Data = result}));
+            }).ContinueWith(task => task.Result);
         }
 
         #endregion
 
         #region 上传内容
-
-        //[AuthFilter(false)]
-        //public ActionResult Index(long galleryId)
-        //{
-        //    return null;
-        //}
 
         public async Task<ActionResult> Upload()
         {
@@ -252,7 +255,7 @@ namespace TimeGallery.Controllers
             var galleryModels = GalleryManager.SearchAllGalleryModels(searchKey);
             var result = new RequestResult<IEnumerable<GalleryModel>>(RequestResultTypeDefine.Success)
             {
-                Result = galleryModels
+                Data = galleryModels
             };
             return Content(JsonConvert.SerializeObject(result));
         }

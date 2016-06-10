@@ -495,7 +495,7 @@ $(function () {
                         type: file.type,
                         size: file.size
                     },
-                    function(data) {},
+                    function (result) { },
                     'json');
             },
             'Error': function(up, err, errTip) {

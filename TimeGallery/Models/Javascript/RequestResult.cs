@@ -14,8 +14,8 @@ namespace TimeGallery.Models.Javascript
         [JsonProperty("message")]
         public string Message { get; set; }
 
-        [JsonProperty("result")]
-        public dynamic Result { get; set; }
+        [JsonProperty("data")]
+        public dynamic Data { get; set; }
 
         public RequestResult(RequestResultTypeDefine state, string message = "")
         {
@@ -32,8 +32,8 @@ namespace TimeGallery.Models.Javascript
         [JsonProperty("message")]
         public string Message { get; set; }
 
-        [JsonProperty("result")]
-        public T Result { get; set; }
+        [JsonProperty("data")]
+        public T Data { get; set; }
 
         public RequestResult(RequestResultTypeDefine state, string message = "")
         {

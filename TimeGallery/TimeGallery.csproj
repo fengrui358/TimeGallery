@@ -297,6 +297,7 @@
     <Content Include="images\loading.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Gallery\Index.js" />
     <Content Include="Scripts\Gallery\Register.js" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

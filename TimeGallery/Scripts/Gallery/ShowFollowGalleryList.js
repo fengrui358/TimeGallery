@@ -28,19 +28,19 @@
 
                     $.post('SearchGalleryList',
                         { searchKey: content },
-                        function(data) {                            
-                            if (data.state !== 0) {
-                                $.showWarning(data.message);
+                        function(result) {                            
+                            if (result.state !== 0) {
+                                $.showWarning(result.message);
                                 return;
                             }
 
-                            if (data.state === 0) {
+                            if (result.state === 0) {
                                 $searchShow.empty();
 
                                 var resultHtml = '';
-                                for (var i = 0; i < data.result.length; i++) {
+                                for (var i = 0; i < result.data.length; i++) {
                                     //todo:换成可点击的节点
-                                    var d = data.result[i];
+                                    var d = result.data[i];
                                     resultHtml = resultHtml +
                                         '<div class="weui_cell"><div class="weui_cell_bd weui_cell_primary"><p>' + d.Name + '</p></div></div>';
                                 }

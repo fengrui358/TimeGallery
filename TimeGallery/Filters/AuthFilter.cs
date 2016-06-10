@@ -30,8 +30,8 @@ namespace TimeGallery.Filters
 #if DEBUG
             //todo:测试代码，替换账号
             //使用fengrui的微信号作为测试账号，openId="oIKlFw0yLVagA1nNfEegqP_2o6Bs"
-            //var sessionId = IocHelper.Container.Resolve<ISessionManager>().AddSession("oIKlFw0yLVagA1nNfEegqP_2o6Bs");
-            //((Controller)filterContext.Controller).Session[SystemString.SessionKey] = sessionId;
+            var sessionId = IocHelper.Container.Resolve<ISessionManager>().AddSession("oIKlFw0yLVagA1nNfEegqP_2o6Bs");
+            ((Controller)filterContext.Controller).Session[SystemString.SessionKey] = sessionId;
 #endif
 
             if (_authFilterType == AuthFilterTypeDefine.Must)
