@@ -104,9 +104,7 @@ namespace TimeGallery.Controllers
                     return RedirectToAction(nameof(ShowFollowGalleryList)) as ActionResult;
                 }
 
-                ViewBag.Gallery = gallery;
-
-                return View();
+                return View(gallery);
             }).ContinueWith(task => task.Result);
         }
 
@@ -131,7 +129,7 @@ namespace TimeGallery.Controllers
 
                 if (ContentManager.AddContent(CurrentUserModel, ref addContentModel, out errorMsg))
                 {
-                    result = new RequestResult(RequestResultTypeDefine.Success, "点击确定可立即开始上传文件");
+                    result = new RequestResult(RequestResultTypeDefine.Success);
                 }
                 else
                 {

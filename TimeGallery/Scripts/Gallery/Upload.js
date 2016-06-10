@@ -423,7 +423,7 @@ FileProgress.prototype.appear = function () {
 
 
 $(function () {
-    var galleryId = $('#data-container').data('data-galleryId');
+    var galleryId = $('#data-container').data('gallery-id');
 
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
@@ -488,7 +488,7 @@ $(function () {
                 var res = $.parseJSON(info);
                 var sourceLink = domain + res.key;
 
-                $.Post('../../Gallery/AddContent',
+                $.post('../Gallery/AddContent',
                     {
                         galleryId: galleryId,
                         url: sourceLink,

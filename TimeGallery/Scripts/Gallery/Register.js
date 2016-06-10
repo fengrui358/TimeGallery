@@ -54,7 +54,7 @@
                         var reader = new FileReader();
                         if (/image\/\w+/.test(file.type)) {
                             reader.onload = function () {
-                                //todo:修改上传图片的显示
+                                //todo:修改上传图片的显示，进行正方形裁剪
                                 $('#galleryCoverImg').attr('src', this.result);
                             }
 
@@ -87,6 +87,8 @@
                 // var domain = up.getOption('domain');
                 // var res = parseJSON(info);
                 // var sourceLink = domain + res.key; 获取上传成功后的文件的Url
+
+                //todo:相册封面的图片尺寸不用太大，考虑优化图片大小
 
                 var domain = up.getOption('domain');
                 var res = $.parseJSON(info);

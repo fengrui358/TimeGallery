@@ -16,8 +16,10 @@ namespace TimeGallery.DataBase.Entity
         [Key]        
         public virtual Guid Id { get; set; }
 
+        [Key]
         public virtual Guid ContentGroupId { get; set; }
 
+        [Key]
         public virtual long GalleryId { get; set; }
 
         public virtual string Type { get; set; }
@@ -26,7 +28,6 @@ namespace TimeGallery.DataBase.Entity
 
         public virtual long Size { get; set; }
 
-        [DatabaseGeneratedDefaultValue]
         public virtual DateTime CreateTime { get; set; }
     }
 }

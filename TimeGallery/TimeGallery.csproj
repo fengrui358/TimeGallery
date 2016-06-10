@@ -257,6 +257,7 @@
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Managers\WebConfigConfigurationManager.cs" />
+    <Compile Include="Models\ContentGroup.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\Javascript\RequestResult.cs" />

@@ -19,6 +19,7 @@ namespace TimeGallery.DataBase.Entity
         /// <summary>
         /// 所属相册外键
         /// </summary>
+        [Key]
         public virtual long GalleryId { get; set; }
 
         /// <summary>

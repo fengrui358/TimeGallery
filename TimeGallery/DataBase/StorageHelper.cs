@@ -45,7 +45,7 @@ namespace TimeGallery.DataBase
             {
 #if DEBUG
                 return new MySqlConnection(
-                    $"Server ={dbHostAddress}; Database =timegallery; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;");
+                    $"Server ={dbHostAddress}; Database =timegallerycontent; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;");
 #endif
                 return new MySqlConnection(
                                     $"Server ={dbHostAddress}; Database =timegallerycontent; Uid =root; Pwd =P@$$w0rd;Pooling=true; Max Pool Size=20;Min Pool Size=10;Allow Batch=true;");

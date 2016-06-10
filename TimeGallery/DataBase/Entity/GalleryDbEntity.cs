@@ -54,7 +54,7 @@ namespace TimeGallery.DataBase.Entity
         public virtual long TotalSize { get; set; }
 
         /// <summary>
-        /// 最后一次更新时间，用以判断相册活跃度
+        /// 最后一次上传内容时间，用以判断相册活跃度
         /// </summary>
         public virtual DateTime LastUpdateTime { get; set; }
 
