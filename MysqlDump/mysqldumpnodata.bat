@@ -1,2 +1,2 @@
-mysqldump -u root -p timegallery > timegallerynodata.sql
-mysqldump -u root -p timegallerycontent > timegallerycontentnodata.sql
+mysqldump -u root -p -d timegallery > timegallerynodata.sql
+mysqldump -u root -p -d timegallerycontent > timegallerycontentnodata.sql

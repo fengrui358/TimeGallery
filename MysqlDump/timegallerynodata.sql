@@ -40,16 +40,6 @@ PARTITIONS 20 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `gallery`
---
-
-LOCK TABLES `gallery` WRITE;
-/*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
-INSERT INTO `gallery` VALUES (1,'nihao','dfgdgdsgds','http://7xrp60.com1.z0.glb.clouddn.com/o_1akrqmr84a54v043921q9o11i39.jpg','127.0.0.1',12,0,2754504,'2016-06-11 11:15:26','2016-06-10 08:17:33');
-/*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -80,16 +70,6 @@ PARTITIONS 100 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',NULL,2,'free','http://wx.qlogo.cn/mmopen/DYAIOgq83eqvVnwn6hbicakLlooXww3Y17UFhITfQ5SCnufT8Ssl3alribZ1VMfuSulY3eibCC13WPJKLJ4nGej0SYicsrw28DP4/0',1,'成都','四川','中国','zh_CN',1,1465450280,'',0,0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_gallery_rel`
 --
 
@@ -105,16 +85,6 @@ CREATE TABLE `user_gallery_rel` (
 /*!50100 PARTITION BY HASH (`GalleryId`)
 PARTITIONS 100 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_gallery_rel`
---
-
-LOCK TABLES `user_gallery_rel` WRITE;
-/*!40000 ALTER TABLE `user_gallery_rel` DISABLE KEYS */;
-INSERT INTO `user_gallery_rel` VALUES ('oIKlFw0yLVagA1nNfEegqP_2o6Bs',1,4);
-/*!40000 ALTER TABLE `user_gallery_rel` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -125,4 +95,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-11 18:04:53
+-- Dump completed on 2016-06-11 22:24:50

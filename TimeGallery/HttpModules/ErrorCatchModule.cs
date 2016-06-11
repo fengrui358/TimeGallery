@@ -36,6 +36,7 @@ namespace TimeGallery.HttpModules
             //response.Write(iex.Message);
 
             LogManager.GetCurrentClassLogger().Error(ex);
+            //LogManager.GetCurrentClassLogger().Error(iex);
             response.Write(new RequestResult(RequestResultTypeDefine.Error, "系统内部错误"));
 
             ctx.Server.ClearError();

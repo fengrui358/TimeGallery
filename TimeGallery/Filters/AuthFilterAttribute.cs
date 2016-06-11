@@ -13,14 +13,14 @@ using TimeGallery.Weixin;
 
 namespace TimeGallery.Filters
 {
-    public class AuthFilter : ActionFilterAttribute
+    public class AuthFilterAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// 是否需要校验
         /// </summary>
         private readonly AuthFilterTypeDefine _authFilterType;
 
-        public AuthFilter(AuthFilterTypeDefine authFilterType = AuthFilterTypeDefine.Must)
+        public AuthFilterAttribute(AuthFilterTypeDefine authFilterType = AuthFilterTypeDefine.Must)
         {
             _authFilterType = authFilterType;
         }
@@ -79,8 +79,8 @@ namespace TimeGallery.Filters
                         SimpleUrlHelper.GenerateUrl(nameof(WeixinController), nameof(WeixinController.GetWeixinUserInfo)),
                         redirectUrl,
                         OAuthScope.snsapi_base);
-
-                    filterContext.Result = new RedirectResult(url);
+                    filterContext.HttpContext.Response.Redirect(url, true);
+                    //filterContext.Result = new RedirectResult(url);
                 }
             }
         }
@@ -101,6 +101,6 @@ namespace TimeGallery.Filters
         /// <summary>
         /// 不需要校验
         /// </summary>
-        Not,
+        Not
     }
 }

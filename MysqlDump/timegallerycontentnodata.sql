@@ -37,16 +37,6 @@ PARTITIONS 800 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `content`
---
-
-LOCK TABLES `content` WRITE;
-/*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES ('1572034a-5b62-4a7e-81dc-53acd69319f0','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11k0uud41ii51npi1ns8k.jpg',233332,'2016-06-11 11:15:22'),('1b59e706-0992-4895-b4c6-640fefc3492a','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11fh8fb318ah1n6p10rkq.jpg',206165,'2016-06-11 11:15:24'),('1bc86ecd-9db0-4ee6-8939-b64866f7290e','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk119gnskr1mmc1kgq1op6l.jpg',142820,'2016-06-11 11:15:22'),('2c0e0117-09a8-446b-84f9-8229b635086e','2c0e0117-09a8-486b-84f9-8229b635086e',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1aks5ng8pvs8ncm7pb1nnnesb9.jpg',108176,'2016-06-10 11:29:46'),('32d360bc-5b4c-4061-84e0-b20d87780ca2','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk1mtj1ibc58khtf14esn.jpg',108176,'2016-06-11 11:15:23'),('3ca214e0-3cab-498b-9a30-6d671a79ddd9','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11boc6b810o16ar1taso.jpg',75315,'2016-06-11 11:15:24'),('58321c54-1fdd-46b6-9d18-47cb74875e31','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk1mad1qcs1uj87d31ip0s.jpg',740034,'2016-06-11 11:15:26'),('746dea38-126a-42e7-8c1c-feaed2c11220','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11r3qqn1lautso2kp.jpg',247678,'2016-06-11 11:15:24'),('7fc78540-fae2-4405-a04d-3a5b945952aa','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11os56lcs181sgu1987r.jpg',174498,'2016-06-11 11:15:25'),('8637c611-1d6d-40c3-a12b-da8fc7f4375f','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk11im91n1vj6o1vo714d9m.jpg',173704,'2016-06-11 11:15:23'),('a11702b4-f5ee-41f7-96bc-938c3a13d4b5','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk0pi91v771iul1m3618uj.jpg',192319,'2016-06-11 11:15:21'),('c57604c5-f941-4f1c-a4d5-8cbcec73f351','5f350a54-88df-4803-8dfe-4629b24ca675',1,'image/jpeg','http://7xrp60.com1.z0.glb.clouddn.com/o_1akun9qk16gf1o2nkuli3k1l46t.jpg',352287,'2016-06-11 11:15:26');
-/*!40000 ALTER TABLE `content` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `contentgroup`
 --
 
@@ -67,16 +57,6 @@ CREATE TABLE `contentgroup` (
 /*!50100 PARTITION BY HASH (`GalleryId`)
 PARTITIONS 200 */;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contentgroup`
---
-
-LOCK TABLES `contentgroup` WRITE;
-/*!40000 ALTER TABLE `contentgroup` DISABLE KEYS */;
-INSERT INTO `contentgroup` VALUES ('2c0e0117-09a8-486b-84f9-8229b635086e',1,1,0,108176,'2016-06-10','2016-06-10 11:24:44'),('5f350a54-88df-4803-8dfe-4629b24ca675',1,11,0,2646328,'2016-06-11','2016-06-11 11:12:51');
-/*!40000 ALTER TABLE `contentgroup` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -87,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-11 18:04:56
+-- Dump completed on 2016-06-11 22:24:53

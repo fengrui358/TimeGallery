@@ -234,7 +234,8 @@
     <Compile Include="Enums\ContentTypeDefine.cs" />
     <Compile Include="Enums\UserGalleryRelTypeDefine.cs" />
     <Compile Include="Enums\UserSexTypeDefine.cs" />
-    <Compile Include="Filters\AuthFilter.cs" />
+    <Compile Include="Filters\AuthFilterAttribute.cs" />
+    <Compile Include="Filters\TrackPageLoadPerformanceAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -306,6 +307,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\TimeGallery.pubxml" />
+    <None Include="Properties\PublishProfiles\文件.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\Gallery\ShowFollowGalleryList.js" />
     <Content Include="Scripts\Gallery\Upload.js" />
@@ -432,10 +434,10 @@
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Gallery\Upload.cshtml" />
     <Content Include="Scripts\Qiniu\dist\qiniu.min.map" />
-    <None Include="Views\Gallery\About.cshtml" />
+    <Content Include="Views\Gallery\About.cshtml" />
     <Content Include="Views\Shared\_GalleryLayout.cshtml" />
-    <None Include="Views\Gallery\Register.cshtml" />
-    <None Include="Views\Gallery\ShowFollowGalleryList.cshtml" />
+    <Content Include="Views\Gallery\Register.cshtml" />
+    <Content Include="Views\Gallery\ShowFollowGalleryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
