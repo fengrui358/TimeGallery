@@ -239,7 +239,7 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP
         {
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "这里写什么都无所谓，比如：上帝爱你！";
+            //responseMessage.Content = "这里写什么都无所谓，比如：上帝爱你！";
             return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题
         }
 
