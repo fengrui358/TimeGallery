@@ -169,6 +169,7 @@ namespace TimeGallery.Controllers
 
         #region 关于
 
+        [AuthFilter(AuthFilterTypeDefine.Not)]
         public ActionResult About()
         {            
             return View();
