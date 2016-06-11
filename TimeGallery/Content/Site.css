@@ -49,3 +49,8 @@ li.content-item {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.nopadding {
+   padding: 3px !important;
+   /*margin: 0 !important;*/
+}

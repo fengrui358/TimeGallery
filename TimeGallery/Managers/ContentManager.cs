@@ -232,7 +232,6 @@ namespace TimeGallery.Managers
                             con.Insert(contentGroup);
                         }
 
-                        con.Open();
                         IDbTransaction transaction = null;
 
                         try
