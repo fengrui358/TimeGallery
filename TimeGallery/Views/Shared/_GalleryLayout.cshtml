@@ -1,4 +1,6 @@
-﻿@using TimeGallery.Helper
+﻿@using Autofac
+@using TimeGallery.Helper
+@using TimeGallery.Interfaces
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -14,6 +16,11 @@
                 domain: 'http://7xrp60.com1.z0.glb.clouddn.com/',
                 uptoken_url: '../Gallery/GetQiniuToken',
                 max_file_size: '100mb'
+            },
+
+            web: {
+                //todo:webname目前是首先的，可以修改为从服务端获取
+                webName: 'http://fengrui358.vicp.cc/TimeGallery'
             }
         }
     </script>
