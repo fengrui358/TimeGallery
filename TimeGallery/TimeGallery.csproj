@@ -467,9 +467,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://LocalHost/TimeGallery</IISUrl>
+          <IISUrl>http://LocalHost</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://LocalHost/TimeGallery</IISAppRootUrl>
+          <IISAppRootUrl>http://LocalHost</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
